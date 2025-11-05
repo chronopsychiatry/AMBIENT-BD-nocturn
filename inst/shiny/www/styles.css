@@ -5,11 +5,34 @@
   overflow-y: auto;      /* Adds vertical scroll if content overflows */
 }
 
+/* Cards for side panel */
+.sidebar_card {
+  background-color: var(--bs-light-bg-subtle);
+  border-radius: 0.5rem;
+}
+
 /* Force some buttons to be small instead of taking up the whole width */
 .small-btn {
   width: 50px !important;
   min-width: 0 !important;
   display: inline-block !important;
+}
+
+/* Make delete buttons red */
+.delete-btn {
+  background-color: #dc3545 !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* Styling for selected folder text (batch upload) */
+.selected-folder {
+  border: 1px solid lightgrey;
+  width: 230px;
+  min-height: 38px;
+  align-items: center;
+  justify-content: start;
+  display: inline-block;
 }
 
 /* Remove white space below top navbar */

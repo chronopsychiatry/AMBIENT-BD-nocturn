@@ -11,14 +11,15 @@ output: html_document
 ### Workflow
 
 1. Import data
-  - Supported formats: .csv, .txt, .edf, .rec, .xlsx
-  - Session and epoch data can be imported separately or together
-  - Column names for essential variables (e.g. timestamps, sleep stages) can be specified
+    - First time using Ambient Viewer? Load the **example data** to explore the app's features
+    - Supported formats: .csv, .txt, .edf, .rec, .xlsx, .xls
+    - Session and epoch data can be imported separately or together
+    - Column names for essential variables (e.g. timestamps, sleep stages) can be specified
 2. Filter data
-  - Filter sessions to exclude spurious sleep events
-  - If both sessions and epochs are loaded, when sessions are filtered, the corresponding epochs are filtered as well
+    - Filter sessions to exclude spurious sleep events
+    - If both sessions and epochs are loaded, when sessions are filtered, the corresponding epochs are filtered as well
 3. Visualise data
-  - When sessions and epochs are filtered, the tables and visualisations are updated accordingly
+    - When sessions and epochs are filtered, the tables and visualisations are updated accordingly
 4. Export filtered data
-  - Data can be exported as CSV files for further analyses
-  - A sleep report in PDF format can be generated
+    - Data can be exported as **CSV files** for further analysis
+    - A **sleep report** in PDF format can be generated (currently only supports Somnofy data; please open an issue if you would like a report for another type of data)

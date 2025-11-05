@@ -1,14 +1,9 @@
 input_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::h4("1. Load data"),
-    shiny::actionButton(ns("load_example_data"), "Load Example Data"),
     input_sessions_ui(ns("sessions_input_panel")),
-    shiny::hr(),
     input_epochs_ui(ns("epochs_input_panel")),
-    shiny::h4("2. Set column names"),
-    shiny::actionButton(ns("open_session_col_names"), "Set Session Columns"),
-    shiny::actionButton(ns("open_epoch_col_names"), "Set Epoch Columns"),
+    shiny::actionButton(ns("load_example_data"), "Load Example Data"),
   )
 }
 
@@ -26,69 +21,10 @@ input_server <- function(id, common) {
     # Sessions ----
     input_sessions_server("sessions_input_panel", common)
 
-    shiny::observeEvent(input$open_session_col_names, {
-      shiny::req(common$sessions())
-      show_colnames_modal(
-        ns = ns,
-        colnames_list = colnames(common$sessions()),
-        current_map = get_colnames(common$sessions()),
-        title = "Set Session Column Names",
-        save_id = "save_session_col_names",
-        reset_id = "reset_session_col_names"
-      )
-    })
-
-    shiny::observeEvent(input$reset_session_col_names, {
-      sessions <- set_colnames(common$sessions(), NULL)
-      col <- get_colnames(sessions)
-      common$sessions(set_colnames(sessions, col))
-      shiny::removeModal()
-    })
-
-    shiny::observeEvent(input$save_session_col_names, {
-      keys <- names(get_colnames(common$sessions()))
-      vals <- lapply(keys, function(key) {
-        val <- input[[paste0("col_", key)]]
-        if (identical(val, "")) NULL else val
-      })
-      common$sessions(set_colnames(common$sessions(), stats::setNames(vals, keys)))
-      common$sessions(clean_sessions(common$sessions()))
-      shiny::removeModal()
-    })
-
 
     # Epochs ----
     input_epochs_server("epochs_input_panel", common)
 
-    shiny::observeEvent(input$open_epoch_col_names, {
-      shiny::req(common$epochs())
-      show_colnames_modal(
-        ns = ns,
-        colnames_list = colnames(common$epochs()),
-        current_map = get_colnames(common$epochs()),
-        title = "Set Epoch Column Names",
-        save_id = "save_epoch_col_names",
-        reset_id = "reset_epoch_col_names"
-      )
-    })
-
-    shiny::observeEvent(input$reset_epoch_col_names, {
-      epochs <- set_colnames(common$epochs(), NULL)
-      col <- get_colnames(epochs)
-      common$epochs(set_colnames(epochs, col))
-      shiny::removeModal()
-    })
-
-    shiny::observeEvent(input$save_epoch_col_names, {
-      keys <- names(get_colnames(common$epochs()))
-      vals <- lapply(keys, function(key) {
-        val <- input[[paste0("col_", key)]]
-        if (identical(val, "")) NULL else val
-      })
-      common$epochs(set_colnames(common$epochs(), stats::setNames(vals, keys)))
-      common$epochs(clean_epochs(common$epochs()))
-      shiny::removeModal()
-    })
   })
 }
 
