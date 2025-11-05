@@ -94,6 +94,7 @@ sleeptimes_boxplot <- function(sessions, circular = FALSE) {
         labels = NULL
       ) +
       ggplot2::scale_x_continuous(
+        limits = c(0, 24),
         breaks = seq(0, 23, by = 1),
         labels = (seq(0, 23, by = 1) + 12) %% 24
       )
@@ -113,11 +114,11 @@ sleeptimes_boxplot <- function(sessions, circular = FALSE) {
 #' @returns A ggplot object with three overlaid histograms (sleep onset, midsleep, wakeup)
 #' @export
 #' @importFrom rlang .data
-sleeptimes_histogram <- function(sessions, binwidth = 0.25) {
+sleeptimes_histogram <- function(sessions, binwidth = 0.25, circular = FALSE) {
   plot_data <- prepare_sleeptimes_data(sessions)
   box_colors <- c("Sleep Onset" = "purple", "Midsleep" = "cornflowerblue", "Wakeup" = "orange")
 
-  ggplot2::ggplot(plot_data, ggplot2::aes(x = .data$hour, color = .data$variable)) +
+  p <- ggplot2::ggplot(plot_data, ggplot2::aes(x = .data$hour, color = .data$variable)) +
     ggplot2::geom_histogram(
       ggplot2::aes(y = ggplot2::after_stat(.data$count), fill = .data$variable),
       binwidth = binwidth,
@@ -147,6 +148,25 @@ sleeptimes_histogram <- function(sessions, binwidth = 0.25) {
       legend.position = "right",
       aspect.ratio = 1 / 4
     )
+
+  if (circular) {
+    p +
+      ggplot2::coord_polar(theta = "x", start = pi) +
+      ggplot2::theme(aspect.ratio = 1) +
+      ggplot2::scale_y_continuous(
+        labels = NULL
+      ) +
+      ggplot2::scale_x_continuous(
+        limits = c(0, 24),
+        breaks = seq(0, 23, by = 1),
+        labels = (seq(0, 23, by = 1) + 12) %% 24
+      ) +
+      ggplot2::labs(
+        y = NULL
+      )
+  } else {
+    p
+  }
 }
 
 #' Plot density curves for sleep onset, midsleep, and wakeup times with a dashed line showing the median
@@ -160,19 +180,34 @@ sleeptimes_histogram <- function(sessions, binwidth = 0.25) {
 #' @returns A ggplot object with three overlaid density curves (sleep onset, midsleep, wakeup)
 #' @export
 #' @importFrom rlang .data
-sleeptimes_density <- function(sessions, adjust = 1) {
+sleeptimes_density <- function(sessions, adjust = 1, circular = FALSE) {
   plot_data <- prepare_sleeptimes_data(sessions)
   box_colors <- c("Sleep Onset" = "purple", "Midsleep" = "cornflowerblue", "Wakeup" = "orange")
 
   medians <- plot_data |>
     dplyr::group_by(.data$variable) |>
-    dplyr::summarise(median_hour = stats::median(.data$hour), .groups = "drop")
+    dplyr::summarise(
+      median_hour = compute_circular_stats(.data$hour)["median"],
+      .groups = "drop"
+    )
 
   density_data <- plot_data |>
     dplyr::group_by(.data$variable) |>
     dplyr::group_modify(~{
-      d <- stats::density(.x$hour, adjust = adjust)
-      tibble::tibble(hour = d$x, density = d$y)
+      radians <- .x$hour / 24 * 2 * pi
+      circ <- circular::circular(radians, units = "radians", modulo = "2pi")
+      dens <- circular::density.circular(
+        circ,
+        bw = 24,
+        adjust = adjust,
+        kernel = "vonmises",
+        n = 512,
+        control.circular = list(units = "radians")
+      )
+      tibble::tibble(
+        hour = as.numeric(dens$x) * 24 / (2 * pi),
+        density = dens$y
+      )
     }) |>
     dplyr::ungroup()
 
@@ -184,18 +219,14 @@ sleeptimes_density <- function(sessions, adjust = 1) {
     dplyr::ungroup() |>
     dplyr::select("variable", "median_hour", density_at_median = "density")
 
-  ggplot2::ggplot(plot_data, ggplot2::aes(x = .data$hour, color = .data$variable, fill = .data$variable)) +
-    ggplot2::geom_density(
-      alpha = 0.3,
-      adjust = adjust,
-      linewidth = 0
-    ) +
+  p <- ggplot2::ggplot(density_data, ggplot2::aes(x = .data$hour, y = density, color = .data$variable, fill = .data$variable)) +
+    ggplot2::geom_area(alpha = 0.3, position = "identity") +
     ggplot2::geom_segment(
       data = median_lines,
       ggplot2::aes(
         x = .data$median_hour, xend = .data$median_hour,
         y = 0, yend = .data$density_at_median,
-        color = .data$variable
+        color = variable
       ),
       linetype = "dashed",
       linewidth = 0.7,
@@ -205,7 +236,6 @@ sleeptimes_density <- function(sessions, adjust = 1) {
     ggplot2::scale_color_manual(values = box_colors, limits = names(box_colors), guide = "none") +
     ggplot2::scale_fill_manual(values = box_colors, limits = names(box_colors)) +
     ggplot2::scale_x_continuous(
-      limits = range(density_data$hour),
       breaks = seq(0, 24, by = 2),
       labels = function(x) sprintf("%02d:00", (x + 12) %% 24),
       expand = ggplot2::expansion(mult = c(0.08, 0.08))
@@ -225,6 +255,25 @@ sleeptimes_density <- function(sessions, adjust = 1) {
       legend.position = "right",
       aspect.ratio = 1 / 4
     )
+
+  if (circular) {
+    p +
+      ggplot2::coord_polar(theta = "x", start = pi) +
+      ggplot2::theme(aspect.ratio = 1) +
+      ggplot2::scale_y_continuous(
+        labels = NULL
+      ) +
+      ggplot2::scale_x_continuous(
+        limits = c(0, 24),
+        breaks = seq(0, 23, by = 1),
+        labels = (seq(0, 23, by = 1) + 12) %% 24
+      ) +
+      ggplot2::labs(
+        y = NULL
+      )
+  } else {
+    p
+  }
 }
 
 #' @importFrom rlang .data

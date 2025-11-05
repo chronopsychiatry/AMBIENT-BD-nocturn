@@ -82,11 +82,11 @@ sleep_distributions_server <- function(id, common) {
         },
         "Histogram" = {
           shiny::req(input$binwidth)
-          sleeptimes_histogram(sessions, binwidth = input$binwidth)
+          sleeptimes_histogram(sessions, binwidth = input$binwidth, circular = input$circular)
         },
         "Density" = {
           shiny::req(input$adjust)
-          sleeptimes_density(sessions, adjust = input$adjust)
+          sleeptimes_density(sessions, adjust = input$adjust, circular = input$circular)
         }
       )
     })
