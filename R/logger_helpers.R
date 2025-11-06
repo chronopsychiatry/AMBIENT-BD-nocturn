@@ -43,3 +43,14 @@ write_log <- function(logger, ..., type = "default") {
   }
   invisible()
 }
+
+show_log_once <- function(logger, condition, log_shown, log_msg, log_type) {
+  if (condition) {
+    if (!log_shown()) {
+      logger |> write_log(log_msg, type = log_type)
+      log_shown(TRUE)
+    }
+  } else {
+    log_shown(FALSE)
+  }
+}

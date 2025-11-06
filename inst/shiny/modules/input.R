@@ -3,7 +3,7 @@ input_ui <- function(id) {
   shiny::tagList(
     input_sessions_ui(ns("sessions_input_panel")),
     input_epochs_ui(ns("epochs_input_panel")),
-    shiny::actionButton(ns("load_example_data"), "Load Example Data"),
+    shiny::actionButton(ns("load_example_data"), "Load Example Data", icon = shiny::icon("upload")),
   )
 }
 

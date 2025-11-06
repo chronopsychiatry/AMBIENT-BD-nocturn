@@ -36,10 +36,12 @@ input_sessions_ui <- function(id) {
         ),
         shiny::textInput(
           inputId = ns("batch_file_pattern"),
-          label = "Filename pattern:",
+          label = NULL,
+          placeholder = "Filename pattern (e.g., 'sessions_')",
           value = ""
         ),
-        shiny::actionButton(ns("load_sessions_batch"), "Load Batch Session Data")
+        shiny::actionButton(ns("load_sessions_batch"), "Load Session Data", icon = shiny::icon("upload")),
+        shiny::hr()
       ),
       shiny::fluidRow(
         shiny::column(
@@ -69,7 +71,7 @@ input_sessions_server <- function(id, common) {
     # Single file upload ----
     shiny::observeEvent(input$sessions_file, {
       shiny::req(input$sessions_file)
-      common$logger |> write_log(paste0("Loading session file: ", input$sessions_file$name), type = "starting")
+      common$logger |> write_log(paste0("Loaded session file: ", input$sessions_file$name), type = "complete")
       data <- load_sessions(input$sessions_file$datapath)
       init_sessions(data, common)
     })
@@ -85,8 +87,15 @@ input_sessions_server <- function(id, common) {
     shiny::observeEvent(input$load_sessions_batch, {
       folder_path <- shinyFiles::parseDirPath(roots = volumes, input$folder_select)
       if (length(folder_path) == 0) return()
-      common$logger |> write_log(paste0("Batch-loading session files from: ", folder_path), type = "starting")
+      common$logger |> write_log(paste0("Batch-loaded session files from: ", folder_path), type = "complete")
       data <- load_batch(folder_path, input$batch_file_pattern, type = "sessions")
+      if (is.null(data)) {
+        common$logger |> write_log(paste0(
+          "No session data found in folder: ", folder_path,
+          " with pattern ", input$batch_file_pattern
+        ), type = "error")
+        return()
+      }
       init_sessions(data, common)
     })
 
@@ -107,6 +116,8 @@ input_sessions_server <- function(id, common) {
       sessions <- set_colnames(common$sessions(), NULL)
       col <- get_colnames(sessions)
       common$sessions(set_colnames(sessions, col))
+      common$sessions(clean_sessions(common$sessions()))
+      common$logger |> write_log("Reset session column names to default", type = "complete")
       shiny::removeModal()
     })
 
@@ -118,6 +129,7 @@ input_sessions_server <- function(id, common) {
       })
       common$sessions(set_colnames(common$sessions(), stats::setNames(vals, keys)))
       common$sessions(clean_sessions(common$sessions()))
+      common$logger |> write_log("Session column names saved", type = "complete")
       shiny::removeModal()
     })
 

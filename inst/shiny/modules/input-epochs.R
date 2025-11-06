@@ -21,13 +21,27 @@ input_epochs_ui <- function(id) {
       ),
       shiny::conditionalPanel(
         condition = paste0("input['", ns("epoch_input_type"), "'] == 'Batch upload'"),
+        shiny::fluidRow(
+          shiny::column(
+            width = 3,
+            shinyFiles::shinyDirButton(ns("folder_select"), "Browse...", "Please select the folder containing the epoch files")
+          ),
+          shiny::column(
+            width = 9,
+            bslib::card_body(
+              shiny::textOutput(ns("selected_folder")),
+              class = "selected-folder"
+            )
+          )
+        ),
         shiny::textInput(
           inputId = ns("batch_file_pattern"),
-          label = "Filename pattern:",
+          label = NULL,
+          placeholder = "Filename pattern (e.g., 'epochs_')",
           value = ""
         ),
-        shinyFiles::shinyDirButton(ns("folder_select"), "Choose folder", "Please select the folder containing the epoch files"),
-        shiny::actionButton(ns("load_epochs_batch"), "Load Batch Epoch Data")
+        shiny::actionButton(ns("load_epochs_batch"), "Load Epoch Data", icon = shiny::icon("upload")),
+        shiny::hr()
       ),
       shiny::fluidRow(
         shiny::column(
@@ -57,7 +71,7 @@ input_epochs_server <- function(id, common) {
     # Single file upload ----
     shiny::observeEvent(input$epochs_file, {
       shiny::req(input$epochs_file)
-      common$logger |> write_log(paste0("Loading epoch file: ", input$epochs_file$name), type = "starting")
+      common$logger |> write_log(paste0("Loading epoch file: ", input$epochs_file$name), type = "complete")
       data <- load_epochs(input$epochs_file$datapath)
       if (is.null(data)) {
         common$logger |> write_log(paste0("No epoch data found in file: ", input$epochs_file$name), type = "error")
@@ -73,7 +87,7 @@ input_epochs_server <- function(id, common) {
     shiny::observeEvent(input$load_epochs_batch, {
       folder_path <- shinyFiles::parseDirPath(roots = volumes, input$folder_select)
       if (length(folder_path) == 0) return()
-      common$logger |> write_log(paste0("Batch-loading epoch files from: ", folder_path), type = "starting")
+      common$logger |> write_log(paste0("Batch-loaded epoch files from: ", folder_path), type = "complete")
       data <- load_batch(folder_path, input$batch_file_pattern, type = "epochs")
       init_epochs(data, common)
     })
@@ -95,6 +109,7 @@ input_epochs_server <- function(id, common) {
       epochs <- set_colnames(common$epochs(), NULL)
       col <- get_colnames(epochs)
       common$epochs(set_colnames(epochs, col))
+      common$logger |> write_log("Reset epoch column names to default", type = "complete")
       shiny::removeModal()
     })
 
@@ -106,6 +121,7 @@ input_epochs_server <- function(id, common) {
       })
       common$epochs(set_colnames(common$epochs(), stats::setNames(vals, keys)))
       common$epochs(clean_epochs(common$epochs()))
+      common$logger |> write_log("Epoch column names saved", type = "complete")
       shiny::removeModal()
     })
 

@@ -47,6 +47,17 @@ compliance_server <- function(id, common) {
       }
     })
 
+    log_shown <- shiny::reactiveVal(FALSE)
+    shiny::observe({
+      show_log_once(
+        condition = nrow(compliance_table()) > 0,
+        log_shown = log_shown,
+        log_msg = "There are nights with multiple sessions (see compliance table).",
+        log_type = "warning",
+        logger = common$logger
+      )
+    })
+
     shiny::observe({
       shiny::req(common$sessions(), common$session_filters())
       col <- get_colnames(common$sessions())

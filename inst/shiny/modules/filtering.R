@@ -213,6 +213,18 @@ filtering_server <- function(id, common) {
       common$session_filters(filters)
     })
 
+    log_shown <- shiny::reactiveVal(FALSE)
+    shiny::observe({
+      shiny::req(common$sessions())
+      show_log_once(
+        condition = nrow(apply_filters(common$sessions(), common$session_filters())) == 0,
+        log_shown = log_shown,
+        log_msg = "Sessions table is empty after filtering.",
+        log_type = "warning",
+        logger = common$logger
+      )
+    })
+
     removed_sessions <- shiny::reactive({
       shiny::req(common$sessions())
       col <- get_colnames(common$sessions())

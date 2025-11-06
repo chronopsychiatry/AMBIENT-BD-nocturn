@@ -6,7 +6,7 @@ annotation_ui <- function(id) {
     shiny::div(
       style = "display: flex; gap: 0.5em;",
       shiny::actionButton(ns("apply_annotation"), "Apply"),
-      shiny::actionButton(ns("reset_annotations"), "Reset")
+      shiny::actionButton(ns("reset_annotations"), "Reset", class = "delete-btn")
     ),
     DT::DTOutput(ns("annotation_table"))
   )
@@ -47,6 +47,7 @@ annotation_server <- function(id, common) {
       if (length(selected) > 0) {
         selected_ids <- sessions[[col$id]][selected]
         ann$annotation[match(selected_ids, ann$id)] <- input$annotation_text
+        common$logger |> write_log(paste0("Added annotation ", input$annotation_text), type = "info")
         common$annotations(ann)
       }
     })
@@ -57,6 +58,7 @@ annotation_server <- function(id, common) {
       sessions <- common$sessions()
       ann$annotation <- ""
       sessions$annotation <- ""
+      common$logger |> write_log("Reset all annotations", type = "complete")
       common$sessions(sessions)
       common$annotations(ann)
     })

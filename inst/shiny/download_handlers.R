@@ -7,7 +7,7 @@ get_plot_download_handler <- function(session, common, output_plot, format, widt
       shiny::req(output_plot())
       plot <- output_plot()
 
-      common$logger |> write_log(paste0("Exporting plot in ", format(), " format."), type = "info")
+      common$logger |> write_log(paste0("Exporting plot in ", format(), " format."), type = "complete")
 
       if (FALSE) svglite::svglite # Adding this for now to keep R CMD check happy
       ggplot2::ggsave(filename = file, plot = plot, device = format(), bg = "white", width = width, height = height)
@@ -22,7 +22,7 @@ get_table_download_handler <- function(session, common, output_table, output_nam
     },
     content = function(file) {
       readr::write_csv(output_table, file)
-      common$logger |> write_log(paste0("Exporting table: ", output_name, " (", nrow(output_table), " rows)"), type = "info")
+      common$logger |> write_log(paste0("Exporting table: ", output_name, " (", nrow(output_table), " rows)"), type = "complete")
     }
   )
 }
@@ -34,7 +34,7 @@ get_report_download_handler <- function(session, common, title) {
     },
     content = function(file) {
       tmpfile <- tempfile(fileext = ".pdf")
-      sleep_report(sessions = common$sessions, title = title(), output_file = tmpfile)
+      sleep_report(sessions = common$sessions(), title = title(), output_file = tmpfile)
       file.copy(tmpfile, file)
       common$logger |> write_log(paste0("Sleep report generated"), type = "complete")
     },

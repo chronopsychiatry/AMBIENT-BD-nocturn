@@ -107,7 +107,7 @@ load_epochs <- function(epochs_file) {
 #' @returns A dataframe containing the combined session data from all matching files in the folder
 #' @family data loading
 #' @export
-load_batch <- function(folder_path, pattern = "", type = "sessions") {
+load_batch <- function(folder_path, pattern = NULL, type = "sessions") {
   if (!dir.exists(folder_path)) {
     cli::cli_abort(c(
       "!" = "Folder not found: {.file {folder_path}}",
@@ -115,11 +115,7 @@ load_batch <- function(folder_path, pattern = "", type = "sessions") {
     ))
   }
 
-  all_files <- list.files(folder_path, full.names = TRUE)
-
-  if (pattern != "") {
-    all_files <- all_files[grepl(pattern, basename(all_files))]
-  }
+  all_files <- list.files(folder_path, pattern = pattern, full.names = TRUE)
 
   if (length(all_files) == 0) {
     cli::cli_warn(c(
