@@ -23,11 +23,8 @@ This function uses columns:
 }
 }
 \seealso{
-\code{\link[=plot_sleep_stages]{plot_sleep_stages()}} to show the proportion of each sleep stage per day
-
 Other plot epochs: 
 \code{\link{plot_sleep_spiral}()},
-\code{\link{plot_sleep_stages}()},
 \code{\link{plot_timeseries}()}
 }
 \concept{plot epochs}

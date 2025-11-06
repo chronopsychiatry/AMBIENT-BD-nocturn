@@ -4,10 +4,12 @@
 \alias{sleeptimes_boxplot}
 \title{Plot boxplots for sleep onset, midsleep, and wakeup times}
 \usage{
-sleeptimes_boxplot(sessions)
+sleeptimes_boxplot(sessions, circular = FALSE)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
+
+\item{circular}{Whether to output a circular plot (default FALSE)}
 }
 \value{
 A ggplot object with three horizontal boxplots (onset, midsleep, wakeup)

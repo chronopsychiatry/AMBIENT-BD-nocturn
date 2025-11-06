@@ -73,7 +73,7 @@
   sleep_period = c("sleep_period", "dur_spt_sleep_min", "SleepDurationInSpt"),
   time_in_bed = c("time_in_bed"),
   is_workday = c("is_workday", "daytype"),
-  night = c("calendar_date", "written_date")
+  night = c("night", "calendar_date", "written_date")
 )
 
 .sessions_col_none <- list(
@@ -100,7 +100,7 @@
   session_id = c("session_id", "window"),
   signal_quality = c("signal_quality_mean"),
   sleep_stage = c("sleep_stage", "class_id"),
-  night = c(""),
+  night = c("night"),
   is_asleep = c("")
 )
 

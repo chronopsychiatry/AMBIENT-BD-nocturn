@@ -27,7 +27,6 @@ This function uses columns:
 \seealso{
 Other plot epochs: 
 \code{\link{plot_hypnogram}()},
-\code{\link{plot_sleep_stages}()},
 \code{\link{plot_timeseries}()}
 }
 \concept{plot epochs}

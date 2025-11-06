@@ -1,7 +1,12 @@
+common <- list(
+  epochs = shiny::reactiveVal(example_epochs),
+  epoch_filters = shiny::reactiveVal(data.frame(from_sessions = rep(TRUE, nrow(example_epochs))))
+)
+
 test_that("timeseries module works", {
   shiny::testServer(
     timeseries_server,
-    args = list(epochs = shiny::reactive(example_epochs), epochs_colnames = shiny::reactive(get_epoch_colnames(example_epochs))),
+    args = list(common = common),
     {
       plot <- session$getReturned()
       session$setInputs(download_format = "png",

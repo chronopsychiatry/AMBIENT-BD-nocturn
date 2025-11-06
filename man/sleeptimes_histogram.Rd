@@ -4,7 +4,7 @@
 \alias{sleeptimes_histogram}
 \title{Plot histograms for sleep onset, midsleep, and wakeup times}
 \usage{
-sleeptimes_histogram(sessions, binwidth = 0.25)
+sleeptimes_histogram(sessions, binwidth = 0.25, circular = FALSE)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}

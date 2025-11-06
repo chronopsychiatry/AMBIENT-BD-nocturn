@@ -19,14 +19,14 @@ sleeptimes_boxplot <- function(sessions, circular = FALSE) {
       circ_stats = list(compute_circular_stats(.data$hour)),
       .groups = "drop"
     ) |>
-    tidyr::unnest_wider(.data$circ_stats)
+    tidyr::unnest_wider("circ_stats")
 
   # Split IQR if it crosses midnight
   stats_split <- stats |>
     dplyr::mutate(
       box_split = .data$q1 > .data$q3
     ) |>
-    tidyr::unnest_longer(c(.data$q1, .data$q3)) |>
+    tidyr::unnest_longer(c("q1", "q3")) |>
     dplyr::group_by(.data$variable) |>
     dplyr::do({
       row <- .

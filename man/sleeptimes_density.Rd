@@ -4,7 +4,7 @@
 \alias{sleeptimes_density}
 \title{Plot density curves for sleep onset, midsleep, and wakeup times with a dashed line showing the median}
 \usage{
-sleeptimes_density(sessions, adjust = 1)
+sleeptimes_density(sessions, adjust = 1, circular = FALSE)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}

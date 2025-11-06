@@ -33,7 +33,6 @@ This function uses columns:
 
 Other plot epochs: 
 \code{\link{plot_hypnogram}()},
-\code{\link{plot_sleep_spiral}()},
-\code{\link{plot_sleep_stages}()}
+\code{\link{plot_sleep_spiral}()}
 }
 \concept{plot epochs}

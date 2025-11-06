@@ -9,15 +9,13 @@ mock_epochs <- data.frame(
     "2025-03-02", "2025-03-03",
     "2025-03-03", "2025-03-03",
     "2025-03-04", "2025-03-04"
-  )),
-  .data_type = "somnofy_v2"
+  ))
 )
 
 mock_sessions <- data.frame(
-  session_id = 1:3,
+  id = 1:3,
   night = c("2025-03-03", "2025-03-03", "2025-03-04"),
-  temperature_mean = c(23, 15, 18),
-  .data_type = "somnofy_v2"
+  temperature_mean = c(23, 15, 18)
 )
 
 test_that("plot_timeseries returns a ggplot object", {
@@ -29,7 +27,7 @@ test_that("plot_timeseries returns a ggplot object", {
 })
 
 test_that("plot_timeseries uses the correct x and y mappings", {
-  plot <- plot_timeseries(mock_epochs, "temperature_ambient_mean")
+  plot <- plot_timeseries(mock_epochs, variable = "temperature_ambient_mean")
 
   plot_data <- ggplot2::ggplot_build(plot)$data[[1]]
 

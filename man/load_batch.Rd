@@ -4,7 +4,7 @@
 \alias{load_batch}
 \title{Load session or epoch data in batch mode}
 \usage{
-load_batch(folder_path, pattern = "", type = "sessions")
+load_batch(folder_path, pattern = NULL, type = "sessions")
 }
 \arguments{
 \item{folder_path}{The path to the folder containing session files}

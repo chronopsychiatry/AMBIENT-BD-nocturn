@@ -8,7 +8,6 @@
 #' @importFrom rlang .data
 #' @export
 #' @family plot epochs
-#' @seealso [plot_sleep_stages()] to show the proportion of each sleep stage per day
 plot_hypnogram <- function(epochs) {
   col <- get_epoch_colnames(epochs)
 

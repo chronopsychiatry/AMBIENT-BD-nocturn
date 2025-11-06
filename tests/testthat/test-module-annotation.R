@@ -1,20 +1,17 @@
 sessions <- data.frame(
   id = c("A", "B", "C", "D", "E"),
-  annotation = c("Annot1", "Annot1", "", "", "Annot2"),
-  .data_type = "somnofy_v2"
-)
+  annotation = c("Annot1", "Annot1", "", "", "Annot2")
+) |>
+  set_data_type("sessions")
 
 epochs <- data.frame(
   session_id = c("A", "A", "A", "I", "I", "C", "D", "E", "F", "G", "H", "B", "J"),
-  epoch_data = c(1, 10, 20, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5),
-  .data_type = "somnofy_v2"
-)
+  epoch_data = c(1, 10, 20, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5)
+) |>
+  set_data_type("epochs")
 
 test_that("annotate epochs from sessions works", {
-  session_colnames <- get_session_colnames(sessions)
-  epoch_colnames <- get_epoch_colnames(epochs)
-
-  result <- annotate_epochs_from_sessions(sessions, epochs, session_colnames, epoch_colnames)
+  result <- annotate_epochs_from_sessions(sessions, epochs)
 
   expect_equal(class(result), "data.frame")
   expect_equal(nrow(result), nrow(epochs))
