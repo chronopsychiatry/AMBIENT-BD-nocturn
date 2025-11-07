@@ -3,8 +3,9 @@
 #' @param sessions A dataframe containing the session data
 #' @returns The cleaned-up sessions dataframe
 #' @examples
-#' epochs <- clean_sessions(AmbientViewer::example_sessions)
+#' sessions <- clean_sessions(AmbientViewer::example_sessions)
 #' @importFrom rlang .data
+#' @export
 clean_sessions <- function(sessions) {
   col <- get_session_colnames(sessions)
 
@@ -108,6 +109,7 @@ clean_sessions <- function(sessions) {
 #' @examples
 #' epochs <- clean_epochs(AmbientViewer::example_epochs)
 #' @importFrom rlang .data
+#' @export
 clean_epochs <- function(epochs) {
   col <- get_epoch_colnames(epochs)
 

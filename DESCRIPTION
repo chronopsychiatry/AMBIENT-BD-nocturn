@@ -9,35 +9,33 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
+    bslib,
     devtools,
-    mockery,
-    testthat,
-    tibble
+    DT,
+    plotly,
+    readr,
+    shinyFiles,
+    shinyjs,
+    shinyWidgets,
+    svglite,
+    testthat
 Config/testthat/edition: 3
 Imports: 
-    bslib,
     circular,
     cli,
     dplyr,
-    DT,
     edfReader,
     ggnewscale,
     ggplot2,
     lubridate,
-    markdown,
-    plotly,
-    readr,
+    rmarkdown,
     readxl,
     rlang,
-    rmarkdown,
     scales,
     shiny,
     shinyalert,
-    shinyFiles,
-    shinyjs,
-    shinyWidgets,
     stringr,
-    svglite,
+    tibble,
     tidyr
 Depends: 
     R (>= 4.3)

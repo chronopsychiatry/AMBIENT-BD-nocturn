@@ -1,3 +1,5 @@
+utils::globalVariables(".")
+
 #' Plot boxplots for sleep onset, midsleep, and wakeup times
 #'
 #' @param sessions The sessions dataframe
@@ -48,17 +50,17 @@ sleeptimes_boxplot <- function(sessions, circular = FALSE) {
   p <- ggplot2::ggplot(stats_split) +
     ggplot2::geom_rect(
       ggplot2::aes(
-        xmin = xlower, xmax = xupper,
-        ymin = y - 0.3, ymax = y + 0.3,
-        fill = variable
+        xmin = .data$xlower, xmax = .data$xupper,
+        ymin = .data$y - 0.3, ymax = .data$y + 0.3,
+        fill = .data$variable
       ),
       color = NA, alpha = 0.4
     ) +
     ggplot2::geom_segment(
       ggplot2::aes(
-        x = median, xend = median,
-        y = y - 0.3, yend = y + 0.3,
-        color = variable
+        x = .data$median, xend = .data$median,
+        y = .data$y - 0.3, yend = .data$y + 0.3,
+        color = .data$variable
       ),
       linewidth = 1.2
     ) +
@@ -221,14 +223,14 @@ sleeptimes_density <- function(sessions, adjust = 1, circular = FALSE) {
     dplyr::ungroup() |>
     dplyr::select("variable", "median_hour", density_at_median = "density")
 
-  p <- ggplot2::ggplot(density_data, ggplot2::aes(x = .data$hour, y = density, color = .data$variable, fill = .data$variable)) +
+  p <- ggplot2::ggplot(density_data, ggplot2::aes(x = .data$hour, y = .data$density, color = .data$variable, fill = .data$variable)) +
     ggplot2::geom_area(alpha = 0.3, position = "identity") +
     ggplot2::geom_segment(
       data = median_lines,
       ggplot2::aes(
         x = .data$median_hour, xend = .data$median_hour,
         y = 0, yend = .data$density_at_median,
-        color = variable
+        color = .data$variable
       ),
       linetype = "dashed",
       linewidth = 0.7,

@@ -16,5 +16,5 @@ The cleaned-up sessions dataframe
 Clean session data
 }
 \examples{
-epochs <- clean_sessions(AmbientViewer::example_sessions)
+sessions <- clean_sessions(AmbientViewer::example_sessions)
 }

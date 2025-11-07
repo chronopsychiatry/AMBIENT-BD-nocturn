@@ -1,6 +1,8 @@
-MB <- 1024^2
-UPLOAD_SIZE_MB <- 5000
-options(shiny.maxRequestSize = UPLOAD_SIZE_MB * MB)
+AmbientViewer::check_suggests()
+
+mb <- 1024^2
+upload_size_mb <- 5000
+options(shiny.maxRequestSize = upload_size_mb * mb)
 
 # Source helper functions
 source("plot_helpers.R")

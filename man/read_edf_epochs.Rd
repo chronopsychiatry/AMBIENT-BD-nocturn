@@ -8,10 +8,6 @@ read_edf_epochs(file)
 }
 \arguments{
 \item{file}{The path to the EDF file}
-
-\item{timestamp}{The name of the timestamp column in the EDF annotations signal. Default is "timestamp".}
-
-\item{annotation}{The name of the annotation column in the EDF annotations signal. Default is "annotation".}
 }
 \value{
 A dataframe containing the epoch data extracted from the EDF file signals

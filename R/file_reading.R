@@ -30,8 +30,6 @@ read_edf_sessions <- function(file) {
 #' Read EDF Epochs
 #'
 #' @param file The path to the EDF file
-#' @param timestamp The name of the timestamp column in the EDF annotations signal. Default is "timestamp".
-#' @param annotation The name of the annotation column in the EDF annotations signal. Default is "annotation".
 #' @returns A dataframe containing the epoch data extracted from the EDF file signals
 #' @details The function reads the signals of the EDF file to extract epoch information. It must contain
 #' a column for timestamps and a column for sleep stage annotations.
