@@ -1,3 +1,5 @@
+library(AmbientViewer)
+
 AmbientViewer::check_suggests()
 
 mb <- 1024^2

@@ -228,6 +228,7 @@ group_sessions_by_night <- function(sessions) {
     dplyr::select(-"start_time", -"date", -"start_hour")
 }
 
+#' @export
 get_time_per_day <- function(unit = "second") {
   switch(unit,
     second = 86400,
@@ -238,12 +239,14 @@ get_time_per_day <- function(unit = "second") {
   )
 }
 
+#' @export
 is_iso8601_datetime <- function(column) {
   column <- column[!is.na(column) & column != ""]
   parsed <- suppressWarnings(lubridate::ymd_hms(column, quiet = TRUE))
   all(!is.na(parsed))
 }
 
+#' @export
 time_to_hours <- function(time_vector) {
   if (inherits(time_vector, "numeric")) {
     return(time_vector)
@@ -252,6 +255,7 @@ time_to_hours <- function(time_vector) {
   lubridate::hour(time_vector) + lubridate::minute(time_vector) / 60
 }
 
+#' @export
 parse_time <- function(time_vector) {
   if ((inherits(time_vector, "POSIXct") || inherits(time_vector, "POSIXt") || inherits(time_vector, "numeric"))) {
     return(time_vector)
@@ -261,6 +265,7 @@ parse_time <- function(time_vector) {
   lubridate::parse_date_time(time_vector, orders = time_formats, tz = NULL, quiet = TRUE)
 }
 
+#' @export
 parse_date <- function(date_vector) {
   if (inherits(date_vector, "Date")) {
     return(date_vector)
@@ -270,6 +275,7 @@ parse_date <- function(date_vector) {
     lubridate::as_date()
 }
 
+#' @export
 update_date <- function(time, date) {
   if (!inherits(time, "POSIXct")) {
     time <- parse_time(time)

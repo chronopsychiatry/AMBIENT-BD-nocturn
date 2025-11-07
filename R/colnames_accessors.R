@@ -1,3 +1,4 @@
+#' @export
 get_session_colnames <- function(sessions) {
   col_names <- attr(sessions, "col")
   if (is.null(col_names)) {
@@ -17,6 +18,7 @@ get_session_colnames <- function(sessions) {
   col_names
 }
 
+#' @export
 get_epoch_colnames <- function(epochs) {
   col_names <- attr(epochs, "col")
   if (is.null(col_names)) {
@@ -36,6 +38,7 @@ get_epoch_colnames <- function(epochs) {
   col_names
 }
 
+#' @export
 get_colnames <- function(df) {
   type <- attr(df, "type")
   if (is.null(type)) {
@@ -50,6 +53,7 @@ get_colnames <- function(df) {
   }
 }
 
+#' @export
 set_colnames <- function(df, col) {
   attr(df, "col") <- col
   df

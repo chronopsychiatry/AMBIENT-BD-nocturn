@@ -151,6 +151,7 @@ load_batch <- function(folder_path, pattern = NULL, type = "sessions") {
   }
 }
 
+#' @export
 set_data_type <- function(data, type) {
   attr(data, "type") <- type
   data

@@ -12,7 +12,6 @@ Suggests:
     bslib,
     devtools,
     DT,
-    plotly,
     readr,
     shinyFiles,
     shinyjs,

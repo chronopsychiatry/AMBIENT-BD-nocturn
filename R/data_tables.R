@@ -75,6 +75,7 @@ get_epochs_summary <- function(epochs) {
     )
 }
 
+#' @export
 get_col <- function(df, col) {
   if (is.null(col) || !col %in% colnames(df)) {
     rep(list(NULL), nrow(df))
