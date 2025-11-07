@@ -2,6 +2,7 @@
 #'
 #' @param epochs The epochs dataframe
 #' @param sessions The sessions dataframe
+#' @param return_mask If TRUE, returns a logical vector indicating which epochs belong to the specified sessions
 #' @details This function uses sessions columns:
 #' - `session_start`
 #' - `session_end`

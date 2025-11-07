@@ -107,6 +107,7 @@ sleeptimes_boxplot <- function(sessions, circular = FALSE) {
 #'
 #' @param sessions The sessions dataframe
 #' @param binwidth The width of the bins for the histogram (default 0.25)
+#' @param circular Whether to output a circular plot (default FALSE)
 #' @details This function uses columns:
 #' - `time_at_sleep_onset`
 #' - `time_at_wakeup`
@@ -173,6 +174,7 @@ sleeptimes_histogram <- function(sessions, binwidth = 0.25, circular = FALSE) {
 #'
 #' @param sessions The sessions dataframe
 #' @param adjust The bandwidth adjustment for the density estimate (default 1)
+#' @param circular Whether to output a circular plot (default FALSE)
 #' @details This function uses columns:
 #' - `time_at_sleep_onset`
 #' - `time_at_wakeup`

@@ -146,7 +146,6 @@ sleep_regularity_server <- function(id, common) {
     })
 
     show_metric_modal <- function(metric_name) {
-      if (FALSE) markdown::markdownToHTML() # Added to avoid R CMD check warning about unused function
       rmd_path <- system.file("shiny", package = "AmbientViewer")
       shiny::showModal(
         shiny::modalDialog(

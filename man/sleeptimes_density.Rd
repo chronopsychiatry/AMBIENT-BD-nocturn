@@ -10,6 +10,8 @@ sleeptimes_density(sessions, adjust = 1, circular = FALSE)
 \item{sessions}{The sessions dataframe}
 
 \item{adjust}{The bandwidth adjustment for the density estimate (default 1)}
+
+\item{circular}{Whether to output a circular plot (default FALSE)}
 }
 \value{
 A ggplot object with three overlaid density curves (sleep onset, midsleep, wakeup)

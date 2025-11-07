@@ -10,6 +10,8 @@ sleeptimes_histogram(sessions, binwidth = 0.25, circular = FALSE)
 \item{sessions}{The sessions dataframe}
 
 \item{binwidth}{The width of the bins for the histogram (default 0.25)}
+
+\item{circular}{Whether to output a circular plot (default FALSE)}
 }
 \value{
 A ggplot object with three overlaid histograms (sleep onset, midsleep, wakeup)

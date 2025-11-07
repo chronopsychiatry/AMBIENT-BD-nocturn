@@ -10,6 +10,8 @@ filter_epochs_from_sessions(epochs, sessions, return_mask = FALSE)
 \item{epochs}{The epochs dataframe}
 
 \item{sessions}{The sessions dataframe}
+
+\item{return_mask}{If TRUE, returns a logical vector indicating which epochs belong to the specified sessions}
 }
 \value{
 The epochs dataframe with only the epochs that belong to the specified sessions, or a logical vector if \code{return_mask} is TRUE
