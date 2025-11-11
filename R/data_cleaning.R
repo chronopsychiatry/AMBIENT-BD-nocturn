@@ -72,10 +72,18 @@ clean_sessions <- function(sessions) {
     sessions$sleep_period <- time_diff(sessions[[col$time_at_sleep_onset]], sessions[[col$time_at_wakeup]], unit = "second")
     col$sleep_period <- "sleep_period"
   }
+  # For GGIR data: convert dur_spt_sleep_min (part 5) or SleepDurationInSpt (part 4) to seconds
+  if (identical(col$sleep_period, "dur_spt_sleep_min")) {
+    sessions$dur_spt_sleep_sec <- sessions$dur_spt_sleep_min * 60
+    col$sleep_period <- "dur_spt_sleep_sec"
+  } else if (identical(col$sleep_period, "SleepDurationInSpt")) {
+    sessions$SleepDurationInSpt_sec <- sessions$SleepDurationInSpt * 60 * 60
+    col$sleep_period <- "SleepDurationInSpt_sec"
+  }
   # Parse time at midsleep time, or create it if possible
   if (!is.null(col$time_at_midsleep)) {
     sessions[[col$time_at_midsleep]] <- parse_time(sessions[[col$time_at_midsleep]])
-  } else if (!is.null(col$time_at_sleep_onset) && !is.null(col$time_in_bed)) {
+  } else if (!is.null(col$time_at_sleep_onset) && !is.null(col$sleep_period)) {
     sessions$time_at_midsleep <- sessions[[col$time_at_sleep_onset]] + (sessions[[col$sleep_period]] / 2)
     col$time_at_midsleep <- "time_at_midsleep"
   }
@@ -90,14 +98,6 @@ clean_sessions <- function(sessions) {
   if (is.null(col$sleep_onset_latency) && !is.null(col$session_start) && !is.null(col$time_at_sleep_onset)) {
     sessions$sleep_onset_latency <- time_diff(sessions[[col$session_start]], sessions[[col$time_at_sleep_onset]], unit = "second")
     col$sleep_onset_latency <- "sleep_onset_latency"
-  }
-  # For GGIR data: convert dur_spt_sleep_min (part 5) or SleepDurationInSpt (part 4) to seconds
-  if (identical(col$sleep_period, "dur_spt_sleep_min")) {
-    sessions$dur_spt_sleep_sec <- sessions$dur_spt_sleep_min * 60
-    col$sleep_period <- "dur_spt_sleep_sec"
-  } else if (identical(col$sleep_period, "SleepDurationInSpt")) {
-    sessions$SleepDurationInSpt_sec <- sessions$SleepDurationInSpt * 60 * 60
-    col$sleep_period <- "SleepDurationInSpt_sec"
   }
   set_colnames(sessions, col)
 }

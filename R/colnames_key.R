@@ -33,13 +33,14 @@
   sex = NULL,
   birth_year = NULL,
   device_id = "Unique identifier for the recording device.",
-  session_start = "Start time of the session (YYYY-MM-DD HH:MM:SS or HH:MM).",
-  session_end = "End time of the session (YYYY-MM-DD HH:MM:SS or HH:MM).",
-  time_at_sleep_onset = "Time at Sleep Onset (YYYY-MM-DD HH:MM:SS or HH::MM).",
-  time_at_midsleep = paste0("Time at Midsleep (YYYY-MM-DD HH:MM:SS or HH:MM).",
+  session_start = "Start time of the session (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
+  session_end = "End time of the session (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
+  time_at_sleep_onset = "Time at Sleep Onset (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
+  time_at_midsleep = paste0("Time at Midsleep (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
                             "If not provided, it will be calculated from time at sleep onset and sleep period."),
-  time_at_wakeup = "Time at Wakeup (YYYY-MM-DD HH:MM:SS or HH:MM).",
-  sleep_onset_latency = "Time between session start and sleep onset (in seconds). Will be calculated if not provided.",
+  time_at_wakeup = "Time at Wakeup (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
+  sleep_onset_latency = paste0("Time between session start and sleep onset (in seconds).",
+                               "If not provided, it will be calculated from session start and sleep onset."),
   sleep_period = paste0("Total time spent asleep during the session (in seconds).",
                         "If not provided, it will be calculated from time at sleep onset and time at wakeup."),
   time_in_bed = "Total time spent in bed during the session (in seconds). If not provided, it will be calculated from session start and session end.",
@@ -73,7 +74,7 @@
   sleep_period = c("sleep_period", "dur_spt_sleep_min", "SleepDurationInSpt"),
   time_in_bed = c("time_in_bed"),
   is_workday = c("is_workday", "daytype"),
-  night = c("night", "calendar_date", "written_date")
+  night = c("calendar_date", "night", "written_date")
 )
 
 .sessions_col_none <- list(
