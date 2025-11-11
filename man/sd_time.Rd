@@ -28,7 +28,11 @@ Other time processing:
 \code{\link{max_time}()},
 \code{\link{mean_time}()},
 \code{\link{min_time}()},
+\code{\link{parse_date}()},
+\code{\link{parse_time}()},
 \code{\link{shift_times_by_12h}()},
-\code{\link{time_diff}()}
+\code{\link{time_diff}()},
+\code{\link{time_to_hours}()},
+\code{\link{update_date}()}
 }
 \concept{time processing}

@@ -7,8 +7,8 @@ upload_size_mb <- 5000
 options(shiny.maxRequestSize = upload_size_mb * mb)
 
 # Source helper functions
-source("plot_helpers.R")
-source("download_handlers.R")
+source(system.file("shiny", "plot_helpers.R", package = "AmbientViewer"))
+source(system.file("shiny", "download_handlers.R", package = "AmbientViewer"))
 
 # Source all app modules
 modules <- list.files("modules", pattern = "\\.R$", full.names = TRUE)

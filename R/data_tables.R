@@ -75,6 +75,14 @@ get_epochs_summary <- function(epochs) {
     )
 }
 
+#' Get a column from a dataframe safely
+#'
+#' This function retrieves a column from a dataframe.
+#' If the column does not exist or is NULL, it returns a vector of NULLs of the same length as the number of rows in the dataframe.
+#' @param df A dataframe
+#' @param col The name of the column to retrieve
+#' @returns A vector containing the values of the specified column, or a vector of NULLs if the column does not exist
+#' @family internal
 #' @export
 get_col <- function(df, col) {
   if (is.null(col) || !col %in% colnames(df)) {

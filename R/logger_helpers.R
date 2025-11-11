@@ -44,6 +44,17 @@ write_log <- function(logger, ..., type = "default") {
   invisible()
 }
 
+#' Show a log message only once based on a condition
+#'
+#' This function logs a message only once when a specified condition is true.
+#' It uses a reactive value to track whether the message has already been logged.
+#' @param logger The logger to write the text to
+#' @param condition A logical condition to determine whether to log the message
+#' @param log_shown A reactive value indicating whether the log message has been shown
+#' @param log_msg The message to log
+#' @param log_type One of `default`, `info`, `error`, `warning`, `starting`, `complete`
+#' @returns No return value, called for side effects
+#' @keywords internal
 #' @export
 show_log_once <- function(logger, condition, log_shown, log_msg, log_type) {
   if (condition) {

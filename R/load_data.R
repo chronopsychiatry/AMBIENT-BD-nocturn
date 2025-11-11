@@ -151,6 +151,13 @@ load_batch <- function(folder_path, pattern = NULL, type = "sessions") {
   }
 }
 
+#' Set the type attribute for a data frame
+#'
+#' This function sets the "type" attribute for a data frame to indicate whether it contains session or epoch data.
+#' @param data A data frame containing either sessions or epochs data
+#' @param type A string indicating the type of data (e.g. "sessions" or "epochs")
+#' @return The data frame with updated "type" attribute
+#' @family internal
 #' @export
 set_data_type <- function(data, type) {
   attr(data, "type") <- type
