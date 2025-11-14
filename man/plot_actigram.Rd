@@ -4,21 +4,22 @@
 \alias{plot_actigram}
 \title{Plot an Actigram}
 \usage{
-plot_actigram(epochs, col_names = NULL)
+plot_actigram(epochs)
 }
 \arguments{
 \item{epochs}{The epochs data frame}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{sleep_period}
-\item \code{signal_quality_mean}
-\item \code{sleep_stage}
-}}
 }
 \value{
 A ggplot object representing the actigram
 }
 \description{
 Generate an actigram from the Somnofy epoch data.
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{sleep_period}
+\item \code{signal_quality_mean}
+\item \code{sleep_stage}
+}
 }

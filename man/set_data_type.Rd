@@ -2,25 +2,29 @@
 % Please edit documentation in R/load_data.R
 \name{set_data_type}
 \alias{set_data_type}
-\title{Set the data type for a dataframe}
+\title{Set the type attribute for a data frame}
 \usage{
-set_data_type(df, data_type)
+set_data_type(data, type)
 }
 \arguments{
-\item{df}{The dataframe to set the data type for}
+\item{data}{A data frame containing either sessions or epochs data}
 
-\item{data_type}{The data type to set. Currently available data types: "somnofy_v1", "somnofy_v2"}
+\item{type}{A string indicating the type of data (e.g. "sessions" or "epochs")}
 }
 \value{
-The dataframe with the data type set
+The data frame with updated "type" attribute
 }
 \description{
-Set the data type for a dataframe
+This function sets the "type" attribute for a data frame to indicate whether it contains session or epoch data.
 }
-\details{
-The dataframe type is used by Ambient Viewer functions to determine the correct column names.
-Note: you do not need to set the data type if you are using the \code{load_sessions} or \code{load_epochs} functions.
+\seealso{
+Other internal: 
+\code{\link{get_col}()},
+\code{\link{get_colnames}()},
+\code{\link{get_epoch_colnames}()},
+\code{\link{get_session_colnames}()},
+\code{\link{get_time_per_day}()},
+\code{\link{is_iso8601_datetime}()},
+\code{\link{set_colnames}()}
 }
-\examples{
-example_sessions <- set_data_type(example_sessions, "somnofy_v2")
-}
+\concept{internal}

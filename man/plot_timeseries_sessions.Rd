@@ -8,8 +8,7 @@ plot_timeseries_sessions(
   sessions,
   variable,
   color_by = "default",
-  exclude_zero = FALSE,
-  col_names = NULL
+  exclude_zero = FALSE
 )
 }
 \arguments{
@@ -20,17 +19,18 @@ plot_timeseries_sessions(
 \item{color_by}{The variable to color the points by. Can be "default" or any other column name in the sessions dataframe.}
 
 \item{exclude_zero}{Logical, whether to exclude zero values from the plot (default: FALSE)}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{night}
-}}
 }
 \value{
 A ggplot object
 }
 \description{
 Plot session time series data for a given variable
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{night}
+}
 }
 \seealso{
 \code{\link[=plot_timeseries]{plot_timeseries()}} to plot epoch data.

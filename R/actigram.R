@@ -2,15 +2,15 @@
 #'
 #' Generate an actigram from the Somnofy epoch data.
 #' @param epochs The epochs data frame
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `sleep_period`
 #' - `signal_quality_mean`
 #' - `sleep_stage`
 #' @return A ggplot object representing the actigram
 #' @importFrom rlang .data
 #' @export
-plot_actigram <- function(epochs, col_names = NULL) {
-  col <- get_epoch_colnames(epochs, col_names)
+plot_actigram <- function(epochs) {
+  col <- get_epoch_colnames(epochs)
 
   epochs <- epochs |>
     dplyr::mutate(

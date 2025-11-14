@@ -3,17 +3,17 @@
 #' @param epochs The epochs dataframe
 #' @param variable The variable to plot (e.g., "temperature_ambient_mean")
 #' @param exclude_zero Logical, whether to exclude zero values from the plot (default: FALSE)
-#' @param col_names A list to override default column names. This function uses columns:
+#' @param color_by The variable to color the points by. Can be "default" or any other column name in the epochs dataframe.
+#' @details This function uses columns:
 #' - `timestamp`
 #' - `night`
-#' @param color_by The variable to color the points by. Can be "default" or any other column name in the epochs dataframe.
 #' @returns A ggplot object
 #' @importFrom rlang .data
 #' @export
 #' @family plot epochs
 #' @seealso [plot_timeseries_sessions()] to plot session data.
-plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero = FALSE, col_names = NULL) {
-  col <- get_epoch_colnames(epochs, col_names)
+plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero = FALSE) {
+  col <- get_epoch_colnames(epochs)
 
   color_by <- if (color_by %in% colnames(epochs)) color_by else "night"
 
@@ -53,15 +53,15 @@ plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero
 #' @param sessions The sessions dataframe
 #' @param variable The variable to plot (e.g., "time_at_sleep_onset")
 #' @param exclude_zero Logical, whether to exclude zero values from the plot (default: FALSE)
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `night`
 #' @param color_by The variable to color the points by. Can be "default" or any other column name in the sessions dataframe.
 #' @returns A ggplot object
 #' @export
 #' @family plot sessions
 #' @seealso [plot_timeseries()] to plot epoch data.
-plot_timeseries_sessions <- function(sessions, variable, color_by = "default", exclude_zero = FALSE, col_names = NULL) {
-  col <- get_session_colnames(sessions, col_names)
+plot_timeseries_sessions <- function(sessions, variable, color_by = "default", exclude_zero = FALSE) {
+  col <- get_session_colnames(sessions)
 
   sessions <- sessions |>
     dplyr::filter(!is.na(.data[[variable]]) & .data[[variable]] != "")

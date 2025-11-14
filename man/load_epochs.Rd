@@ -16,10 +16,14 @@ A dataframe containing the epoch data
 Load epoch data
 }
 \details{
-The function loads the epoch data from a CSV file and groups the epochs by night.
+The function loads the epoch data from a file and groups the epochs by night.
+Supported formats: CSV, Excel, EDF.
 }
 \seealso{
 Other data loading: 
-\code{\link{load_sessions}()}
+\code{\link{load_batch}()},
+\code{\link{load_sessions}()},
+\code{\link{read_edf_epochs}()},
+\code{\link{read_edf_sessions}()}
 }
 \concept{data loading}

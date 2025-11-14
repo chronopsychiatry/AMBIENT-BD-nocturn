@@ -175,20 +175,21 @@ shift_times_by_12h <- function(times) {
 
 #' Create a grouping by night for epoch data
 #'
+#' The function creates a new column `night` that groups the epochs by night.
+#' Timepoints before 12 PM are considered part of the previous night.
+#'
 #' @param epochs The epochs dataframe
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `timestamp`
 #' @returns The epochs dataframe with the `night` column added
-#' @details The function creates a new column `night` that groups the epochs by night.
-#' Timepoints before 12 PM are considered part of the previous night.
 #' @importFrom rlang .data
 #' @export
 #' @seealso [group_sessions_by_night()] to group session data by night.
 #' @family time processing
 #' @examples
 #' epochs <- group_epochs_by_night(example_epochs)
-group_epochs_by_night <- function(epochs, col_names = NULL) {
-  col <- get_epoch_colnames(epochs, col_names)
+group_epochs_by_night <- function(epochs) {
+  col <- get_epoch_colnames(epochs)
   epochs |>
     tidyr::drop_na(dplyr::all_of(col$timestamp)) |>
     dplyr::mutate(
@@ -202,19 +203,20 @@ group_epochs_by_night <- function(epochs, col_names = NULL) {
 
 #' Create a grouping by night for session data
 #'
+#' The function creates a new column `night` that groups the sessions by night depending on their start time.
+#' Sessions that start before 12 PM are considered part of the previous night.
+#'
 #' @param sessions The sessions dataframe
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `session_start`
 #' @returns The sessions dataframe with the `night` column added
-#' @details The function creates a new column `night` that groups the sessions by night depending on their start time.
-#' Sessions that start before 12 PM are considered part of the previous night.
 #' @export
 #' @family time processing
 #' @seealso [group_epochs_by_night()] to group epoch data by night.
 #' @examples
 #' sessions <- group_sessions_by_night(example_sessions)
-group_sessions_by_night <- function(sessions, col_names = NULL) {
-  col <- get_session_colnames(sessions, col_names)
+group_sessions_by_night <- function(sessions) {
+  col <- get_session_colnames(sessions)
   sessions |>
     tidyr::drop_na(dplyr::all_of(col$session_start)) |>
     dplyr::mutate(
@@ -226,6 +228,13 @@ group_sessions_by_night <- function(sessions, col_names = NULL) {
     dplyr::select(-"start_time", -"date", -"start_hour")
 }
 
+#' Calculate the number of time units in a day
+#'
+#' This function returns the number of specified time units (seconds, minutes or hours) in a day.
+#' @param unit The unit of time. Can be "second", "minute", or "hour". Default is "second".
+#' @returns The number of time units in a day (numeric)
+#' @family internal
+#' @export
 get_time_per_day <- function(unit = "second") {
   switch(unit,
     second = 86400,
@@ -236,12 +245,27 @@ get_time_per_day <- function(unit = "second") {
   )
 }
 
+#' Check if a column contains ISO 8601 datetime strings
+#'
+#' This function checks if all non-missing values in a column are valid ISO 8601 datetime strings.
+#' @param column A vector of character strings
+#' @returns TRUE if all non-missing values are valid ISO 8601 datetime strings, FALSE otherwise
+#' @family internal
+#' @export
 is_iso8601_datetime <- function(column) {
   column <- column[!is.na(column) & column != ""]
   parsed <- suppressWarnings(lubridate::ymd_hms(column, quiet = TRUE))
   all(!is.na(parsed))
 }
 
+#' Convert time vector to numeric hours
+#'
+#' This function converts a vector of time strings or POSIXct objects to numeric hours.
+#' @details See [parse_time()] for supported time formats.
+#' @param time_vector A vector of time strings
+#' @returns A numeric vector representing the time in hours
+#' @family time processing
+#' @export
 time_to_hours <- function(time_vector) {
   if (inherits(time_vector, "numeric")) {
     return(time_vector)
@@ -250,6 +274,15 @@ time_to_hours <- function(time_vector) {
   lubridate::hour(time_vector) + lubridate::minute(time_vector) / 60
 }
 
+#' Parse a vector of time strings into POSIXct objects
+#'
+#' This function parses a vector of time strings into POSIXct objects.
+#' Supported formats include "YYYY-MM-DD HH:MM:SS", "YYYY-MM-DD HH:MM", "HH:MM:SS", and "HH:MM".
+#' Timezone information is ignored.
+#' @param time_vector A vector of time strings
+#' @returns A vector of POSIXct objects
+#' @family time processing
+#' @export
 parse_time <- function(time_vector) {
   if ((inherits(time_vector, "POSIXct") || inherits(time_vector, "POSIXt") || inherits(time_vector, "numeric"))) {
     return(time_vector)
@@ -259,6 +292,31 @@ parse_time <- function(time_vector) {
   lubridate::parse_date_time(time_vector, orders = time_formats, tz = NULL, quiet = TRUE)
 }
 
+#' Parse a vector of date strings into Date objects
+#'
+#' This function parses a vector of date strings into Date objects.
+#' All formats containing year, month, and day information are supported.
+#' @param date_vector A vector of date strings
+#' @returns A vector of Date objects
+#' @family time processing
+#' @export
+parse_date <- function(date_vector) {
+  if (inherits(date_vector, "Date")) {
+    return(date_vector)
+  }
+  date_formats <- c("ymd", "Ymd", "mdY", "dmy", "Y-m-d", "m/d/Y", "d/m/Y")
+  lubridate::parse_date_time(date_vector, orders = date_formats, tz = NULL, quiet = TRUE) |>
+    lubridate::as_date()
+}
+
+#' Update the date component of a POSIXct time object
+#'
+#' This function updates the date component of a POSIXct time object while preserving the time component.
+#' @param time A POSIXct time object or a character string convertible to POSIXct
+#' @param date A Date object or a character string convertible to Date
+#' @returns A POSIXct time object with the updated date
+#' @family time processing
+#' @export
 update_date <- function(time, date) {
   if (!inherits(time, "POSIXct")) {
     time <- parse_time(time)

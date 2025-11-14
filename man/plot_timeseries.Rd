@@ -4,13 +4,7 @@
 \alias{plot_timeseries}
 \title{Plot epoch time series data for a given variable}
 \usage{
-plot_timeseries(
-  epochs,
-  variable,
-  color_by = "default",
-  exclude_zero = FALSE,
-  col_names = NULL
-)
+plot_timeseries(epochs, variable, color_by = "default", exclude_zero = FALSE)
 }
 \arguments{
 \item{epochs}{The epochs dataframe}
@@ -20,12 +14,6 @@ plot_timeseries(
 \item{color_by}{The variable to color the points by. Can be "default" or any other column name in the epochs dataframe.}
 
 \item{exclude_zero}{Logical, whether to exclude zero values from the plot (default: FALSE)}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{timestamp}
-\item \code{night}
-}}
 }
 \value{
 A ggplot object
@@ -33,12 +21,18 @@ A ggplot object
 \description{
 Plot epoch time series data for a given variable
 }
+\details{
+This function uses columns:
+\itemize{
+\item \code{timestamp}
+\item \code{night}
+}
+}
 \seealso{
 \code{\link[=plot_timeseries_sessions]{plot_timeseries_sessions()}} to plot session data.
 
 Other plot epochs: 
 \code{\link{plot_hypnogram}()},
-\code{\link{plot_sleep_spiral}()},
-\code{\link{plot_sleep_stages}()}
+\code{\link{plot_sleep_spiral}()}
 }
 \concept{plot epochs}

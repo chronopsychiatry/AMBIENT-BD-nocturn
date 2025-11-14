@@ -4,18 +4,12 @@
 \alias{plot_sleep_spiral}
 \title{Plot Sleep Spiral}
 \usage{
-plot_sleep_spiral(epochs, color_by = "default", col_names = NULL)
+plot_sleep_spiral(epochs, color_by = "default")
 }
 \arguments{
 \item{epochs}{The epochs dataframe}
 
 \item{color_by}{The variable to color the spiral by. Can be "default" or any other column name in the epochs dataframe.}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{timestamp}
-\item \code{is_asleep}
-}}
 }
 \value{
 A ggplot object showing the sleep spiral
@@ -23,10 +17,16 @@ A ggplot object showing the sleep spiral
 \description{
 Plot Sleep Spiral
 }
+\details{
+This function uses columns:
+\itemize{
+\item \code{timestamp}
+\item \code{is_asleep}
+}
+}
 \seealso{
 Other plot epochs: 
 \code{\link{plot_hypnogram}()},
-\code{\link{plot_sleep_stages}()},
 \code{\link{plot_timeseries}()}
 }
 \concept{plot epochs}

@@ -1,16 +1,15 @@
 #' Plot Hypnogram
 #'
 #' @param epochs The epochs dataframe
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `timestamp`
 #' - `sleep_stage`
 #' @returns A ggplot object showing the hypnogram as bars
 #' @importFrom rlang .data
 #' @export
 #' @family plot epochs
-#' @seealso [plot_sleep_stages()] to show the proportion of each sleep stage per day
-plot_hypnogram <- function(epochs, col_names = NULL) {
-  col <- get_epoch_colnames(epochs, col_names)
+plot_hypnogram <- function(epochs) {
+  col <- get_epoch_colnames(epochs)
 
   hypnogram_data <- epochs |>
     dplyr::mutate(

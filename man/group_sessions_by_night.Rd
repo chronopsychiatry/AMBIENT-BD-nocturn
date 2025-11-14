@@ -4,25 +4,23 @@
 \alias{group_sessions_by_night}
 \title{Create a grouping by night for session data}
 \usage{
-group_sessions_by_night(sessions, col_names = NULL)
+group_sessions_by_night(sessions)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{session_start}
-}}
 }
 \value{
 The sessions dataframe with the \code{night} column added
 }
 \description{
-Create a grouping by night for session data
-}
-\details{
 The function creates a new column \code{night} that groups the sessions by night depending on their start time.
 Sessions that start before 12 PM are considered part of the previous night.
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{session_start}
+}
 }
 \examples{
 sessions <- group_sessions_by_night(example_sessions)
@@ -35,8 +33,12 @@ Other time processing:
 \code{\link{max_time}()},
 \code{\link{mean_time}()},
 \code{\link{min_time}()},
+\code{\link{parse_date}()},
+\code{\link{parse_time}()},
 \code{\link{sd_time}()},
 \code{\link{shift_times_by_12h}()},
-\code{\link{time_diff}()}
+\code{\link{time_diff}()},
+\code{\link{time_to_hours}()},
+\code{\link{update_date}()}
 }
 \concept{time processing}

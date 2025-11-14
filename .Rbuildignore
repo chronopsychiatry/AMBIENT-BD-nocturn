@@ -1,6 +1,6 @@
 ^renv$
 ^renv\.lock$
-^AmbientViewer\.Rproj$
+^nocturn\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
 .github

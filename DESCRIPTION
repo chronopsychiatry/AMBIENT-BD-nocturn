@@ -1,6 +1,6 @@
-Package: AmbientViewer
-Title: Filtering and Visualisation for Somnofy Data
-Version: 0.0.10
+Package: nocturn
+Title: Sleep data filtering and visualisation
+Version: 1.0.0
 Authors@R: 
     person("Daniel", "Thedie", , "daniel.thedie@ed.ac.uk", role = c("aut", "cre"))
 Description: This package helps importing, filtering and visualising sleep data.
@@ -9,33 +9,32 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
+    bslib,
     devtools,
-    mockery,
-    testthat,
-    tibble
+    DT,
+    readr,
+    shinyFiles,
+    shinyjs,
+    shinyWidgets,
+    svglite,
+    testthat
 Config/testthat/edition: 3
 Imports: 
-    bslib,
     circular,
     cli,
     dplyr,
-    DT,
     edfReader,
     ggnewscale,
     ggplot2,
-    logging,
     lubridate,
-    markdown,
-    plotly,
-    readr,
-    rlang,
     rmarkdown,
+    readxl,
+    rlang,
     scales,
     shiny,
-    shinyjs,
-    shinyWidgets,
+    shinyalert,
     stringr,
-    svglite,
+    tibble,
     tidyr
 Depends: 
     R (>= 4.3)

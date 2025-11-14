@@ -4,21 +4,22 @@
 \alias{get_non_complying_sessions}
 \title{Get non-complying sessions (i.e. where there is more than one session on the same day)}
 \usage{
-get_non_complying_sessions(sessions, col_names = NULL)
+get_non_complying_sessions(sessions)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{night}
-}}
 }
 \value{
 The sessions dataframe with only the sessions that are non-complying
 }
 \description{
 Get non-complying sessions (i.e. where there is more than one session on the same day)
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{night}
+}
 }
 \examples{
 duplicate_sessions <- get_non_complying_sessions(example_sessions)

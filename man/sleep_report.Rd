@@ -4,30 +4,26 @@
 \alias{sleep_report}
 \title{Generate a patient sleep report in PDF format}
 \usage{
-sleep_report(
-  sessions,
-  title = "",
-  col_names = NULL,
-  output_file = "Sleep_report.pdf"
-)
+sleep_report(sessions, title = "", output_file = "Sleep_report.pdf")
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
 
 \item{title}{The title of the report. Default is an empty string.}
 
-\item{col_names}{A list to override default column names. This function uses columns:
+\item{output_file}{Path for the output PDF. Default is "Sleep_report.pdf"}
+}
+\description{
+This function generates a sleep report in PDF format using an R Markdown template.
+It is designed to work with Somnofy data, so some values may not be available when using other data sources such as GGIR.
+}
+\details{
+This function uses columns:
 \itemize{
 \item \code{night}
 \item \code{time_at_sleep_onset}
 \item \code{time_at_wakeup}
 \item \code{time_at_midsleep}
 \item \code{sleep_onset_latency}
-}}
-
-\item{output_file}{Path for the output PDF. Default is "Sleep_report.pdf"}
 }
-\description{
-This function generates a sleep report in PDF format using an R Markdown template.
-It is designed to work with Somnofy data, so some values may not be available when using other data sources such as GGIR.
 }

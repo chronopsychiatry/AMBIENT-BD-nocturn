@@ -1,16 +1,16 @@
 #' Plot Sleep Spiral
 #'
 #' @param epochs The epochs dataframe
-#' @param col_names A list to override default column names. This function uses columns:
+#' @param color_by The variable to color the spiral by. Can be "default" or any other column name in the epochs dataframe.
+#' @details This function uses columns:
 #' - `timestamp`
 #' - `is_asleep`
-#' @param color_by The variable to color the spiral by. Can be "default" or any other column name in the epochs dataframe.
 #' @returns A ggplot object showing the sleep spiral
 #' @importFrom rlang .data
 #' @export
 #' @family plot epochs
-plot_sleep_spiral <- function(epochs, color_by = "default", col_names = NULL) {
-  col <- get_epoch_colnames(epochs, col_names)
+plot_sleep_spiral <- function(epochs, color_by = "default") {
+  col <- get_epoch_colnames(epochs)
 
   epochs <- epochs[seq(1, nrow(epochs), by = 5), ] # Downsampling to 5 min intervals to speed up plotting
 

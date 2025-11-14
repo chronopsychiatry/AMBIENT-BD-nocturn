@@ -4,24 +4,25 @@
 \alias{get_removed_sessions}
 \title{Get a table of sessions that were removed during filtering}
 \usage{
-get_removed_sessions(sessions, filtered_sessions, col_names = NULL)
+get_removed_sessions(sessions, filtered_sessions)
 }
 \arguments{
 \item{sessions}{The original sessions dataframe}
 
 \item{filtered_sessions}{The filtered sessions dataframe}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{id}
-\item \code{sleep_period}
-}}
 }
 \value{
 The sessions dataframe with only the sessions that were removed during filtering
 }
 \description{
 Get a table of sessions that were removed during filtering
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{id}
+\item \code{sleep_period}
+}
 }
 \examples{
 filtered_sessions <- set_session_start_time_range(example_sessions, "22:00", "06:00")

@@ -2,22 +2,22 @@
 #'
 #' @param sessions The sessions dataframe
 #' @param groupby The grouping variable for the plot. Can be "night", "workday", or "weekday".
-#' @param col_names A list to override default column names. This function uses columns:
+#' @param color_by The variable to color the bars by. Can be "default" or any other column name in the sessions dataframe.
+#' Note that if color_by is anything else than "default", groupby will be set to "night".
+#' @details This function uses columns:
 #' - `night`
 #' - `time_at_sleep_onset`
 #' - `time_at_wakeup`
 #' - `is_workday`
-#' @param color_by The variable to color the bars by. Can be "default" or any other column name in the sessions dataframe.
-#' Note that if color_by is anything else than "default", groupby will be set to "night".
 #' @returns A ggplot graph showing the bedtimes and waketimes
 #' @importFrom rlang .data
 #' @export
-plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "default", col_names = NULL) {
+plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "default") {
   if (color_by != "default") {
     groupby <- "night"
   }
 
-  col <- get_session_colnames(sessions, col_names)
+  col <- get_session_colnames(sessions)
 
   expansion_factor <- switch(
     groupby,

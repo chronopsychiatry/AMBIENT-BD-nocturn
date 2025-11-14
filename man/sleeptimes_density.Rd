@@ -4,23 +4,26 @@
 \alias{sleeptimes_density}
 \title{Plot density curves for sleep onset, midsleep, and wakeup times with a dashed line showing the median}
 \usage{
-sleeptimes_density(sessions, col_names = NULL, adjust = 1)
+sleeptimes_density(sessions, adjust = 1, circular = FALSE)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
 
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{time_at_sleep_onset}
-\item \code{time_at_wakeup}
-\item \code{time_at_midsleep}
-}}
-
 \item{adjust}{The bandwidth adjustment for the density estimate (default 1)}
+
+\item{circular}{Whether to output a circular plot (default FALSE)}
 }
 \value{
 A ggplot object with three overlaid density curves (sleep onset, midsleep, wakeup)
 }
 \description{
 Plot density curves for sleep onset, midsleep, and wakeup times with a dashed line showing the median
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{time_at_sleep_onset}
+\item \code{time_at_wakeup}
+\item \code{time_at_midsleep}
+}
 }

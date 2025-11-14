@@ -4,17 +4,10 @@
 \alias{chronotype}
 \title{Calculate the Chronotype}
 \usage{
-chronotype(sessions, col_names = NULL)
+chronotype(sessions)
 }
 \arguments{
 \item{sessions}{The sessions data frame}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{time_at_midsleep}
-\item \code{sleep_period}
-\item \code{is_workday}
-}}
 }
 \value{
 The Chronotype value in hours
@@ -23,6 +16,14 @@ The Chronotype value in hours
 This function calculates the Chronotype metric based on the mid-sleep time
 If sleep duration on free days is greater than on workdays, it applies a correction
 as described in Roenneberg et al. (2019).
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{time_at_midsleep}
+\item \code{sleep_period}
+\item \code{is_workday}
+}
 }
 \examples{
 chronotype(example_sessions)

@@ -8,8 +8,7 @@ test_that("sleep_report generates a PDF file", {
     sleep_onset_latency = c(15, 10, 20),
     sleep_period = c(420, 400, 430),
     time_in_bed = c(480, 470, 490),
-    is_workday = c(TRUE, TRUE, FALSE),
-    .data_type = "somnofy_v2"
+    is_workday = c(TRUE, TRUE, FALSE)
   )
 
   tmp_pdf <- tempfile(fileext = ".pdf")

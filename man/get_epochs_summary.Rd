@@ -4,22 +4,23 @@
 \alias{get_epochs_summary}
 \title{Summarise epoch information}
 \usage{
-get_epochs_summary(epochs, col_names = NULL)
+get_epochs_summary(epochs)
 }
 \arguments{
 \item{epochs}{The epochs dataframe}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{timestamp}
-\item \code{session_id}
-}}
 }
 \value{
 A single-row dataframe summarising epoch information
 }
 \description{
 This function displays the number of sessions in the epoch data, as well as the start and end dates of the epoch data
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{timestamp}
+\item \code{session_id}
+}
 }
 \examples{
 get_epochs_summary(example_epochs)

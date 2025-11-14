@@ -16,10 +16,14 @@ A dataframe containing the session data
 Load session data
 }
 \details{
-The function loads the session data from a CSV file and groups the sessions by night.
+The function loads the session data from a file
+Supported formats: CSV, Excel, EDF.
 }
 \seealso{
 Other data loading: 
-\code{\link{load_epochs}()}
+\code{\link{load_batch}()},
+\code{\link{load_epochs}()},
+\code{\link{read_edf_epochs}()},
+\code{\link{read_edf_sessions}()}
 }
 \concept{data loading}

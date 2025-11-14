@@ -11,8 +11,7 @@ test_that("plot_sleep_bubbles handles valid input correctly", {
                        "2025-03-06T00:24:11.524000+00:00",
                        "2025-03-07T23:24:11.524000+00:00"),
     sleep_period = c(36000, 43200, 28800, 32400, 39600),
-    night = as.POSIXct(c("2025-03-03", "2025-03-03", "2025-03-03", "2025-03-03", "2025-03-03"), tz = "UTC"),
-    .data_type = "somnofy_v2"
+    night = as.POSIXct(c("2025-03-03", "2025-03-03", "2025-03-03", "2025-03-03", "2025-03-03"), tz = "UTC")
   )
 
   plot <- plot_sleep_bubbles(sessions)

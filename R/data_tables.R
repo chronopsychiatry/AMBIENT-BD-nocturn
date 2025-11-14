@@ -3,7 +3,7 @@
 #' This function summarises session information, including the number of sessions, mean session length,
 #' mean time at sleep onset and wakeup, subject and device ID.
 #' @param sessions The sessions dataframe.
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `time_at_sleep_onset`
 #' - `time_at_wakeup`
 #' - `time_in_bed`
@@ -15,7 +15,7 @@
 #' @examples
 #' get_sessions_summary(example_sessions)
 #' @seealso [get_epochs_summary()] to summarise epoch information.
-get_sessions_summary <- function(sessions, col_names = NULL) {
+get_sessions_summary <- function(sessions) {
   if (nrow(sessions) == 0) {
     return(data.frame(
       total_sessions = 0,
@@ -25,7 +25,7 @@ get_sessions_summary <- function(sessions, col_names = NULL) {
       sleep_efficiency = NA
     ))
   }
-  col <- get_session_colnames(sessions, col_names)
+  col <- get_session_colnames(sessions)
 
   summary <- sessions |>
     dplyr::summarise(
@@ -51,7 +51,7 @@ get_sessions_summary <- function(sessions, col_names = NULL) {
 #'
 #' This function displays the number of sessions in the epoch data, as well as the start and end dates of the epoch data
 #' @param epochs The epochs dataframe
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `timestamp`
 #' - `session_id`
 #' @returns A single-row dataframe summarising epoch information
@@ -61,11 +61,11 @@ get_sessions_summary <- function(sessions, col_names = NULL) {
 #' @examples
 #' get_epochs_summary(example_epochs)
 #' @seealso [get_sessions_summary()] to summarise session information.
-get_epochs_summary <- function(epochs, col_names = NULL) {
+get_epochs_summary <- function(epochs) {
   if (nrow(epochs) == 0) {
     return(data.frame(total_sessions = 0, start_date = NA, end_date = NA))
   }
-  col <- get_epoch_colnames(epochs, col_names)
+  col <- get_epoch_colnames(epochs)
 
   epochs |>
     dplyr::summarise(
@@ -75,6 +75,15 @@ get_epochs_summary <- function(epochs, col_names = NULL) {
     )
 }
 
+#' Get a column from a dataframe safely
+#'
+#' This function retrieves a column from a dataframe.
+#' If the column does not exist or is NULL, it returns a vector of NULLs of the same length as the number of rows in the dataframe.
+#' @param df A dataframe
+#' @param col The name of the column to retrieve
+#' @returns A vector containing the values of the specified column, or a vector of NULLs if the column does not exist
+#' @family internal
+#' @export
 get_col <- function(df, col) {
   if (is.null(col) || !col %in% colnames(df)) {
     rep(list(NULL), nrow(df))

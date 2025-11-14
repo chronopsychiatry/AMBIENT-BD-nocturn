@@ -1,4 +1,33 @@
-# Ambient Viewer Changelog
+# nocturn changelog
+
+## 1.0.0 (17/11/2025)
+
+- Name change: Ambient Viewer becomes nocturn!
+
+### App interface
+
+- Added a top bar for navigation between different app functionalities
+- Added a log window (sidebar) to display relevant information to the user
+
+### Data import
+
+- Added an option to load files in batch (`load_batch` in scripts)
+  - All files must be in the same folder
+  - A filename pattern can be used, e.g. ".csv" to only import csv files
+- Added support for .xls, .xlsx, and .edf formats
+  - For an .edf file to be imported as epochs, it will need to contain sleep stage annotations under the "annotation" field
+
+### Filtering
+
+- Added a `filters` column to the Filtering table, to show which filters caused a particular session to be removed
+  - The "Filters to display" drop-down menu allows selecting which filters should be shown in the filtering table
+
+### Deprecations
+
+- The function `edfs_to_csv` was removed, as .edf files can now be loaded with `load_sessions`, `load_epochs` or `load_batch`
+- The `col_names` argument was removed from all functions that used it
+  - Column names are now stored as part of the sessions or epochs tables
+  - They can be retrieved with `get_colnames` and modified with `set_colnames`
 
 ## 0.0.10 (13/10/2025)
 
@@ -53,7 +82,7 @@
 ### New
 
 - Added the `sleep_report` function to generate a sleep report for patients, using R markdown
-  - Added a "Download subject report" button to the Export Data section of Ambient Viewer
+  - Added a "Download subject report" button to the Export Data section of nocturn
 - Added sleep efficiency to the Sessions summary table
 - Added a "Sleep Times Distributions" tab that shows distributions of times at sleep onset, midsleep and wakeup. Three types of graph are available:
   - Boxplot (horizontal)
@@ -80,7 +109,7 @@
 ### New
 
 - Time-series data from GGIR (raw output from part 5) can be loaded as Epochs
-  - A new [wiki section](https://github.com/chronopsychiatry/AmbientViewer/wiki/Using-GGIR-data) has been added to explain which outputs can be used
+  - A new [wiki section](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki/Using-GGIR-data) has been added to explain which outputs can be used
 
 ## 0.0.3 (23/05/2025)
 
@@ -137,7 +166,7 @@ filtered_sessions <- example_sessions |> remove_sessions_no_sleep(col_names = li
 
 #### New example data
 
-Added example data for the v1 of the Somnofy API (data generated before 2025). Once AmbientViewer is loaded, they are directly accessible via the variables:
+Added example data for the v1 of the Somnofy API (data generated before 2025). Once nocturn is loaded, they are directly accessible via the variables:
 
 - `example_sessions_v1`
 - `example_epochs_v1`

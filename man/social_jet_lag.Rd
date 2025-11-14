@@ -4,16 +4,10 @@
 \alias{social_jet_lag}
 \title{Calculate Social Jet Lag}
 \usage{
-social_jet_lag(sessions, col_names = NULL)
+social_jet_lag(sessions)
 }
 \arguments{
 \item{sessions}{The sessions data frame}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{time_at_midsleep}
-\item \code{is_workday}
-}}
 }
 \value{
 The Social Jet Lag (SJL) value in hours
@@ -21,6 +15,13 @@ The Social Jet Lag (SJL) value in hours
 \description{
 This function calculates the Social Jet Lag (SJL) metric as the difference in mid-sleep times
 between workdays and free days.
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{time_at_midsleep}
+\item \code{is_workday}
+}
 }
 \examples{
 social_jet_lag(example_sessions)

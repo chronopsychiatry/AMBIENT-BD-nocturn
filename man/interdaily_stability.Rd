@@ -4,22 +4,23 @@
 \alias{interdaily_stability}
 \title{Calculate Interdaily Stability (IS)}
 \usage{
-interdaily_stability(epochs, col_names = NULL)
+interdaily_stability(epochs)
 }
 \arguments{
 \item{epochs}{The epochs data frame}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{timestamp}
-\item \code{is_asleep}
-}}
 }
 \value{
 The Interdaily Stability (IS) value
 }
 \description{
 This function calculates the Interdaily Stability (IS) metric from a binary awake/asleep variable
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{timestamp}
+\item \code{is_asleep}
+}
 }
 \examples{
 interdaily_stability(example_epochs)

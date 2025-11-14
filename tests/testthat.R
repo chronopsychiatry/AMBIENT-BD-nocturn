@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(AmbientViewer)
+library(nocturn)
 
-test_check("AmbientViewer")
+test_check("nocturn")

@@ -2,7 +2,7 @@
 #'
 #' This function calculates the Interdaily Stability (IS) metric from a binary awake/asleep variable
 #' @param epochs The epochs data frame
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `timestamp`
 #' - `is_asleep`
 #' @return The Interdaily Stability (IS) value
@@ -11,13 +11,13 @@
 #' @examples
 #' interdaily_stability(example_epochs)
 #' @importFrom rlang .data
-interdaily_stability <- function(epochs, col_names = NULL) {
-  col <- get_epoch_colnames(epochs, col_names)
+interdaily_stability <- function(epochs) {
+  col <- get_epoch_colnames(epochs)
 
   epochs <- epochs |>
     dplyr::mutate(time = parse_time(.data[[col$timestamp]]),
                   tod = floor(time_to_hours(.data$time)),
-                  day = as.Date(.data$time))
+                  day = parse_date(.data$time))
 
   mean_tod <- epochs |>
     dplyr::group_by(.data$tod) |>
@@ -38,7 +38,7 @@ interdaily_stability <- function(epochs, col_names = NULL) {
 #' This function calculates the Social Jet Lag (SJL) metric as the difference in mid-sleep times
 #' between workdays and free days.
 #' @param sessions The sessions data frame
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `time_at_midsleep`
 #' - `is_workday`
 #' @return The Social Jet Lag (SJL) value in hours
@@ -47,8 +47,8 @@ interdaily_stability <- function(epochs, col_names = NULL) {
 #' @examples
 #' social_jet_lag(example_sessions)
 #' @importFrom rlang .data
-social_jet_lag <- function(sessions, col_names = NULL) {
-  col <- get_session_colnames(sessions, col_names)
+social_jet_lag <- function(sessions) {
+  col <- get_session_colnames(sessions)
 
   sessions <- sessions |>
     dplyr::mutate(is_workday = as.logical(.data[[col$is_workday]])) |>
@@ -67,7 +67,7 @@ social_jet_lag <- function(sessions, col_names = NULL) {
 #' If sleep duration on free days is greater than on workdays, it applies a correction
 #' as described in Roenneberg et al. (2019).
 #' @param sessions The sessions data frame
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `time_at_midsleep`
 #' - `sleep_period`
 #' - `is_workday`
@@ -77,8 +77,8 @@ social_jet_lag <- function(sessions, col_names = NULL) {
 #' @examples
 #' chronotype(example_sessions)
 #' @importFrom rlang .data
-chronotype <- function(sessions, col_names = NULL) {
-  col <- get_session_colnames(sessions, col_names)
+chronotype <- function(sessions) {
+  col <- get_session_colnames(sessions)
 
   data <- sessions |>
     remove_sessions_no_sleep() |>
@@ -90,9 +90,17 @@ chronotype <- function(sessions, col_names = NULL) {
       .groups = "drop"
     )
 
-  chronotype <- data[!data$is_workday, ]$chronotype
-  sleep_period_free <- data[!data$is_workday, ]$sleep_period
-  sleep_period_work <- data[data$is_workday, ]$sleep_period
+  if (nrow(data[!data[[col$is_workday]], ]) == 0 || nrow(data[data[[col$is_workday]], ]) == 0) {
+    cli::cli_warn(c(
+      "!" = "No free day sessions found or no workday sessions found",
+      "i" = "Exiting."
+    ))
+    return(NA)
+  }
+
+  chronotype <- data[!data[[col$is_workday]], ]$chronotype
+  sleep_period_free <- data[!data[[col$is_workday]], ]$sleep_period
+  sleep_period_work <- data[data[[col$is_workday]], ]$sleep_period
 
   # If the sleep duration on free days is greater than on workdays, we apply a correction
   # (see Roenneberg et al., 2019)
@@ -112,7 +120,7 @@ chronotype <- function(sessions, col_names = NULL) {
 #' This function calculates the Composite Phase Deviation (CPD) metric, used to measure
 #' the regularity of the sleep patterns.
 #' @param sessions The sessions data frame
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `time_at_midsleep`
 #' - `is_workday`
 #' - `night`
@@ -122,10 +130,10 @@ chronotype <- function(sessions, col_names = NULL) {
 #' @examples
 #' composite_phase_deviation(example_sessions)
 #' @importFrom rlang .data
-composite_phase_deviation <- function(sessions, col_names = NULL) {
+composite_phase_deviation <- function(sessions) {
   col <- get_session_colnames(sessions)
 
-  chronotype <- chronotype(sessions, col_names)
+  chronotype <- chronotype(sessions)
 
   sessions |>
     remove_sessions_no_sleep() |>
@@ -142,7 +150,7 @@ composite_phase_deviation <- function(sessions, col_names = NULL) {
 #' The Sleep Regularity Index (SRI) is a measure of the regularity of sleep patterns.
 #' It is calculated as the percentage of epochs where the sleep state remains the same after 24 hours.
 #' @param epochs The epochs data frame
-#' @param col_names A list to override default column names. This function uses columns:
+#' @details This function uses columns:
 #' - `timestamp`
 #' - `is_asleep`
 #' @return The Sleep Regularity Index (SRI) value
@@ -151,8 +159,8 @@ composite_phase_deviation <- function(sessions, col_names = NULL) {
 #' @examples
 #' sleep_regularity_index(example_epochs)
 #' @importFrom rlang .data
-sleep_regularity_index <- function(epochs, col_names = NULL) {
-  col <- get_epoch_colnames(epochs, col_names)
+sleep_regularity_index <- function(epochs) {
+  col <- get_epoch_colnames(epochs)
 
   epochs <- epochs |>
     dplyr::mutate(
@@ -162,7 +170,7 @@ sleep_regularity_index <- function(epochs, col_names = NULL) {
   p_same <- data.frame(timestamp = seq(min(epochs$timestamp), max(epochs$timestamp), by = 30)) |>
     dplyr::left_join(epochs, by = "timestamp") |>
     dplyr::mutate(is_asleep = ifelse(is.na(.data[[col$is_asleep]]), 0, .data[[col$is_asleep]]),
-                  is_asleep_nextday = dplyr::lead(.data$is_asleep, n = 24*60*2)) |> # 24h = 2880 epochs of 30s
+                  is_asleep_nextday = dplyr::lead(.data$is_asleep, n = 24 * 60 * 2)) |> # 24h = 2880 epochs of 30s
     dplyr::mutate(same_state = .data$is_asleep == .data$is_asleep_nextday) |>
     dplyr::summarise(p_same = mean(.data$same_state, na.rm = TRUE)) |>
     dplyr::pull(p_same)

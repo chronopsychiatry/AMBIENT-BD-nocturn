@@ -4,21 +4,24 @@
 \alias{sleeptimes_boxplot}
 \title{Plot boxplots for sleep onset, midsleep, and wakeup times}
 \usage{
-sleeptimes_boxplot(sessions, col_names = NULL)
+sleeptimes_boxplot(sessions, circular = FALSE)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
 
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{time_at_sleep_onset}
-\item \code{time_at_wakeup}
-\item \code{time_at_midsleep}
-}}
+\item{circular}{Whether to output a circular plot (default FALSE)}
 }
 \value{
 A ggplot object with three horizontal boxplots (onset, midsleep, wakeup)
 }
 \description{
 Plot boxplots for sleep onset, midsleep, and wakeup times
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{time_at_sleep_onset}
+\item \code{time_at_wakeup}
+\item \code{time_at_midsleep}
+}
 }

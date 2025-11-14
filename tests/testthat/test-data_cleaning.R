@@ -1,45 +1,71 @@
-ggir_sessions <- data.frame(
-  ID = "A",
-  calendar_date = as.Date("2023-01-01") + 0:4,
-  start_end_window = c("07:44:10-07:06:55",
-                       "08:23:35-10:02:50",
-                       "10:02:55-08:11:05",
-                       "08:11:10-08:15:30",
-                       "07:25:00-07:09:25"),
-  sleeponset_ts = c("23:59:10", "22:38:10", "22:51:40", 
-                    "23:35:10", "23:08:35"),
-  wakeup_ts = c("07:07:00", "10:02:55", "08:11:10", 
-                "08:15:35", "07:25:00"),
-  dur_spt_sleep_min = c(379, 570.417, 478.917, 457.333, 416.25),
-  daytype = c("WD", "WE", "WE", "WD", "WD")
+sessions <- data.frame(
+  calendar_date = as.Date("2023-01-01"),
+  start_end_window = "22:00-07:00",
+  time_at_sleep_onset = "22:30",
+  time_at_wakeup = "06:45",
+  birth_year = "1990",
+  stringsAsFactors = FALSE
 )
 
-ggir_epochs <- data.frame(
-  timenum = c(1663829050, 1663829055, 1663829060, 1663829065, 1663829070),
-  class_id = c(12, 0, 0, 12, 12),
-  .data_type = "ggir"
+epochs <- data.frame(
+  filename = "sessionA.edf",
+  timenum = 1672531200, # 2023-01-01 00:00:00
+  class_id = c(0, 1, 0, 1),
+  stringsAsFactors = FALSE
 )
 
-test_that("clean_ggir_sessions works", {
-  result <- clean_ggir_sessions(ggir_sessions)
-  expect_s3_class(result, "data.frame")
-  expect_equal(nrow(result), 5)
-  expect_equal(result$session_start[1], as.POSIXct("2023-01-01 07:44:10"))
-  expect_equal(class(result$is_workday), "logical")
-  expect_true("time_in_bed" %in% names(result))
+test_that("clean_sessions creates and parses columns correctly", {
+  cleaned <- clean_sessions(sessions)
+
+  # Check session_id created
+  expect_true("session_id" %in% colnames(cleaned))
+  # Check session_start and session_end parsed
+  expect_true("session_start" %in% colnames(cleaned))
+  expect_true("session_end" %in% colnames(cleaned))
+  expect_true(inherits(cleaned$session_start, "POSIXct"))
+  expect_true(inherits(cleaned$session_end, "POSIXct"))
+  # Check time_at_sleep_onset and time_at_wakeup parsed
+  expect_true(inherits(cleaned$time_at_sleep_onset, "POSIXct"))
+  expect_true(inherits(cleaned$time_at_wakeup, "POSIXct"))
+  # Check birth_year is numeric
+  expect_true(is.numeric(cleaned$birth_year))
+  # Check time_in_bed and sleep_period created
+  expect_true("time_in_bed" %in% colnames(cleaned))
+  expect_true("sleep_period" %in% colnames(cleaned))
+  expect_true(is.numeric(cleaned$time_in_bed))
+  expect_true(is.numeric(cleaned$sleep_period))
+  # Check time_at_midsleep created
+  expect_true("time_at_midsleep" %in% colnames(cleaned))
+  expect_true(inherits(cleaned$time_at_midsleep, "POSIXct"))
 })
 
-test_that("clean_epochs works for ggir format", {
-  result <- clean_epochs(ggir_epochs)
-  expect_s3_class(result, "data.frame")
-  expect_equal(nrow(result), 5)
-  expect_equal(result$timenum[1], as.POSIXct("2022-09-22 07:44:10", tz = "Europe/London"))
-  expect_true("is_asleep" %in% names(result))
-  expect_equal(result$is_asleep[1], 0)
+test_that("Double-cleaning sessions is idempotent", {
+  cleaned_once <- clean_sessions(sessions)
+  cleaned_twice <- clean_sessions(cleaned_once)
+
+  expect_equal(cleaned_once, cleaned_twice)
 })
 
-test_that("clean_epochs works for somnofy_v2 format", {
-  result <- clean_epochs(example_epochs)
-  expect_equal(nrow(result), nrow(example_epochs))
-  expect_equal(unique(result$is_asleep), c(0, 1))
+test_that("clean_epochs creates and parses columns correctly", {
+  cleaned <- clean_epochs(epochs)
+
+  # Check session_id created from filename
+  expect_true("session_id" %in% colnames(cleaned))
+  expect_equal(cleaned$session_id[1], "sessionA")
+  # Check timestamp parsed to POSIXct
+  expect_true("timenum" %in% colnames(cleaned))
+  expect_true(inherits(cleaned$timenum, "POSIXct"))
+  # Check is_asleep column created
+  expect_true("is_asleep" %in% colnames(cleaned))
+  expect_equal(cleaned$is_asleep, c(1, 0, 1, 0))
+  # Check night column created
+  expect_true("night" %in% colnames(cleaned))
+  expect_true(inherits(cleaned$night, "Date"))
+})
+
+test_that("Double-cleaning epochs is idempotent", {
+  cleaned_once <- clean_epochs(epochs)
+  cleaned_twice <- clean_epochs(cleaned_once)
+
+  expect_equal(cleaned_once, cleaned_twice)
 })

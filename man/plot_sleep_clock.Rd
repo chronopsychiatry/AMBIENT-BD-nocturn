@@ -4,25 +4,26 @@
 \alias{plot_sleep_clock}
 \title{Plot Sleep Clock}
 \usage{
-plot_sleep_clock(sessions, color_by = "default", col_names = NULL)
+plot_sleep_clock(sessions, color_by = "default")
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
 
 \item{color_by}{The variable to color the segments by. Can be "default" or any other column name in the sessions dataframe.}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{time_at_sleep_onset}
-\item \code{time_at_wakeup}
-\item \code{night}
-}}
 }
 \value{
 A ggplot object showing the sleep clock
 }
 \description{
 Plot Sleep Clock
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{time_at_sleep_onset}
+\item \code{time_at_wakeup}
+\item \code{night}
+}
 }
 \seealso{
 Other plot sessions: 

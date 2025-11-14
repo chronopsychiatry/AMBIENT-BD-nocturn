@@ -4,25 +4,26 @@
 \alias{select_subjects}
 \title{Select subjects by ID}
 \usage{
-select_subjects(sessions, subject_ids, col_names = NULL, flag_only = FALSE)
+select_subjects(sessions, subject_ids, return_mask = FALSE)
 }
 \arguments{
 \item{sessions}{The sessions dataframe}
 
 \item{subject_ids}{The subject IDs to select}
 
-\item{col_names}{A list to override default column names. This function uses columns:
+\item{return_mask}{If TRUE, returns a logical vector indicating which sessions belong to the specified subjects
 \itemize{
 \item \code{subject_id}
 }}
-
-\item{flag_only}{If TRUE, only flags the filtered sessions without removing them from the table}
 }
 \value{
-The sessions dataframe with only the sessions that belong to the specified subjects
+The sessions dataframe with only the sessions that belong to the specified subjects, or a logical vector if \code{return_mask} is TRUE
 }
 \description{
 Select subjects by ID
+}
+\details{
+This function uses columns:
 }
 \examples{
 filtered_sessions <- select_subjects(example_sessions, c("sub_01JNDH3Z5NP0PSV82NFBGPV31X"))

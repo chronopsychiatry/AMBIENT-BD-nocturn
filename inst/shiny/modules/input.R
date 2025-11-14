@@ -1,0 +1,78 @@
+input_ui <- function(id) {
+  ns <- shiny::NS(id)
+  shiny::tagList(
+    input_sessions_ui(ns("sessions_input_panel")),
+    input_epochs_ui(ns("epochs_input_panel")),
+    shiny::actionButton(ns("load_example_data"), "Load Example Data", icon = shiny::icon("upload")),
+  )
+}
+
+input_server <- function(id, common) {
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    # Example data----
+    shiny::observeEvent(input$load_example_data, {
+      init_sessions(nocturn::example_sessions, common)
+      init_epochs(nocturn::example_epochs, common)
+      common$logger |> write_log("Loaded example session and epoch data", type = "complete")
+    })
+
+    # Sessions ----
+    input_sessions_server("sessions_input_panel", common)
+
+
+    # Epochs ----
+    input_epochs_server("epochs_input_panel", common)
+
+  })
+}
+
+show_colnames_modal <- function(
+  ns,
+  colnames_list,
+  current_map,
+  title = "Set Session Column Names",
+  save_id = "save_col_names",
+  reset_id = "reset_col_names"
+) {
+  inputs <- lapply(names(current_map), function(key) {
+    current_value <- as.character(current_map[[key]])
+    if (is.null(current_map[[key]]) || is.na(current_map[[key]])) current_value <- ""
+    choices <- c("", colnames_list)
+    label_text <- .sessions_long[[key]] %||% .epochs_long[[key]] %||% key
+    help_text <- .sessions_help[[key]] %||% .epochs_help[[key]] %||% NULL
+    label <- shiny::tagList(
+      label_text,
+      if (!is.null(help_text)) bslib::tooltip(
+        shiny::tags$span(
+          shiny::icon("circle-info"),
+          class = "colnames-help"
+        ),
+        help_text,
+        placement = "right",
+        options = list(delay = list(show = 0, hide = 100))
+      )
+    )
+    shiny::selectInput(
+      inputId = ns(paste0("col_", key)),
+      label = label,
+      choices = choices,
+      selected = current_value
+    )
+  })
+  shiny::showModal(
+    shiny::modalDialog(
+      title = title,
+      size = "l",
+      easyClose = TRUE,
+      footer = shiny::tagList(
+        shiny::actionButton(ns(reset_id), "Reset", class = "delete-btn"),
+        shiny::modalButton("Cancel"),
+        shiny::actionButton(ns(save_id), "Save")
+      ),
+      shiny::p("Hint: type in the boxes to search for column names."),
+      do.call(shiny::tagList, inputs)
+    )
+  )
+}

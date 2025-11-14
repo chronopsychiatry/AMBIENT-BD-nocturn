@@ -4,17 +4,10 @@
 \alias{composite_phase_deviation}
 \title{Calculate Composite Phase Deviation (CPD)}
 \usage{
-composite_phase_deviation(sessions, col_names = NULL)
+composite_phase_deviation(sessions)
 }
 \arguments{
 \item{sessions}{The sessions data frame}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{time_at_midsleep}
-\item \code{is_workday}
-\item \code{night}
-}}
 }
 \value{
 The Composite Phase Deviation (CPD) value
@@ -22,6 +15,14 @@ The Composite Phase Deviation (CPD) value
 \description{
 This function calculates the Composite Phase Deviation (CPD) metric, used to measure
 the regularity of the sleep patterns.
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{time_at_midsleep}
+\item \code{is_workday}
+\item \code{night}
+}
 }
 \examples{
 composite_phase_deviation(example_sessions)

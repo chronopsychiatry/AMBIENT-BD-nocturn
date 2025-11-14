@@ -4,16 +4,16 @@
 #' It is designed to work with Somnofy data, so some values may not be available when using other data sources such as GGIR.
 #' @param sessions The sessions dataframe
 #' @param title The title of the report. Default is an empty string.
-#' @param col_names A list to override default column names. This function uses columns:
+#' @param output_file Path for the output PDF. Default is "Sleep_report.pdf"
+#' @details This function uses columns:
 #' - `night`
 #' - `time_at_sleep_onset`
 #' - `time_at_wakeup`
 #' - `time_at_midsleep`
 #' - `sleep_onset_latency`
-#' @param output_file Path for the output PDF. Default is "Sleep_report.pdf"
 #' @export
-sleep_report <- function(sessions, title = "", col_names = NULL, output_file = "Sleep_report.pdf") {
-  col <- get_session_colnames(sessions, col_names)
+sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf") {
+  col <- get_session_colnames(sessions)
 
   dates <- format(c(min(sessions[[col$night]]), max(sessions[[col$night]])), "%d/%m/%Y")
 
@@ -21,7 +21,7 @@ sleep_report <- function(sessions, title = "", col_names = NULL, output_file = "
   stats <- list()
   stats$time_to_fall_asleep <- round(mean(sessions[[col$sleep_onset_latency]], na.rm = TRUE) / 60)
   stats$sleep_efficiency <- round(mean(sessions[[col$sleep_period]], na.rm = TRUE) / mean(sessions[[col$time_in_bed]], na.rm = TRUE) * 100)
-  stats$chronotype <- ifelse(chronotype(sessions = sessions, col_names = col_names) < 4.25, "Morning Lark", "Evening Owl")
+  stats$chronotype <- ifelse(chronotype(sessions = sessions) < 4.25, "Morning Lark", "Evening Owl")
   stats$chronotype_image <- ifelse(stats$chronotype == "Morning Lark",
     "Morning_Lark.jpg",
     "Evening_Owl.JPG"
@@ -31,9 +31,9 @@ sleep_report <- function(sessions, title = "", col_names = NULL, output_file = "
     "Charles J. Sharp - Own work, CC BY-SA 4.0"
   )
   stats$sleep_regularity <- round(100 * (1 - sd_time(sessions[[col$time_at_midsleep]]) / 2))
-  stats$social_jet_lag <- round(social_jet_lag(sessions = sessions, col_names = col_names), 2)
+  stats$social_jet_lag <- round(social_jet_lag(sessions = sessions), 2)
 
-  clock_plot <- plot_sleep_clock(sessions, col_names = col_names) +
+  clock_plot <- plot_sleep_clock(sessions) +
     ggplot2::scale_color_manual(
       values = c("Sleep Onset" = "#8e44ad", "Wakeup" = "#e67e22"),
       labels = c("Sleep Onset" = "Sleep Time", "Wakeup" = "Wakeup Time")
@@ -47,20 +47,20 @@ sleep_report <- function(sessions, title = "", col_names = NULL, output_file = "
       legend.background = ggplot2::element_rect(fill = "transparent", color = NA)
     )
 
-  sleep_times <- plot_bedtimes_waketimes(sessions, col_names = col_names, groupby = "weekday") +
+  sleep_times <- plot_bedtimes_waketimes(sessions, groupby = "weekday") +
     ggplot2::labs(title = NULL) +
     ggplot2::theme(panel.background = ggplot2::element_rect(fill = "transparent", color = NA),
                    plot.background = ggplot2::element_rect(fill = "transparent", color = NA),
                    legend.background = ggplot2::element_rect(fill = "transparent", color = NA))
 
-  sleep_duration_plot <- sleep_duration_distribution(sessions, col_names = col_names) +
+  sleep_duration_plot <- sleep_duration_distribution(sessions) +
     ggplot2::theme(panel.background = ggplot2::element_rect(fill = "transparent", color = NA),
                    plot.background = ggplot2::element_rect(fill = "transparent", color = NA),
                    legend.background = ggplot2::element_rect(fill = "transparent", color = NA))
 
-  template_path <- system.file("Rmd_templates", package = "AmbientViewer")
+  template_path <- system.file("shiny", package = "nocturn")
   rmarkdown::render(
-    paste0(template_path, "/Sleep_report.rmd"),
+    paste0(template_path, "/Rmd/Sleep_report.Rmd"),
     output_file = basename(output_file),
     params = list(clock_plot = clock_plot,
                   title = title,
@@ -71,12 +71,12 @@ sleep_report <- function(sessions, title = "", col_names = NULL, output_file = "
     output_dir = dirname(output_file),
     quiet = TRUE,
   )
-  unlink(paste0(template_path, "/*.log"))
+  unlink(paste0(template_path, "/Rmd/*.log"))
 }
 
 #' @importFrom rlang .data
-sleep_duration_distribution <- function(sessions, col_names = NULL, adjust = 1) {
-  col <- get_session_colnames(sessions, col_names)
+sleep_duration_distribution <- function(sessions, adjust = 1) {
+  col <- get_session_colnames(sessions)
 
   plot_data <- sessions |>
     remove_sessions_no_sleep() |>

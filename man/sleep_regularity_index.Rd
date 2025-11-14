@@ -4,16 +4,10 @@
 \alias{sleep_regularity_index}
 \title{Calculate the Sleep Regularity Index (SRI)}
 \usage{
-sleep_regularity_index(epochs, col_names = NULL)
+sleep_regularity_index(epochs)
 }
 \arguments{
 \item{epochs}{The epochs data frame}
-
-\item{col_names}{A list to override default column names. This function uses columns:
-\itemize{
-\item \code{timestamp}
-\item \code{is_asleep}
-}}
 }
 \value{
 The Sleep Regularity Index (SRI) value
@@ -21,6 +15,13 @@ The Sleep Regularity Index (SRI) value
 \description{
 The Sleep Regularity Index (SRI) is a measure of the regularity of sleep patterns.
 It is calculated as the percentage of epochs where the sleep state remains the same after 24 hours.
+}
+\details{
+This function uses columns:
+\itemize{
+\item \code{timestamp}
+\item \code{is_asleep}
+}
 }
 \examples{
 sleep_regularity_index(example_epochs)

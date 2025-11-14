@@ -1,23 +1,25 @@
-sessions <- shiny::reactive(example_sessions |> dplyr::mutate(display = TRUE, annotation = ""))
+common <- list(
+  sessions = shiny::reactiveVal(example_sessions |> remove_sessions_no_sleep()),
+  session_filters = shiny::reactiveVal(data.frame(no_sleep = rep(TRUE, nrow(example_sessions |> remove_sessions_no_sleep())))),
+  annotations = shiny::reactiveVal(data.frame(id = example_sessions$id, annotation = "", stringsAsFactors = FALSE))
+)
 
 test_that("compliance module works", {
   shiny::testServer(
     compliance_server,
-    args = list(sessions = sessions, sessions_colnames = shiny::reactive(get_session_colnames(sessions()))),
+    args = list(common = common),
     {
-      session$flushReact()
+      expect_warning(session$flushReact())
       expect_equal(
         compliance_table(),
-        get_compliance_table(sessions(), col_names = sessions_colnames())
+        get_compliance_table(common)
       )
     }
   )
 })
 
 test_that("get_compliance_table output is correct", {
-  result <- get_compliance_table(example_sessions |>
-                                   remove_sessions_no_sleep() |>
-                                   dplyr::mutate(display = TRUE, annotation = ""), col_names = get_session_colnames(example_sessions))
+  result <- shiny::isolate(get_compliance_table(common))
 
   expect_equal(class(result), "data.frame")
   expect_equal(nrow(result), 4)
@@ -25,10 +27,9 @@ test_that("get_compliance_table output is correct", {
 })
 
 test_that("make_sessions_display_table output is correct", {
-  result <- make_sessions_display_table(example_sessions |>
-                                          dplyr::mutate(annotation = ""), col_names = get_session_colnames(example_sessions))
+  result <- shiny::isolate(make_sessions_display_table(common$sessions()))
 
   expect_equal(class(result), "data.frame")
-  expect_equal(nrow(result), 124)
-  expect_length(unique(result$night), 15)
+  expect_equal(nrow(result), 17)
+  expect_length(unique(result$night), 14)
 })
