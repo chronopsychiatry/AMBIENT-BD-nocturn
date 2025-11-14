@@ -131,7 +131,6 @@ print(clock_plot)
 print(sleep_times)
 ```
 ```{=latex}
-  \vspace*{-0.01\textheight}
   \begin{center}
     \textbf{Social Jet-Lag}\@ `r paste0("\\texttt{", stats$social_jet_lag, "}")` hours
   \end{center}
