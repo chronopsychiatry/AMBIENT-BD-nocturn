@@ -73,6 +73,8 @@ input_epochs_server <- function(id, common) {
       shiny::req(input$epochs_file)
       common$logger |> write_log(paste0("Loading epoch file: ", input$epochs_file$name), type = "complete")
       data <- load_epochs(input$epochs_file$datapath)
+      data$filename <- input$epochs_file$name
+      data$session_id <- stringr::str_extract(data$filename[1], "^[^.]+")
       if (is.null(data)) {
         common$logger |> write_log(paste0("No epoch data found in file: ", input$epochs_file$name), type = "error")
         return()
@@ -83,6 +85,10 @@ input_epochs_server <- function(id, common) {
     # Batch file upload ----
     volumes <- shinyFiles::getVolumes()()
     shinyFiles::shinyDirChoose(input, "folder_select", roots = volumes, session = session)
+
+    output$selected_folder <- shiny::renderText({
+      shinyFiles::parseDirPath(roots = volumes, input$folder_select)
+    })
 
     shiny::observeEvent(input$load_epochs_batch, {
       folder_path <- shinyFiles::parseDirPath(roots = volumes, input$folder_select)

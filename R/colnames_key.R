@@ -60,7 +60,7 @@
 
 # Session column name presets ----
 .sessions_col_presets <- list(
-  id = c("id", "window_number"),
+  id = c("id", "session_id", "window_number"),
   subject_id = c("subject_id", "user_id", "ID"),
   sex = c("sex"),
   birth_year = c("birth_year"),
