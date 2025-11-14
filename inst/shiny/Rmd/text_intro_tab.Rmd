@@ -12,14 +12,14 @@ output: html_document
 
 1. Import data
     - First time using nocturn? Load the **example data** to explore the app's features
-    - Supported formats: .csv, .txt, .edf, .rec, .xlsx, .xls
-    - Session and epoch data can be imported separately or together
-    - Column names for essential variables (e.g. timestamps, sleep stages) can be specified
+    - Supported formats: .csv, .xlsx, .xls, .edf, .rec
+    - Set column names for essential variables (e.g. timestamps, sleep onset time)
 2. Filter data
     - Filter sessions to exclude spurious sleep events
     - If both sessions and epochs are loaded, when sessions are filtered, the corresponding epochs are filtered as well
 3. Visualise data
     - When sessions and epochs are filtered, the tables and visualisations are updated accordingly
 4. Export filtered data
-    - Data can be exported as **CSV files** for further analysis
+    - Data can be exported as **csv files** for further analysis
+    - Figures can be exported in **png**, **pdf** or **svg** formats
     - A **sleep report** in PDF format can be generated (currently only supports Somnofy data; please open an issue if you would like a report for another type of data)
