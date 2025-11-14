@@ -29,7 +29,8 @@ sleep_bubbles_server <- function(id, common) {
 
     sleep_bubbles_plot <- shiny::reactive({
       shiny::req(common$sessions(), common$session_filters())
-      sessions <- apply_filters(common$sessions(), common$session_filters())
+      sessions <- apply_filters(common$sessions(), common$session_filters()) |>
+        annotate(common$annotations())
       if (nrow(sessions) == 0) {
         return(NULL)
       }

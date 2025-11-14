@@ -18,17 +18,18 @@ summary_server <- function(id, common) {
   shiny::moduleServer(id, function(input, output, session) {
 
     sessions_summary_table <- shiny::reactive({
-      shiny::req(common$sessions(), common$session_filters())
-      get_sessions_summary(
-        apply_filters(common$sessions(), common$session_filters())
-      )
+      shiny::req(common$sessions())
+      common$sessions() |>
+        apply_filters(common$session_filters()) |>
+        annotate(common$annotations()) |>
+        get_sessions_summary()
     })
 
     epochs_summary_table <- shiny::reactive({
-      shiny::req(common$epochs(), common$epoch_filters())
-      get_epochs_summary(
-        apply_filters(common$epochs(), common$epoch_filters())
-      )
+      shiny::req(common$epochs())
+      common$epochs() |>
+        apply_filters(common$epoch_filters()) |>
+        get_epochs_summary()
     })
 
     output$sessions_summary_table <- shiny::renderTable({

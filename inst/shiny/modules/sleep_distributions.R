@@ -67,8 +67,9 @@ sleep_distributions_server <- function(id, common) {
 
     sleep_distribution_plot <- shiny::reactive({
       shiny::req(input$plot_type, common$sessions(), common$session_filters())
-      sessions <- apply_filters(common$sessions(), common$session_filters())
       col <- get_colnames(common$sessions())
+      sessions <- apply_filters(common$sessions(), common$session_filters()) |>
+        annotate(common$annotations())
       shiny::validate(
         shiny::need(!is.null(col$time_at_sleep_onset), "'time_at_sleep_onset' column was not specified."),
         shiny::need(!is.null(col$time_at_midsleep), "'time_at_midsleep' column was not specified."),

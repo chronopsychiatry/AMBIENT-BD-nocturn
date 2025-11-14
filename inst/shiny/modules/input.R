@@ -67,7 +67,7 @@ show_colnames_modal <- function(
       size = "l",
       easyClose = TRUE,
       footer = shiny::tagList(
-        shiny::actionButton(ns(reset_id), "Reset"),
+        shiny::actionButton(ns(reset_id), "Reset", class = "delete-btn"),
         shiny::modalButton("Cancel"),
         shiny::actionButton(ns(save_id), "Save")
       ),

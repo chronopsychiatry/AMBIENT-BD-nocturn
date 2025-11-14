@@ -55,29 +55,18 @@ annotation_server <- function(id, common) {
     # Reset all annotations ----
     shiny::observeEvent(input$reset_annotations, {
       ann <- common$annotations()
-      sessions <- common$sessions()
       ann$annotation <- ""
-      sessions$annotation <- ""
       common$logger |> write_log("Reset all annotations", type = "complete")
-      common$sessions(sessions)
       common$annotations(ann)
-    })
-
-    # Update annotations in sessions table ----
-    shiny::observe({
-      shiny::req(common$sessions(), common$annotations())
-      col <- get_colnames(common$sessions())
-      s <- common$sessions()
-      ann <- common$annotations()
-      s$annotation <- ann$annotation[match(s[[col$id]], ann$id)]
-      common$sessions(s)
     })
 
     # Apply annotations to epochs table ----
     shiny::observe({
       shiny::req(common$sessions(), common$epochs())
+      sessions <- common$sessions() |>
+        annotate(common$annotations())
       common$epochs(annotate_epochs_from_sessions(
-        sessions = common$sessions(),
+        sessions = sessions,
         epochs = common$epochs()
       ))
     })
@@ -88,7 +77,8 @@ annotation_server <- function(id, common) {
 make_annotation_table <- function(common) {
   col <- get_colnames(common$sessions())
   sessions <- common$sessions() |>
-    apply_filters(common$session_filters())
+    apply_filters(common$session_filters()) |>
+    annotate(common$annotations())
   sessions |>
     dplyr::mutate(
       annotation = common$annotations()$annotation[match(.data[[col$id]], common$annotations()$id)],
@@ -129,4 +119,10 @@ annotate_epochs_from_sessions <- function(sessions, epochs) {
   epochs$annotation[is.na(epochs$annotation)] <- ""
 
   epochs
+}
+
+annotate <- function(sessions, annotations) {
+  col <- get_colnames(sessions)
+  sessions$annotation <- annotations$annotation[match(sessions[[col$id]], annotations$id)]
+  sessions
 }

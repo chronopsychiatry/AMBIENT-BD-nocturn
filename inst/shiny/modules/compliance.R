@@ -66,6 +66,7 @@ compliance_server <- function(id, common) {
       )
       output_table <- common$sessions() |>
         apply_filters(common$session_filters()) |>
+        annotate(common$annotations()) |>
         get_non_complying_sessions()
       output$download_compliance <- get_table_download_handler(
         session = session,
@@ -81,6 +82,7 @@ compliance_server <- function(id, common) {
 get_compliance_table <- function(common) {
   common$sessions() |>
     apply_filters(common$session_filters()) |>
+    annotate(common$annotations()) |>
     get_non_complying_sessions() |>
     make_sessions_display_table()
 }

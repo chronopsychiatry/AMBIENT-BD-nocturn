@@ -26,8 +26,8 @@ tagList(
     bslib::nav_panel("Filtering", value = "filtering"),
     bslib::nav_panel("Export Data", value = "export_data"),
     bslib::nav_menu("Support",
-                    HTML('<a href="https://github.com/chronopsychiatry/AMBIENT-BD-AmbientViewer/wiki" target="_blank">Wiki</a>'),
-                    HTML('<a href="https://github.com/chronopsychiatry/AMBIENT-BD-AmbientViewer/issues" target="_blank">GitHub Issues</a>'),
+                    HTML('<a href="https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki" target="_blank">Wiki</a>'),
+                    HTML('<a href="https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/issues" target="_blank">GitHub Issues</a>'),
                     HTML('<a href="mailto: daniel.thedie@ed.ac.uk" target="_blank">Send Email</a>')),
   ),
 

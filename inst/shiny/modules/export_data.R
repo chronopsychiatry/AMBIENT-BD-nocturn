@@ -32,7 +32,8 @@ export_data_server <- function(id, common) {
     # Sessions download ----
     shiny::observe({
       shiny::req(common$sessions(), common$session_filters())
-      sessions <- apply_filters(common$sessions(), common$session_filters())
+      sessions <- apply_filters(common$sessions(), common$session_filters()) |>
+        annotate(common$annotations())
       output$download_sessions <- get_table_download_handler(
         session = session,
         common = common,
@@ -56,7 +57,8 @@ export_data_server <- function(id, common) {
     # Report download ----
     shiny::observe({
       shiny::req(common$sessions(), common$session_filters())
-      sessions <- apply_filters(common$sessions(), common$session_filters())
+      sessions <- apply_filters(common$sessions(), common$session_filters()) |>
+        annotate(common$annotations())
       output$download_report <- get_report_download_handler(
         session = session,
         common = common,

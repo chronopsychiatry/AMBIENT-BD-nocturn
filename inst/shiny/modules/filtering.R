@@ -274,7 +274,8 @@ filtering_server <- function(id, common) {
 }
 
 get_removed_sessions_table <- function(common, filter_list) {
-  sessions <- common$sessions()
+  sessions <- common$sessions() |>
+    annotate(common$annotations())
   filters <- common$session_filters()
   sessions <- sessions[filters$no_sleep == TRUE, , drop = FALSE]
   filters <- filters[filters$no_sleep == TRUE, , drop = FALSE] |>
