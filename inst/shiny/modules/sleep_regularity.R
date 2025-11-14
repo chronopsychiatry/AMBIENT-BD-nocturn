@@ -146,7 +146,7 @@ sleep_regularity_server <- function(id, common) {
     })
 
     show_metric_modal <- function(metric_name) {
-      rmd_path <- system.file("shiny", package = "AmbientViewer")
+      rmd_path <- system.file("shiny", package = "nocturn")
       shiny::showModal(
         shiny::modalDialog(
           title = gsub("_", " ", metric_name),

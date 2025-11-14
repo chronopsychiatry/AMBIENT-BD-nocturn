@@ -3,7 +3,7 @@
 #' @returns No return value, called for side effects
 #' @export
 check_suggests <- function() {
-  desc <- read.dcf(system.file("DESCRIPTION", package = "AmbientViewer"))
+  desc <- read.dcf(system.file("DESCRIPTION", package = "nocturn"))
   suggests <- trimws(
     gsub(
       "\\(.*\\)", "",

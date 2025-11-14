@@ -3,7 +3,7 @@
 #' @param sessions A dataframe containing the session data
 #' @returns The cleaned-up sessions dataframe
 #' @examples
-#' sessions <- clean_sessions(AmbientViewer::example_sessions)
+#' sessions <- clean_sessions(nocturn::example_sessions)
 #' @importFrom rlang .data
 #' @export
 clean_sessions <- function(sessions) {
@@ -107,7 +107,7 @@ clean_sessions <- function(sessions) {
 #' @param epochs A dataframe containing the epoch data
 #' @returns The cleaned-up epochs dataframe
 #' @examples
-#' epochs <- clean_epochs(AmbientViewer::example_epochs)
+#' epochs <- clean_epochs(nocturn::example_epochs)
 #' @importFrom rlang .data
 #' @export
 clean_epochs <- function(epochs) {

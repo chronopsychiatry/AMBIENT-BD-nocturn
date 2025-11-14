@@ -58,7 +58,7 @@ sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf")
                    plot.background = ggplot2::element_rect(fill = "transparent", color = NA),
                    legend.background = ggplot2::element_rect(fill = "transparent", color = NA))
 
-  template_path <- system.file("shiny", package = "AmbientViewer")
+  template_path <- system.file("shiny", package = "nocturn")
   rmarkdown::render(
     paste0(template_path, "/Rmd/Sleep_report.Rmd"),
     output_file = basename(output_file),

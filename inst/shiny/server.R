@@ -2,7 +2,7 @@ function(input, output, session) {
 
   # Init log window
   init_log_msg <- function() {
-    intro <- paste0("Welcome to Ambient Viewer ", utils::packageVersion("AmbientViewer"))
+    intro <- paste0("Welcome to nocturn ", utils::packageVersion("nocturn"))
     brk <- paste(rep("------", 5), collapse = "")
     expl <- "Please find messages for the user in this log window."
     log_init <- gsub(".{4}$", "", paste(intro, brk, expl, brk, "", sep = "<br>"))
@@ -19,7 +19,7 @@ function(input, output, session) {
   # Footer text
   output$footer_text <- renderText({
     paste0(
-      "Ambient Viewer version ", utils::packageVersion("AmbientViewer"), ". ",
+      "nocturn version ", utils::packageVersion("nocturn"), ". ",
       "Developed at the University of Edinburgh as part of the Ambient-BD project."
     )
   })

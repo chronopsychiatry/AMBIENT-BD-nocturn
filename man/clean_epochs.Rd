@@ -16,5 +16,5 @@ The cleaned-up epochs dataframe
 Clean epoch data
 }
 \examples{
-epochs <- clean_epochs(AmbientViewer::example_epochs)
+epochs <- clean_epochs(nocturn::example_epochs)
 }

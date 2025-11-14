@@ -1,4 +1,4 @@
-resource_path <- system.file("shiny", "www", package = "AmbientViewer")
+resource_path <- system.file("shiny", "www", package = "nocturn")
 addResourcePath("resources", resource_path)
 
 tagList(
@@ -19,13 +19,14 @@ tagList(
         tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
       ),
     ),
-    title = "Ambient Viewer",
-    window_title = "Ambient Viewer",
+    title = img(src = "logo.png", height = "50", width = "50"),
+    window_title = "nocturn",
     bslib::nav_panel("Intro", value = "intro"),
     bslib::nav_panel("Import Data", value = "import_data"),
     bslib::nav_panel("Filtering", value = "filtering"),
     bslib::nav_panel("Export Data", value = "export_data"),
     bslib::nav_menu("Support",
+                    HTML('<a href="https://github.com/chronopsychiatry/AMBIENT-BD-AmbientViewer/wiki" target="_blank">Wiki</a>'),
                     HTML('<a href="https://github.com/chronopsychiatry/AMBIENT-BD-AmbientViewer/issues" target="_blank">GitHub Issues</a>'),
                     HTML('<a href="mailto: daniel.thedie@ed.ac.uk" target="_blank">Send Email</a>')),
   ),

@@ -1,4 +1,4 @@
-# Ambient Viewer Changelog
+# nocturn changelog
 
 ## 0.0.10 (13/10/2025)
 

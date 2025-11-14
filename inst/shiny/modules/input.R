@@ -13,8 +13,8 @@ input_server <- function(id, common) {
 
     # Example data----
     shiny::observeEvent(input$load_example_data, {
-      init_sessions(AmbientViewer::example_sessions, common)
-      init_epochs(AmbientViewer::example_epochs, common)
+      init_sessions(nocturn::example_sessions, common)
+      init_epochs(nocturn::example_epochs, common)
       common$logger |> write_log("Loaded example session and epoch data", type = "complete")
     })
 
