@@ -84,14 +84,14 @@ test_that("time_diff calculates the correct time difference", {
 test_that("shift_times_by_12h shifts times correctly", {
   times <- c("2025-04-08 00:00:00", "2025-04-08 12:30:00", "2025-04-08 15:30:00")
   shifted_times <- shift_times_by_12h(times)
-  expected_times <- as.POSIXct(c("2025-04-08 12:00:00", "2025-04-08 00:30:00", "2025-04-08 03:30:00"))
+  expected_times <- as.POSIXct(c("2025-04-08 12:00:00", "2025-04-08 00:30:00", "2025-04-08 03:30:00"), tz = "UTC")
   expect_equal(shifted_times, expected_times)
 })
 
 test_that("shift_times_by_12h works with POSIXct data", {
-  times <- as.POSIXct(c("2025-04-08 00:00:00", "2025-04-08 12:30:00", "2025-04-08 15:30:00"))
+  times <- as.POSIXct(c("2025-04-08 00:00:00", "2025-04-08 12:30:00", "2025-04-08 15:30:00"), tz = "UTC")
   shifted_times <- shift_times_by_12h(times)
-  expected_times <- as.POSIXct(c("2025-04-08 12:00:00", "2025-04-08 00:30:00", "2025-04-08 03:30:00"))
+  expected_times <- as.POSIXct(c("2025-04-08 12:00:00", "2025-04-08 00:30:00", "2025-04-08 03:30:00"), tz = "UTC")
   expect_equal(shifted_times, expected_times)
 })
 
@@ -153,12 +153,12 @@ test_that("time_to_hours correctly converts POSIXct to hours", {
 test_that("parse_time handles character input", {
   time_vector <- c("2025-03-03 09:30:00", "2025-03-03T20:00:00")
   parsed_time <- parse_time(time_vector)
-  expected_time <- as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03 20:00:00"))
+  expected_time <- as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03 20:00:00"), tz = "UTC")
   expect_equal(parsed_time, expected_time)
 })
 
 test_that("parse_time handles POSIXct input", {
-  time_vector <- as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03T20:00:00"))
+  time_vector <- as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03T20:00:00"), tz = "UTC")
   parsed_time <- parse_time(time_vector)
   expect_equal(parsed_time, time_vector)
 })
@@ -166,20 +166,20 @@ test_that("parse_time handles POSIXct input", {
 test_that("parse_time handles NA values", {
   time_vector <- c("2025-03-03 09:30:00", NA, "2025-03-03T20:00:00")
   parsed_time <- parse_time(time_vector)
-  expected_time <- as.POSIXct(c("2025-03-03 09:30:00", NA, "2025-03-03 20:00:00"))
+  expected_time <- as.POSIXct(c("2025-03-03 09:30:00", NA, "2025-03-03 20:00:00"), tz = "UTC")
   expect_equal(parsed_time, expected_time)
 })
 
 test_that("parse_time handles empty input", {
   time_vector <- c()
   parsed_time <- parse_time(time_vector)
-  expect_equal(parsed_time, as.POSIXct(c()))
+  expect_equal(parsed_time, as.POSIXct(c(), tz = "UTC"))
 })
 
 test_that("parse_time handles recursive calls", {
   time_vector <- c("2025-03-03 09:30:00", "2025-03-03T20:00:00")
   parsed_time <- parse_time(parse_time(time_vector))
-  expect_equal(parsed_time, as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03 20:00:00")))
+  expect_equal(parsed_time, as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03 20:00:00"), tz = "UTC"))
 })
 
 test_that("parse_time returns numeric input unchanged", {
@@ -191,7 +191,7 @@ test_that("parse_time returns numeric input unchanged", {
 test_that("parse_time ignores timezone successfully", {
   time_vector <- c("2025-03-03 09:30:00+01:00", "2025-03-03T20:00:00+00:00")
   parsed_time <- parse_time(time_vector)
-  expected_time <- as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03 20:00:00"))
+  expected_time <- as.POSIXct(c("2025-03-03 09:30:00", "2025-03-03 20:00:00"), tz = "UTC")
   expect_equal(parsed_time, expected_time)
 })
 

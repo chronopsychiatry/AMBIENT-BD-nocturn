@@ -289,7 +289,7 @@ parse_time <- function(time_vector) {
   }
   time_vector <- gsub("(\\+|-)[0-9]{2}:[0-9]{2}$|Z$", "", time_vector) # Remove timezone information
   time_formats <- c("ymd_HMS", "ymd_HM", "ymd_HMSz", "HMS", "HM")
-  lubridate::parse_date_time(time_vector, orders = time_formats, tz = NULL, quiet = TRUE)
+  lubridate::parse_date_time(time_vector, orders = time_formats, tz = "UTC", quiet = TRUE)
 }
 
 #' Parse a vector of date strings into Date objects
