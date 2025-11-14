@@ -1,6 +1,6 @@
 # nocturn
 
-<img src="https://raw.githubusercontent.com/chronopsychiatry/AMBIENT-BD-nocturn/main/inst/shiny/www/logo.png" width="200" height="200">
+<img src="./inst/shiny/www/logo.png" width="200" height="200">
 
 nocturn provides tools to filter and visualise sleep data.
 
