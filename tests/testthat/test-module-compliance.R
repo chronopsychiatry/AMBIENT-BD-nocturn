@@ -1,6 +1,7 @@
 common <- list(
   sessions = shiny::reactiveVal(example_sessions |> remove_sessions_no_sleep()),
-  session_filters = shiny::reactiveVal(data.frame(no_sleep = rep(TRUE, nrow(example_sessions |> remove_sessions_no_sleep()))))
+  session_filters = shiny::reactiveVal(data.frame(no_sleep = rep(TRUE, nrow(example_sessions |> remove_sessions_no_sleep())))),
+  annotations = shiny::reactiveVal(data.frame(id = example_sessions$id, annotation = "", stringsAsFactors = FALSE))
 )
 
 test_that("compliance module works", {
