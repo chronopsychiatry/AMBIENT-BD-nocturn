@@ -11,7 +11,7 @@ output: html_document
 ### Workflow
 
 1. Import data
-    - First time using Ambient Viewer? Load the **example data** to explore the app's features
+    - First time using nocturn? Load the **example data** to explore the app's features
     - Supported formats: .csv, .txt, .edf, .rec, .xlsx, .xls
     - Session and epoch data can be imported separately or together
     - Column names for essential variables (e.g. timestamps, sleep stages) can be specified
