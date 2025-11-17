@@ -11,7 +11,7 @@ test_that("input_epochs module returns correct data", {
     input_epochs_server,
     args = list(common = common),
     {
-      session$setInputs(epochs_file = list(name = "epochs_reports.csv", datapath = file.path(test_folder, "epochs_reports.csv")))
+      session$setInputs(epochs_file = data.frame(name = "epochs_reports.csv", datapath = file.path(test_folder, "epochs_reports.csv")))
       session$flushReact()
 
       expect_equal(class(common$epochs()), "data.frame")

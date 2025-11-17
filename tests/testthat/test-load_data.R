@@ -50,6 +50,7 @@ test_that("load_epochs gives warning and returns NULL for empty epochs file", {
     result <- load_epochs(empty_file),
     "Epochs table is empty"
   )
+
   expect_null(result)
 })
 

@@ -12,7 +12,7 @@ test_that("input_sessions module returns correct data", {
     input_sessions_server,
     args = list(common = common),
     {
-      session$setInputs(sessions_file = list(name = "sessions_reports.csv", datapath = file.path(test_folder, "sessions_reports.csv")))
+      session$setInputs(sessions_file = data.frame(name = "sessions_reports.csv", datapath = file.path(test_folder, "sessions_reports.csv")))
       session$flushReact()
 
       expect_equal(class(common$sessions()), "data.frame")

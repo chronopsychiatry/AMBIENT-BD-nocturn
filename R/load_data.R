@@ -49,13 +49,14 @@ load_sessions <- function(sessions_file) {
 #' Load epoch data
 #'
 #' @param epochs_file The path to the epochs file
+#' @param file_name An optional file name to be recorded in the epochs table
 #' @returns A dataframe containing the epoch data
 #' @details The function loads the epoch data from a file and groups the epochs by night.
 #' Supported formats: CSV, Excel, EDF.
 #' @export
 #' @family data loading
 #' @importFrom rlang .data
-load_epochs <- function(epochs_file) {
+load_epochs <- function(epochs_file, file_name = NULL) {
   if (!file.exists(epochs_file)) {
     cli::cli_abort(c(
       "!" = "Epochs file not found: {.file {epochs_file}}",
@@ -82,12 +83,6 @@ load_epochs <- function(epochs_file) {
     return(NULL)
   }
 
-  epochs <- epochs |>
-    set_data_type("epochs") |>
-    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~dplyr::na_if(., "")),
-                  filename = basename(epochs_file)) |>
-    clean_epochs()
-
   if (nrow(epochs) == 0) {
     cli::cli_warn(c(
       "!" = "Epochs table is empty",
@@ -96,33 +91,62 @@ load_epochs <- function(epochs_file) {
     return(NULL)
   }
 
+  if (is.null(file_name)) {
+    epochs$filename <- basename(epochs_file)
+  } else {
+    epochs$filename <- file_name
+  }
+
+  epochs <- epochs |>
+    set_data_type("epochs") |>
+    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~dplyr::na_if(., ""))) |>
+    clean_epochs()
+
   epochs
 }
 
 #' Load session or epoch data in batch mode
 #'
-#' @param folder_path The path to the folder containing session files
+#' @param folder_path The path to the folder containing session files (do not use with file_list)
+#' @param file_list The list of file paths to load (do not use with folder_path)
+#' @param file_names An optional vector of file names corresponding to the files in file_list
 #' @param pattern An optional pattern to filter files in the folder
 #' @param type The type of data to load: "sessions" or "epochs"
 #' @returns A dataframe containing the combined session data from all matching files in the folder
 #' @family data loading
 #' @export
-load_batch <- function(folder_path, pattern = NULL, type = "sessions") {
-  if (!dir.exists(folder_path)) {
+load_batch <- function(folder_path = NULL, file_list = NULL, file_names = NULL, pattern = NULL, type = "sessions") {
+  if (is.null(folder_path) && is.null(file_list)) {
     cli::cli_abort(c(
-      "!" = "Folder not found: {.file {folder_path}}",
-      "i" = "Please check the folder path."
+      "!" = "Either {.code folder_path} or {.code file_list} must be provided.",
+      "i" = "Please provide a valid folder path or list of files."
     ))
   }
 
-  all_files <- list.files(folder_path, pattern = pattern, full.names = TRUE)
-
-  if (length(all_files) == 0) {
-    cli::cli_warn(c(
-      "!" = "No files found in folder: {.file {folder_path}} with pattern: {.val {pattern}}",
-      "i" = "Returning NULL"
+  if (!is.null(folder_path) && !is.null(file_list)) {
+    cli::cli_abort(c(
+      "!" = "Provide only one of {.code folder_path} or {.code file_list}, not both.",
+      "i" = "Please choose either a folder path or a list of files."
     ))
-    return(NULL)
+  }
+
+  if (!is.null(file_list)) {
+    all_files <- file_list
+  } else {
+    if (!dir.exists(folder_path)) {
+      cli::cli_abort(c(
+        "!" = "Folder not found: {.file {folder_path}}",
+        "i" = "Please check the folder path."
+      ))
+    }
+    all_files <- list.files(folder_path, pattern = pattern, full.names = TRUE)
+    if (length(all_files) == 0) {
+      cli::cli_warn(c(
+        "!" = "No files found in folder: {.file {folder_path}} with pattern: {.val {pattern}}",
+        "i" = "Returning NULL"
+      ))
+      return(NULL)
+    }
   }
 
   all_data <- data.frame()
@@ -130,12 +154,20 @@ load_batch <- function(folder_path, pattern = NULL, type = "sessions") {
     if (type == "sessions")
       data <- load_sessions(f)
     else if (type == "epochs") {
-      data <- load_epochs(f)
+      if (!is.null(file_names)) {
+        fname <- file_names[which(all_files == f)]
+      } else {
+        fname <- NULL
+      }
+      data <- load_epochs(f, file_name = fname)
     } else {
       cli::cli_abort(c(
         "!" = "Unsupported data type: {.val {type}}",
         "i" = "Please use 'sessions' or 'epochs'."
       ))
+    }
+    if (!is.null(file_names)) {
+      data$filename <- file_names[which(all_files == f)]
     }
     if (!is.null(data)) {
       all_data <- dplyr::bind_rows(all_data, data)

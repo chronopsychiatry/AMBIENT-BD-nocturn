@@ -1,47 +1,14 @@
 input_sessions_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::h4("Sessions"),
     bslib::card(
-      shinyWidgets::radioGroupButtons(
-        inputId = ns("session_input_type"),
+      shiny::h4("Sessions"),
+      shiny::fileInput(
+        inputId = ns("sessions_file"),
         label = NULL,
-        choices = c("Single file upload", "Batch upload"),
-        direction = "vertical",
-        status = "outline-secondary",
-        width = "100%"
-      ),
-      shiny::conditionalPanel(
-        condition = paste0("input['", ns("session_input_type"), "'] == 'Single file upload'"),
-        shiny::fileInput(
-          inputId = ns("sessions_file"),
-          label = NULL,
-          accept = c(".csv", ".xls", ".xlsx", ".edf", ".rec")
-        ),
-      ),
-      shiny::conditionalPanel(
-        condition = paste0("input['", ns("session_input_type"), "'] == 'Batch upload'"),
-        shiny::fluidRow(
-          shiny::column(
-            width = 3,
-            shinyFiles::shinyDirButton(ns("folder_select"), "Browse...", "Please select the folder containing the session files")
-          ),
-          shiny::column(
-            width = 9,
-            bslib::card_body(
-              shiny::textOutput(ns("selected_folder")),
-              class = "selected-folder"
-            )
-          )
-        ),
-        shiny::textInput(
-          inputId = ns("batch_file_pattern"),
-          label = NULL,
-          placeholder = "Filename pattern (e.g., 'sessions_')",
-          value = ""
-        ),
-        shiny::actionButton(ns("load_sessions_batch"), "Load Session Data", icon = shiny::icon("upload")),
-        shiny::hr()
+        multiple = TRUE,
+        placeholder = "(multiple files accepted)",
+        accept = c(".csv", ".xls", ".xlsx", ".edf", ".rec")
       ),
       shiny::fluidRow(
         shiny::column(
@@ -68,32 +35,16 @@ input_sessions_server <- function(id, common) {
       common$logger |> write_log("Cleared session data", type = "complete")
     })
 
-    # Single file upload ----
+    # File upload ----
     shiny::observeEvent(input$sessions_file, {
       shiny::req(input$sessions_file)
-      common$logger |> write_log(paste0("Loaded session file: ", input$sessions_file$name), type = "complete")
-      data <- load_sessions(input$sessions_file$datapath)
-      init_sessions(data, common)
-    })
-
-    # Batch file upload ----
-    volumes <- shinyFiles::getVolumes()()
-    shinyFiles::shinyDirChoose(input, "folder_select", roots = volumes, session = session)
-
-    output$selected_folder <- shiny::renderText({
-      shinyFiles::parseDirPath(roots = volumes, input$folder_select)
-    })
-
-    shiny::observeEvent(input$load_sessions_batch, {
-      folder_path <- shinyFiles::parseDirPath(roots = volumes, input$folder_select)
-      if (length(folder_path) == 0) return()
-      common$logger |> write_log(paste0("Batch-loaded session files from: ", folder_path), type = "complete")
-      data <- load_batch(folder_path, input$batch_file_pattern, type = "sessions")
-      if (is.null(data)) {
-        common$logger |> write_log(paste0(
-          "No session data found in folder: ", folder_path,
-          " with pattern ", input$batch_file_pattern
-        ), type = "error")
+      if (nrow(input$sessions_file) == 1) {
+        data <- load_sessions(input$sessions_file$datapath)
+        common$logger |> write_log(paste0("Loaded session file: ", input$sessions_file$name), type = "complete")
+      } else if (nrow(input$sessions_file) > 1) {
+        data <- load_batch(file_list = input$sessions_file$datapath, type = "sessions")
+        common$logger |> write_log(paste0("Loaded ", nrow(input$sessions_file), " session files"), type = "complete")
+      } else {
         return()
       }
       init_sessions(data, common)

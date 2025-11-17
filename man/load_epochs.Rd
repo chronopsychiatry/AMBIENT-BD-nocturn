@@ -4,10 +4,12 @@
 \alias{load_epochs}
 \title{Load epoch data}
 \usage{
-load_epochs(epochs_file)
+load_epochs(epochs_file, file_name = NULL)
 }
 \arguments{
 \item{epochs_file}{The path to the epochs file}
+
+\item{file_name}{An optional file name to be recorded in the epochs table}
 }
 \value{
 A dataframe containing the epoch data

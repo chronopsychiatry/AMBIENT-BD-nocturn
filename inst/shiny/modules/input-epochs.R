@@ -1,47 +1,14 @@
 input_epochs_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::h4("Epochs"),
     bslib::card(
-      shinyWidgets::radioGroupButtons(
-        inputId = ns("epoch_input_type"),
+      shiny::h4("Epochs"),
+      shiny::fileInput(
+        inputId = ns("epochs_file"),
         label = NULL,
-        choices = c("Single file upload", "Batch upload"),
-        direction = "vertical",
-        status = "outline-secondary",
-        width = "100%"
-      ),
-      shiny::conditionalPanel(
-        condition = paste0("input['", ns("epoch_input_type"), "'] == 'Single file upload'"),
-        shiny::fileInput(
-          inputId = ns("epochs_file"),
-          label = NULL,
-          accept = c(".csv", ".xls", ".xlsx", ".edf", ".rec")
-        )
-      ),
-      shiny::conditionalPanel(
-        condition = paste0("input['", ns("epoch_input_type"), "'] == 'Batch upload'"),
-        shiny::fluidRow(
-          shiny::column(
-            width = 3,
-            shinyFiles::shinyDirButton(ns("folder_select"), "Browse...", "Please select the folder containing the epoch files")
-          ),
-          shiny::column(
-            width = 9,
-            bslib::card_body(
-              shiny::textOutput(ns("selected_folder")),
-              class = "selected-folder"
-            )
-          )
-        ),
-        shiny::textInput(
-          inputId = ns("batch_file_pattern"),
-          label = NULL,
-          placeholder = "Filename pattern (e.g., 'epochs_')",
-          value = ""
-        ),
-        shiny::actionButton(ns("load_epochs_batch"), "Load Epoch Data", icon = shiny::icon("upload")),
-        shiny::hr()
+        multiple = TRUE,
+        placeholder = "(multiple files accepted)",
+        accept = c(".csv", ".xls", ".xlsx", ".edf", ".rec")
       ),
       shiny::fluidRow(
         shiny::column(
@@ -68,33 +35,18 @@ input_epochs_server <- function(id, common) {
       common$logger |> write_log("Cleared epoch data", type = "complete")
     })
 
-    # Single file upload ----
+    # File upload ----
     shiny::observeEvent(input$epochs_file, {
       shiny::req(input$epochs_file)
-      common$logger |> write_log(paste0("Loading epoch file: ", input$epochs_file$name), type = "complete")
-      data <- load_epochs(input$epochs_file$datapath)
-      data$filename <- input$epochs_file$name
-      data$session_id <- stringr::str_extract(data$filename[1], "^[^.]+")
-      if (is.null(data)) {
-        common$logger |> write_log(paste0("No epoch data found in file: ", input$epochs_file$name), type = "error")
+      if (nrow(input$epochs_file) == 1) {
+        data <- load_epochs(input$epochs_file$datapath)
+        common$logger |> write_log(paste0("Loaded session file: ", input$epochs_file$name), type = "complete")
+      } else if (nrow(input$epochs_file) > 1) {
+        data <- load_batch(file_list = input$epochs_file$datapath, file_names = input$epochs_file$name, type = "epochs")
+        common$logger |> write_log(paste0("Loaded ", nrow(input$epochs_file), " epoch files"), type = "complete")
+      } else {
         return()
       }
-      init_epochs(data, common)
-    })
-
-    # Batch file upload ----
-    volumes <- shinyFiles::getVolumes()()
-    shinyFiles::shinyDirChoose(input, "folder_select", roots = volumes, session = session)
-
-    output$selected_folder <- shiny::renderText({
-      shinyFiles::parseDirPath(roots = volumes, input$folder_select)
-    })
-
-    shiny::observeEvent(input$load_epochs_batch, {
-      folder_path <- shinyFiles::parseDirPath(roots = volumes, input$folder_select)
-      if (length(folder_path) == 0) return()
-      common$logger |> write_log(paste0("Batch-loaded epoch files from: ", folder_path), type = "complete")
-      data <- load_batch(folder_path, input$batch_file_pattern, type = "epochs")
       init_epochs(data, common)
     })
 
