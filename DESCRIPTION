@@ -12,6 +12,7 @@ Suggests:
     bslib,
     devtools,
     DT,
+    markdown,
     readr,
     shinyjs,
     shinyWidgets,
