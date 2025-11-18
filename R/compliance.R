@@ -41,7 +41,7 @@ set_min_time_in_bed <- function(sessions, min_time_in_bed, return_mask = FALSE) 
 set_session_start_time_range <- function(sessions, from_time, to_time, return_mask = FALSE) {
   col <- get_session_colnames(sessions)
 
-  session_times <- parse_time(sessions[[col$session_start]]) |> stats::update(year = 0, month = 1, day = 1)
+  session_times <- update_date(sessions[[col$session_start]], "0000-01-01")
   from_time <- if (is.null(from_time)) min(session_times) else parse_time(from_time)
   to_time <- if (is.null(to_time)) max(session_times) else parse_time(to_time)
 
@@ -78,7 +78,7 @@ set_session_start_time_range <- function(sessions, from_time, to_time, return_ma
 set_session_sleep_onset_range <- function(sessions, from_time, to_time, return_mask = FALSE) {
   col <- get_session_colnames(sessions)
 
-  session_times <- parse_time(sessions[[col$time_at_sleep_onset]]) |> stats::update(year = 0, month = 1, day = 1)
+  session_times <- update_date(sessions[[col$time_at_sleep_onset]], "0000-01-01")
   from_time <- if (is.null(from_time)) min(session_times, na.rm = TRUE) else parse_time(from_time)
   to_time <- if (is.null(to_time)) max(session_times, na.rm = TRUE) else parse_time(to_time)
 
