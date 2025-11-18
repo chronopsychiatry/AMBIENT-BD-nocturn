@@ -1,5 +1,11 @@
 # nocturn changelog
 
+## 1.0.2 (18/11/2025)
+
+### Sleep report
+
+- The Sleep report data was not taking applied filters into account. This is now fixed.
+
 ## 1.0.1 (18/11/2025)
 
 ### Data import

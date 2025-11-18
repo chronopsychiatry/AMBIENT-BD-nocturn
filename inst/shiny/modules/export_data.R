@@ -61,7 +61,8 @@ export_data_server <- function(id, common) {
         annotate(common$annotations())
       output$download_report <- get_report_download_handler(
         session = session,
-        common = common,
+        logger = common$logger,
+        sessions = sessions,
         title = shiny::reactive(input$title)
       )
     })
