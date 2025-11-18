@@ -14,6 +14,12 @@
 #' @export
 sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf") {
   nocturn_version <- as.character(utils::packageVersion("nocturn"))
+  if (!tinytex::is_tinytex()) {
+    cli::cli_inform(c("!" = "TinyTeX not found.",
+                      "i" = "Installing TinyTeX for consistent PDF rendering..."))
+    tinytex::install_tinytex()
+  }
+
   col <- get_session_colnames(sessions)
 
   dates <- format(c(min(sessions[[col$night]]), max(sessions[[col$night]])), "%d/%m/%Y")
