@@ -1,5 +1,11 @@
 # nocturn changelog
 
+## 1.0.1 (18/11/2025)
+
+### Data import
+
+- Simplified batch file import from the app: multiple files can be selected by clicking the "Browse..." button
+
 ## 1.0.0 (17/11/2025)
 
 - Name change: Ambient Viewer becomes nocturn!
