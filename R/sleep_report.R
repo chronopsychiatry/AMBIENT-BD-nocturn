@@ -13,6 +13,7 @@
 #' - `sleep_onset_latency`
 #' @export
 sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf") {
+  nocturn_version <- as.character(utils::packageVersion("nocturn"))
   col <- get_session_colnames(sessions)
 
   dates <- format(c(min(sessions[[col$night]]), max(sessions[[col$night]])), "%d/%m/%Y")
@@ -62,7 +63,8 @@ sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf")
   rmarkdown::render(
     paste0(template_path, "/Rmd/Sleep_report.Rmd"),
     output_file = basename(output_file),
-    params = list(clock_plot = clock_plot,
+    params = list(nocturn_version = nocturn_version,
+                  clock_plot = clock_plot,
                   title = title,
                   dates = dates,
                   stats = stats,

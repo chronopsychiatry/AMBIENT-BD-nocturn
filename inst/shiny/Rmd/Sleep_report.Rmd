@@ -33,7 +33,7 @@ header-includes:
     \begin{center}
       \Large\textbf{Sleep Monitoring}
     \end{center}
-    \vspace*{0.02\textheight}
+    \vspace*{5mm}
       Your sleep was monitored using a Somnofy device. The device uses radar technology to detect your movements and breathing patterns during sleep.
       This was used to record:
       \begin{itemize}
@@ -41,7 +41,7 @@ header-includes:
         \item How long you slept
         \item Your sleep efficiency (the percentage of time you spent asleep while in bed)
       \end{itemize}
-      \vspace*{0.02\textheight}
+      \vspace*{5mm}
       \begin{tabular}{@{}p{0.55\textwidth}@{\hspace{0.02\textwidth}}p{0.42\textwidth}@{}}
         Note: the recording may not be 100\% accurate, and can be influenced by external factors such as pets coming into bed. &
         \begin{center}
@@ -65,14 +65,13 @@ print(sleep_duration_plot)
 \hfill
 \begin{minipage}[t]{0.33\textwidth}
   \centering
-  \vspace*{-0.4\textheight}
+  \vspace*{-60mm}
   {\HUGE \textls[150]{`r title`}}\\
-  \vspace*{0.02\textheight}
+  \vspace*{5mm}
   {\HUGE \textls[150]{Sleep Report}}\\
-  \vspace*{0.04\textheight}
+  \vspace*{10mm}
   {\Large `r paste0("\\texttt{", dates[1], "}")` to `r paste0("\\texttt{", dates[2], "}")`}
 
-  \vspace*{0.04\textheight}
 ```
 ```{r, echo=FALSE, warning=FALSE, fig.align='center', out.width='100%', fig.height=6, fig.width=6}
 print(clock_plot)
@@ -94,7 +93,7 @@ print(clock_plot)
     \begin{tcolorbox}[standard jigsaw, height=0.21\textheight, arc=8pt, opacityback=0.5, boxrule=0pt, colback=white]
       \large
       \begin{center}
-        \vspace*{0.035\textheight}
+        \vspace*{9mm}
         \includegraphics[width=0.6\textwidth]{../../resources/Person_sleeping.png}\\
         \textbf{Sleep efficiency}\\
         `r paste0("\\texttt{", stats$sleep_efficiency, "}")`\%
@@ -111,9 +110,9 @@ print(clock_plot)
     \begin{tcolorbox}[standard jigsaw, height=0.21\textheight, arc=8pt, opacityback=0.5, boxrule=0pt, colback=white]
       \large
       \begin{center}
-        \vspace*{0.03\textheight}
+        \vspace*{7.5mm}
         \includegraphics[width=0.5\textwidth]{../../resources/Clock.png}\\
-        \vspace*{0.015\textheight}
+        \vspace*{3mm}
         \textbf{Sleep regularity}\\
         `r paste0("\\texttt{", stats$sleep_regularity, "/100}")`
       \end{center}
@@ -136,9 +135,10 @@ print(sleep_times)
   \end{center}
   \end{tcolorbox}
 \end{minipage}
-\vspace*{0.01\textheight}
+\vspace*{2.5mm}
 \begin{flushleft}
   \small
+  Sleep report generated using nocturn `r nocturn_version`\\
   Chronotype image credit: `r stats$chronotype_credit`\\
   The data presented in this report is solely for personal information, and is not a medical assessment of any sleep disorders.
 \end{flushleft}
@@ -151,11 +151,11 @@ print(sleep_times)
 \color{white}
 \large
 \begin{tcolorbox}[standard jigsaw, height=0.92\textheight, valign=top, arc=12pt, opacityback=0.5, boxrule=0pt]
-  \vspace*{0.02\textheight}
+  \vspace*{5mm}
   \begin{center}
     \huge\textbf{Glossary}
   \end{center}
-  \vspace*{0.04\textheight}
+  \vspace*{10mm}
   \textbf{Chronotype} - A person's natural inclination with regard to the timing of sleep and activity periods. Here, we have classified chronotypes into two categories: morning larks (who are more active in the morning) and evening owls (who are more active in the evening). See the {\color{blue}\href{https://www.bioclocks.uk/_files/ugd/60af58_33654da1d8fd46f3810ca9f3743f9df4.pdf}{BioClocks UK factsheet}} for more information on Chronotype.\\
   \\
   \textbf{Sleep duration} - The number of hours slept each night, not counting time spent awake in bed.\\
