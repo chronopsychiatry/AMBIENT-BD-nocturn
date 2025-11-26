@@ -20,7 +20,8 @@ filtering_ui <- function(id) {
       bslib::accordion_panel(
         "Sleep",
         shiny::uiOutput(ns("sleep_onset_range")),
-        shiny::uiOutput(ns("time_in_bed_slider"))
+        shiny::uiOutput(ns("time_in_bed_slider")),
+        shiny::uiOutput(ns("sleep_period_slider"))
       ),
       open = NULL
     )
@@ -160,6 +161,23 @@ filtering_server <- function(id, common) {
       }
     })
 
+    output$sleep_period_slider <- shiny::renderUI({
+      shiny::req(common$sessions())
+      col <- get_colnames(common$sessions())
+      if (!is.null(col$sleep_period)) {
+        shiny::sliderInput(
+          inputId = session$ns("sleep_period"),
+          label = "Minimum Time Asleep:",
+          min = 0,
+          max = 12,
+          value = 0,
+          step = 0.5,
+          post = "h",
+          ticks = FALSE
+        )
+      }
+    })
+
     output$sleep_onset_range <- shiny::renderUI({
       shiny::req(common$sessions())
       col <- get_colnames(common$sessions())
@@ -185,6 +203,10 @@ filtering_server <- function(id, common) {
       if (!is.null(col$sleep_period)) {
         filters$no_sleep <- common$sessions() |>
           remove_sessions_no_sleep(return_mask = TRUE)
+      }
+      if (!is.null(col$sleep_period) && !is.null(input$sleep_period)) {
+        filters$time_asleep <- common$sessions() |>
+          set_min_sleep_period(input$sleep_period, return_mask = TRUE)
       }
       if (!is.null(col$night) && !is.null(input$date_range)) {
         filters$night <- common$sessions() |>

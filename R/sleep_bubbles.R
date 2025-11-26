@@ -42,7 +42,7 @@ plot_sleep_bubbles <- function(sessions, color_by = "default") {
       ymin = 6, ymax = 9,
       fill = "lightgrey", alpha = 0.5
     ) +
-    ggplot2::geom_point(size = 20, alpha = 0.5) +
+    ggplot2::geom_point(size = 10, alpha = 0.5) +
     color_scale +
     ggplot2::labs(
       x = NULL,

@@ -24,6 +24,32 @@ set_min_time_in_bed <- function(sessions, min_time_in_bed, return_mask = FALSE) 
   }
 }
 
+#' Set minimum sleep period
+#'
+#' @param sessions The sessions dataframe
+#' @param min_sleep_period The minimum sleep period in hours
+#' @param return_mask If TRUE, return a logical vector indicating which sessions meet the minimum sleep period requirement
+#' @details This function uses columns:
+#' - `sleep_period`
+#' @returns The sessions dataframe with only the sessions that meet the minimum sleep period requirement, or a logical vector if `return_mask` is TRUE
+#' @export
+#' @family filtering
+#' @examples
+#' filtered_sessions <- set_min_sleep_period(example_sessions, 2)
+set_min_sleep_period <- function(sessions, min_sleep_period, return_mask = FALSE) {
+  col <- get_session_colnames(sessions)
+
+  mask <- sessions[[col$sleep_period]] >= min_sleep_period * 60 * 60
+
+  mask[is.na(mask)] <- FALSE
+
+  if (return_mask) {
+    mask
+  } else {
+    sessions[mask, ]
+  }
+}
+
 #' Set session start time range
 #'
 #' @param sessions The sessions dataframe

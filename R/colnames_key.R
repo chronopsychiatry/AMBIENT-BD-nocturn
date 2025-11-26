@@ -11,7 +11,7 @@
   time_at_midsleep = "Time at Midsleep",
   time_at_wakeup = "Time at Wakeup",
   sleep_onset_latency = "Sleep Onset Latency",
-  sleep_period = "Sleep Period",
+  sleep_period = "Time Asleep",
   time_in_bed = "Time in Bed",
   is_workday = "Workdays/Free Days",
   night = "Night"
@@ -35,7 +35,8 @@
   device_id = "Unique identifier for the recording device.",
   session_start = "Start time of the session (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
   session_end = "End time of the session (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
-  time_at_sleep_onset = "Time at Sleep Onset (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
+  time_at_sleep_onset = paste0("Time at Sleep Onset (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
+                               "If not provided, it will be calculated from session start and sleep onset latency."),
   time_at_midsleep = paste0("Time at Midsleep (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
                             "If not provided, it will be calculated from time at sleep onset and sleep period."),
   time_at_wakeup = "Time at Wakeup (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",

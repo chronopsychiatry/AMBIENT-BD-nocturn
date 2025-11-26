@@ -304,7 +304,12 @@ parse_date <- function(date_vector) {
   if (inherits(date_vector, "Date")) {
     return(date_vector)
   }
-  date_formats <- c("ymd", "Ymd", "mdY", "dmy", "Y-m-d", "m/d/Y", "d/m/Y")
+  parsed_date <- suppressWarnings(lubridate::as_date(date_vector))
+  if (!all(is.na(parsed_date))) {
+    return(parsed_date)
+  }
+
+  date_formats <- c("ymd", "Ymd", "dmy", "Y-m-d", "d/m/Y")
   lubridate::parse_date_time(date_vector, orders = date_formats, tz = NULL, quiet = TRUE) |>
     lubridate::as_date()
 }
