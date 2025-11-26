@@ -71,7 +71,8 @@ get_colnames <- function(df) {
     get_epoch_colnames(df)
   } else {
     cli::cli_abort(c("x" = "Unknown data type: {.val {type}}.",
-                     "i" = "Data type must be \"sessions\" or \"epochs\"."))
+                     "i" = "Data type must be \"sessions\" or \"epochs\".",
+                     "i" = "Use {.fn set_data_type} to set the data type attribute."))
   }
 }
 
@@ -84,9 +85,16 @@ get_colnames <- function(df) {
 #' @family internal
 #' @export
 #' @examples
-#' sessions <- set_colnames(example_sessions, list(night = "calendar_date", sleep_period = "duration_sleep"))
+#' sessions <- set_colnames(
+#'  example_sessions,
+#'  list(night = "calendar_date", sleep_period = "duration_sleep")
+#' )
 set_colnames <- function(df, col) {
   existing_col <- attr(df, "col")
-  attr(df, "col") <- if (is.null(existing_col)) col else modifyList(existing_col, col)
+  merged_col <- existing_col
+  for (nm in names(col)) {
+    merged_col[[nm]] <- col[[nm]]
+  }
+  attr(df, "col") <- merged_col
   df
 }

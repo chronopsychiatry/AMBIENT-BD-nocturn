@@ -18,7 +18,10 @@ The data frame with updated "col" attribute
 This function updates the "col" attribute for a dataframe, overwriting existing column names with the ones provided.
 }
 \examples{
-sessions <- set_colnames(example_sessions, list(night = "calendar_date", sleep_period = "duration_sleep"))
+sessions <- set_colnames(
+ example_sessions,
+ list(night = "calendar_date", sleep_period = "duration_sleep")
+)
 }
 \seealso{
 Other internal: 
