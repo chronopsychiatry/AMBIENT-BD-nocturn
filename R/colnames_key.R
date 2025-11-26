@@ -1,4 +1,8 @@
 # Long names ----
+
+#' Long names for sessions columns, for display in app
+#' @export
+#' @keywords internal
 .sessions_long <- list(
   id = "Session ID",
   subject_id = "Subject ID",
@@ -17,6 +21,9 @@
   night = "Night"
 )
 
+#' Long names for epochs columns, for display in app
+#' @export
+#' @keywords internal
 .epochs_long <- list(
   timestamp = "Timestamp",
   session_id = "Session ID",
@@ -27,6 +34,10 @@
 )
 
 # Help tooltip texts ----
+
+#' Help tooltips for sessions columns, for display in app
+#' @export
+#' @keywords internal
 .sessions_help <- list(
   id = "Unique identifier for each session.",
   subject_id = "Unique identifier for each subject.",
@@ -49,6 +60,9 @@
   night = "Night (from 12pm to 12pm) the session belongs to (in any date format). If not provided, it will be calculated from session_start."
 )
 
+#' Help tooltips for epochs columns, for display in app
+#' @export
+#' @keywords internal
 .epochs_help <- list(
   timestamp = "Timestamp of the epoch (YYYY-MM-DD HH:MM:SS).",
   session_id = "Identifier linking the epoch to a session in the sessions dataframe.",
@@ -59,6 +73,10 @@
 )
 
 # Session column name presets ----
+
+#' Preset values for session column names
+#' @export
+#' @keywords internal
 .sessions_col_presets <- list(
   id = c("id", "session_id", "window_number"),
   subject_id = c("subject_id", "user_id", "ID"),
@@ -77,6 +95,9 @@
   night = c("calendar_date", "night", "written_date")
 )
 
+#' Empty list of session column names used in nocturn
+#' @export
+#' @keywords internal
 .sessions_col_none <- list(
   id = NULL,
   subject_id = NULL,
@@ -96,6 +117,10 @@
 )
 
 # Epoch column name presets ----
+
+#' Preset values for epoch column names
+#' @export
+#' @keywords internal
 .epochs_col_presets <- list(
   timestamp = c("timestamp", "timenum"),
   session_id = c("session_id", "window"),
@@ -105,6 +130,9 @@
   is_asleep = c("")
 )
 
+#' Empty list of epoch column names used in nocturn
+#' @export
+#' @keywords internal
 .epochs_col_none <- list(
   timestamp = NULL,
   session_id = NULL,
