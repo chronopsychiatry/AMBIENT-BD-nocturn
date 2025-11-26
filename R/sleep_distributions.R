@@ -12,7 +12,7 @@ utils::globalVariables(".")
 #' @export
 #' @importFrom rlang .data
 sleeptimes_boxplot <- function(sessions, circular = FALSE) {
-  check_columns(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
+  check_session_colnames(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
   plot_data <- prepare_sleeptimes_data(sessions)
   box_colors <- c("Sleep Onset" = "purple", "Midsleep" = "cornflowerblue", "Wakeup" = "orange")
 
@@ -119,7 +119,7 @@ sleeptimes_boxplot <- function(sessions, circular = FALSE) {
 #' @export
 #' @importFrom rlang .data
 sleeptimes_histogram <- function(sessions, binwidth = 0.25, circular = FALSE) {
-  check_columns(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
+  check_session_colnames(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
   plot_data <- prepare_sleeptimes_data(sessions)
   box_colors <- c("Sleep Onset" = "purple", "Midsleep" = "cornflowerblue", "Wakeup" = "orange")
 
@@ -187,7 +187,7 @@ sleeptimes_histogram <- function(sessions, binwidth = 0.25, circular = FALSE) {
 #' @export
 #' @importFrom rlang .data
 sleeptimes_density <- function(sessions, adjust = 1, circular = FALSE) {
-  check_columns(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
+  check_session_colnames(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
   plot_data <- prepare_sleeptimes_data(sessions)
   box_colors <- c("Sleep Onset" = "purple", "Midsleep" = "cornflowerblue", "Wakeup" = "orange")
 

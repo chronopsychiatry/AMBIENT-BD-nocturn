@@ -13,6 +13,7 @@
 #' @family plot epochs
 #' @seealso [plot_timeseries_sessions()] to plot session data.
 plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero = FALSE) {
+  check_epoch_colnames(epochs, c("timestamp", "night"))
   col <- get_epoch_colnames(epochs)
 
   color_by <- if (color_by %in% colnames(epochs)) color_by else "night"
@@ -61,6 +62,7 @@ plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero
 #' @family plot sessions
 #' @seealso [plot_timeseries()] to plot epoch data.
 plot_timeseries_sessions <- function(sessions, variable, color_by = "default", exclude_zero = FALSE) {
+  check_session_colnames(sessions, c("night"))
   col <- get_session_colnames(sessions)
 
   sessions <- sessions |>

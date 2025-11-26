@@ -189,6 +189,7 @@ shift_times_by_12h <- function(times) {
 #' @examples
 #' epochs <- group_epochs_by_night(example_epochs)
 group_epochs_by_night <- function(epochs) {
+  check_epoch_colnames(epochs, c("timestamp"))
   col <- get_epoch_colnames(epochs)
   epochs |>
     tidyr::drop_na(dplyr::all_of(col$timestamp)) |>
@@ -216,6 +217,7 @@ group_epochs_by_night <- function(epochs) {
 #' @examples
 #' sessions <- group_sessions_by_night(example_sessions)
 group_sessions_by_night <- function(sessions) {
+  check_session_colnames(sessions, c("session_start"))
   col <- get_session_colnames(sessions)
   sessions |>
     tidyr::drop_na(dplyr::all_of(col$session_start)) |>

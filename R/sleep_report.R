@@ -22,8 +22,8 @@ sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf")
     tinytex::install_tinytex()
   }
 
-  check_columns(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep",
-                            "sleep_onset_latency", "sleep_period", "time_in_bed"))
+  check_session_colnames(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep",
+                                     "sleep_onset_latency", "sleep_period", "time_in_bed"))
   col <- get_session_colnames(sessions)
 
   dates <- format(c(min(sessions[[col$night]]), max(sessions[[col$night]])), "%d/%m/%Y")

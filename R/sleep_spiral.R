@@ -10,6 +10,7 @@
 #' @export
 #' @family plot epochs
 plot_sleep_spiral <- function(epochs, color_by = "default") {
+  check_epoch_colnames(epochs, c("timestamp", "is_asleep"))
   col <- get_epoch_colnames(epochs)
 
   epochs <- epochs[seq(1, nrow(epochs), by = 5), ] # Downsampling to 5 min intervals to speed up plotting

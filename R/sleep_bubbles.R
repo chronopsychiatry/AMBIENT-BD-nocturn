@@ -11,7 +11,7 @@
 #' @export
 #' @family plot sessions
 plot_sleep_bubbles <- function(sessions, color_by = "default") {
-  check_columns(sessions, c("sleep_period", "night"))
+  check_session_colnames(sessions, c("sleep_period", "night"))
   col <- get_session_colnames(sessions)
 
   sessions <- sessions |>

@@ -17,8 +17,8 @@
 #' @seealso [filter_by_night_range()] to filter sessions by night range.
 #' @family filtering
 filter_epochs_from_sessions <- function(epochs, sessions, return_mask = FALSE) {
-  check_columns(sessions, "id")
-  check_columns(epochs, "session_id")
+  check_session_colnames(sessions, "id")
+  check_epoch_colnames(epochs, "session_id")
   scol <- get_session_colnames(sessions)
   ecol <- get_epoch_colnames(epochs)
 
@@ -63,7 +63,7 @@ filter_epochs_from_sessions <- function(epochs, sessions, return_mask = FALSE) {
 #' @examples
 #' filtered_sessions <- filter_by_night_range(example_sessions, "2025-04-07", "2025-04-10")
 filter_by_night_range <- function(sessions, from_night, to_night, return_mask = FALSE) {
-  check_columns(sessions, "night")
+  check_session_colnames(sessions, "night")
   col <- get_session_colnames(sessions)
 
   from_night <- if (is.null(from_night)) min(sessions[[col$night]]) else from_night
@@ -102,7 +102,7 @@ filter_by_night_range <- function(sessions, from_night, to_night, return_mask = 
 #' @examples
 #' filtered_sessions <- filter_by_age_range(example_sessions_v1, min_age = 11, max_age = 18)
 filter_by_age_range <- function(sessions, min_age = NULL, max_age = NULL, return_mask = FALSE) {
-  check_columns(sessions, c("birth_year", "night"))
+  check_session_colnames(sessions, c("birth_year", "night"))
   col <- get_session_colnames(sessions)
 
   min_age <- if (is.null(min_age)) min(lubridate::year(sessions[[col$night]]) - sessions[[col$birth_year]]) else min_age
@@ -138,7 +138,7 @@ filter_by_age_range <- function(sessions, min_age = NULL, max_age = NULL, return
 #' @examples
 #' filtered_sessions <- filter_by_sex(example_sessions_v1, "M")
 filter_by_sex <- function(sessions, sex, return_mask = FALSE) {
-  check_columns(sessions, "sex")
+  check_session_colnames(sessions, "sex")
   col <- get_session_colnames(sessions)
 
   mask <- sessions[[col$sex]] %in% sex
@@ -166,7 +166,7 @@ filter_by_sex <- function(sessions, sex, return_mask = FALSE) {
 #' @examples
 #' filtered_sessions <- select_subjects(example_sessions, c("sub_01JNDH3Z5NP0PSV82NFBGPV31X"))
 select_subjects <- function(sessions, subject_ids, return_mask = FALSE) {
-  check_columns(sessions, "subject_id")
+  check_session_colnames(sessions, "subject_id")
   col <- get_session_colnames(sessions)
 
   if (sum(sessions[[col$subject_id]] %in% subject_ids) == 0) {
@@ -200,7 +200,7 @@ select_subjects <- function(sessions, subject_ids, return_mask = FALSE) {
 #' @examples
 #' filtered_sessions <- select_devices(example_sessions, c("VTGVSRTHCA"))
 select_devices <- function(sessions, device_ids, return_mask = FALSE) {
-  check_columns(sessions, "device_id")
+  check_session_colnames(sessions, "device_id")
   col <- get_session_colnames(sessions)
 
   if (sum(sessions[[col$device_id]] %in% device_ids) == 0) {

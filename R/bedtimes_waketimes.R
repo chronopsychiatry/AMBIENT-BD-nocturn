@@ -13,7 +13,7 @@
 #' @importFrom rlang .data
 #' @export
 plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "default") {
-  check_columns(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "is_workday"))
+  check_session_colnames(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "is_workday"))
   if (color_by != "default") {
     groupby <- "night"
   }

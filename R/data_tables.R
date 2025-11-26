@@ -25,7 +25,7 @@ get_sessions_summary <- function(sessions) {
       sleep_efficiency = NA
     ))
   }
-  check_columns(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_in_bed", "sleep_period"))
+  check_session_colnames(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_in_bed", "sleep_period"))
   col <- get_session_colnames(sessions)
 
   summary <- sessions |>
@@ -66,7 +66,7 @@ get_epochs_summary <- function(epochs) {
   if (nrow(epochs) == 0) {
     return(data.frame(total_sessions = 0, start_date = NA, end_date = NA))
   }
-  check_columns(epochs, c("timestamp", "session_id"))
+  check_epoch_colnames(epochs, c("timestamp", "session_id"))
   col <- get_epoch_colnames(epochs)
 
   epochs |>
