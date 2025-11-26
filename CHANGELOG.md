@@ -7,6 +7,10 @@
 - Added a function "set_min_sleep_period" to keep sessions with a sleep period longer than a threshold (in hours)
 - Added a filter in the app "sleep" tab: "Minimum Time Asleep"
 
+### Scripts
+
+- Added explicit errors when a function is called, and the necessary column names are not set
+
 ### Data cleaning
 
 - If `session_start` and `sleep_onset_latency` are available, they will be used to infer `time_at_sleep_onset` (if not already provided)
