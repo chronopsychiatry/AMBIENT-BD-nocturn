@@ -9,6 +9,7 @@
 #' @export
 #' @family plot epochs
 plot_hypnogram <- function(epochs) {
+  check_columns(epochs, c("timestamp", "sleep_stage"))
   col <- get_epoch_colnames(epochs)
 
   hypnogram_data <- epochs |>

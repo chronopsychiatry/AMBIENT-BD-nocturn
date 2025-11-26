@@ -220,7 +220,7 @@ filtering_server <- function(id, common) {
         filters$time_in_bed <- common$sessions() |>
           set_min_time_in_bed(input$time_in_bed, return_mask = TRUE)
       }
-      if (!is.null(col$birth_year) && !is.null(input$age_range)) {
+      if (!is.null(col$birth_year) && !is.null(col$night) && !is.null(input$age_range)) {
         filters$age <- common$sessions() |>
           filter_by_age_range(input$age_range[1], input$age_range[2], return_mask = TRUE)
       }

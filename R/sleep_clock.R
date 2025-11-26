@@ -11,6 +11,7 @@
 #' @export
 #' @family plot sessions
 plot_sleep_clock <- function(sessions, color_by = "default") {
+  check_columns(sessions, c("time_at_sleep_onset", "time_at_wakeup", "night"))
   col <- get_session_colnames(sessions)
 
   sessions <- sessions |>

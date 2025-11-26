@@ -11,10 +11,11 @@
 #' @export
 #' @family plot sessions
 plot_sleep_bubbles <- function(sessions, color_by = "default") {
+  check_columns(sessions, c("sleep_period", "night"))
   col <- get_session_colnames(sessions)
 
   sessions <- sessions |>
-    dplyr::filter(!is.na(.data[[col$time_at_sleep_onset]]) & !is.na(.data[[col$time_at_wakeup]])) |>
+    dplyr::filter(.data[[col$sleep_period]] > 0) |>
     dplyr::mutate(sleep_duration = .data[[col$sleep_period]] / 3600)
 
   if (color_by != "default" && color_by %in% names(sessions)) {

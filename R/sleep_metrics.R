@@ -12,6 +12,7 @@
 #' interdaily_stability(example_epochs)
 #' @importFrom rlang .data
 interdaily_stability <- function(epochs) {
+  check_columns(epochs, c("timestamp", "is_asleep"))
   col <- get_epoch_colnames(epochs)
 
   epochs <- epochs |>

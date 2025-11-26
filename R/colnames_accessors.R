@@ -77,13 +77,16 @@ get_colnames <- function(df) {
 
 #' Set column names for a data frame (sessions or epochs)
 #'
-#' This function sets the "col" attribute for a data frame with a named list of column names.
-#' @param df A data frame containing either sessions or epochs data
+#' This function updates the "col" attribute for a dataframe, overwriting existing column names with the ones provided.
+#' @param df A data frame
 #' @param col A named list of column names
 #' @returns The data frame with updated "col" attribute
 #' @family internal
 #' @export
+#' @examples
+#' sessions <- set_colnames(example_sessions, list(night = "calendar_date", sleep_period = "duration_sleep"))
 set_colnames <- function(df, col) {
-  attr(df, "col") <- col
+  existing_col <- attr(df, "col")
+  attr(df, "col") <- if (is.null(existing_col)) col else modifyList(existing_col, col)
   df
 }

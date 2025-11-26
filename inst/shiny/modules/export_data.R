@@ -67,5 +67,28 @@ export_data_server <- function(id, common) {
       )
     })
 
+    shiny::observe({
+      shiny::req(input$download_report)
+      sessions <- apply_filters(common$sessions(), common$session_filters()) |>
+        annotate(common$annotations())
+      col <- get_colnames(common$sessions())
+      shiny::validate(
+        shiny::need(!is.null(col$time_at_sleep_onset),
+                    common$logger |> write_log("Sleep report: 'time_at_sleep_onset' column was not set", type = "error")),
+        shiny::need(!is.null(col$time_at_wakeup),
+                    common$logger |> write_log("Sleep report: 'time_at_wakeup' column was not set", type = "error")),
+        shiny::need(!is.null(col$time_at_midsleep),
+                    common$logger |> write_log("Sleep report: 'time_at_midsleep' column was not set", type = "error")),
+        shiny::need(!is.null(col$sleep_onset_latency),
+                    common$logger |> write_log("Sleep report: 'sleep_onset_latency' column was not set", type = "error")),
+        shiny::need(!is.null(col$sleep_period),
+                    common$logger |> write_log("Sleep report: 'sleep_period' column was not set", type = "error")),
+        shiny::need(!is.null(col$time_in_bed),
+                    common$logger |> write_log("Sleep report: 'time_in_bed' column was not set", type = "error")),
+        shiny::need(!is.null(col$night),
+                    common$logger |> write_log("Sleep report: 'night' column was not set", type = "error")),
+      )
+    })
+
   })
 }
