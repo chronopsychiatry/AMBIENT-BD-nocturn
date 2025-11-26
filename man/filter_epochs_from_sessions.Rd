@@ -22,10 +22,9 @@ Filter epochs based on session IDs
 \details{
 This function uses sessions columns:
 \itemize{
-\item \code{session_start}
-\item \code{session_end}
+\item \code{id}
 And epoch columns:
-\item \code{timestamp}
+\item \code{session_id}
 }
 }
 \examples{

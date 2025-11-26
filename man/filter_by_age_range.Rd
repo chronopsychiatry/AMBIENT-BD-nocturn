@@ -31,6 +31,7 @@ Filter sessions by age range
 This function uses columns:
 \itemize{
 \item \code{birth_year}
+\item \code{night}
 }
 }
 \examples{

@@ -25,5 +25,7 @@ This function uses columns:
 \item \code{time_at_wakeup}
 \item \code{time_at_midsleep}
 \item \code{sleep_onset_latency}
+\item \code{sleep_period}
+\item \code{time_in_bed}
 }
 }
