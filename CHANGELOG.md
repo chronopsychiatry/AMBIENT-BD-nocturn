@@ -11,6 +11,12 @@
 
 - If `session_start` and `sleep_onset_latency` are available, they will be used to infer `time_at_sleep_onset` (if not already provided)
 
+## 1.0.3 (26/22/2025)
+
+## Set column names (app)
+
+- Fixed a bug that prevented the "Set column names" menu from being displayed
+
 ## 1.0.2 (18/11/2025)
 
 ### Sleep report
