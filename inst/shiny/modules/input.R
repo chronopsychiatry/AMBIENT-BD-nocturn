@@ -9,12 +9,19 @@ input_ui <- function(id) {
 
 input_server <- function(id, common) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns <- session$ns
 
     # Example data----
     shiny::observeEvent(input$load_example_data, {
-      init_sessions(nocturn::example_sessions, common)
-      init_epochs(nocturn::example_epochs, common)
+      sessions <- nocturn::example_sessions |>
+        set_data_type("sessions") |>
+        dplyr::mutate(dplyr::across(dplyr::where(is.character), ~dplyr::na_if(., ""))) |>
+        clean_sessions()
+      epochs <- nocturn::example_epochs |>
+        set_data_type("epochs") |>
+        dplyr::mutate(dplyr::across(dplyr::where(is.character), ~dplyr::na_if(., ""))) |>
+        clean_epochs()
+      init_sessions(sessions, common)
+      init_epochs(epochs, common)
       common$logger |> write_log("Loaded example session and epoch data", type = "complete")
     })
 
