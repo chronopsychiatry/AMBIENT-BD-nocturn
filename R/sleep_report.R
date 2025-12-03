@@ -28,6 +28,8 @@ sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf")
 
   dates <- format(c(min(sessions[[col$night]]), max(sessions[[col$night]])), "%d/%m/%Y")
 
+  sessions <- remove_sessions_no_sleep(sessions)
+
   # Stats: Time to fall asleep, sleep efficiency, chronotype, Sleep Regularity (based on midsleep standard deviation)
   stats <- list()
   stats$time_to_fall_asleep <- round(mean(sessions[[col$sleep_onset_latency]], na.rm = TRUE) / 60)
@@ -95,6 +97,8 @@ sleep_report_2 <- function(sessions, title = "", output_file = "Sleep_report.pdf
 
   dates <- format(c(min(sessions[[col$night]]), max(sessions[[col$night]])), "%d/%m/%Y")
 
+  sessions <- remove_sessions_no_sleep(sessions)
+
   # Stats: Time to fall asleep, sleep efficiency, chronotype, Sleep Regularity (based on midsleep standard deviation)
   stats <- list()
   stats$time_to_fall_asleep <- round(mean(sessions[[col$sleep_onset_latency]], na.rm = TRUE) / 60)
@@ -136,7 +140,26 @@ sleep_report_2 <- function(sessions, title = "", output_file = "Sleep_report.pdf
                    plot.background = ggplot2::element_rect(fill = "transparent", color = NA),
                    legend.background = ggplot2::element_rect(fill = "transparent", color = NA))
 
-  template_path <- system.file("shiny", package = "nocturn")
+  template_path <- system.file("resources", package = "nocturn")
+
+  svgedit::draw(
+    input_svg = paste0(template_path, "/Sleep_report_template.svg"),
+    output_svg = paste0(template_path, "/Sleep_report_filled.svg"),
+    plots = list(
+      clock_plot = clock_plot,
+      sleep_duration_plot = sleep_duration_plot,
+      sleep_times = sleep_times
+    ),
+    text = list(
+      title = c(title, dates[1], dates[2]),
+      time_to_fall_asleep = stats$time_to_fall_asleep,
+      sleep_efficiency = stats$sleep_efficiency,
+      chronotype = stats$chronotype,
+      sleep_regularity = stats$sleep_regularity,
+      social_jet_lag = stats$social_jet_lag,
+      credits = c(nocturn_version, stats$chronotype_credit)
+    )
+  )
 
 }
 
