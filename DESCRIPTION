@@ -27,7 +27,6 @@ Imports:
     ggnewscale,
     ggplot2,
     lubridate,
-    rmarkdown,
     readxl,
     rlang,
     scales,
@@ -36,7 +35,11 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    tinytex
+    rsvg,
+    svgedit,
+    qpdf
+Remotes:
+    DanielThedie/svgedit
 Depends: 
     R (>= 4.3)
 LazyData: true

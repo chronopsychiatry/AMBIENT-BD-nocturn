@@ -2,18 +2,22 @@
 
 ## 1.1.0 (in dev)
 
+### Data import and cleaning
+
+- If `session_start` and `sleep_onset_latency` are available, they will be used to infer `time_at_sleep_onset` (if not already provided)
+
 ### Filtering
 
 - Added a function "set_min_sleep_period" to keep sessions with a sleep period longer than a threshold (in hours)
 - Added a filter in the app "sleep" tab: "Minimum Time Asleep"
 
+### Sleep Report
+
+- Changed report generation method - should now be faster
+
 ### Scripts
 
 - Added explicit errors when a function is called, and the necessary column names are not set
-
-### Data cleaning
-
-- If `session_start` and `sleep_onset_latency` are available, they will be used to infer `time_at_sleep_onset` (if not already provided)
 
 ## 1.0.3 (26/22/2025)
 
