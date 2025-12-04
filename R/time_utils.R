@@ -254,10 +254,66 @@ get_time_per_day <- function(unit = "second") {
 #' @returns TRUE if all non-missing values are valid ISO 8601 datetime strings, FALSE otherwise
 #' @family internal
 #' @export
-is_iso8601_datetime <- function(column) {
-  column <- column[!is.na(column) & column != ""]
-  parsed <- suppressWarnings(lubridate::ymd_hms(column, quiet = TRUE))
-  all(!is.na(parsed))
+is_iso8601_datetime <- function(x, strict = FALSE) {
+  # If x is NA, return NA
+  if (length(x) == 1 && is.na(x)) {
+    return(NA)
+  }
+
+  # If x is a POSIXct, return TRUE
+  if (inherits(x, "POSIXct") || inherits(x, "POSIXt")) {
+    return(TRUE)
+  }
+
+  # Date patterns
+  date_extended <- "\\d{4}-\\d{2}-\\d{2}"  # YYYY-MM-DD
+  date_basic <- "\\d{4}\\d{2}\\d{2}"       # YYYYMMDD
+
+  # Time patterns
+  time_extended <- "\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?"  # HH:MM:SS(.sss)
+  time_basic <- "\\d{2}\\d{2}\\d{2}(?:\\.\\d+)?"       # HHMMSS(.sss)
+
+  # Timezone pattern
+  timezone <- "(?:Z|[+-]\\d{2}(?::\\d{2}|\\d{2}))?"
+
+  # Separators
+  strict_separator <- "T"
+  relaxed_separator <- "[ T]"
+  separator <- if (strict) strict_separator else relaxed_separator
+
+  # Combined patterns
+  # Extended format: YYYY-MM-DDThh:mm:ss(.sss)(Z|±hh:mm)
+  datetime_extended <- paste0(
+    "^", date_extended, separator, time_extended, timezone, "$"
+  )
+
+  # Basic format: YYYYMMDDThhmmss(.sss)(Z|±hhmm)
+  datetime_basic <- paste0(
+    "^", date_basic, strict_separator, time_basic, timezone, "$"
+  )
+
+  # Mix of extended date with basic time: YYYY-MM-DDThhmmss(.sss)(Z|±hhmm)
+  datetime_mixed1 <- paste0(
+    "^", date_extended, separator, time_basic, timezone, "$"
+  )
+
+  # Mix of basic date with extended time: YYYYMMDDThh:mm:ss(.sss)(Z|±hh:mm)
+  datetime_mixed2 <- paste0(
+    "^", date_basic, strict_separator, time_extended, timezone, "$"
+  )
+
+  # For each element in the input vector
+  result <- sapply(x, function(str) {
+    if (is.na(str)) return(NA)
+
+    # Check if the string matches any of the patterns
+    grepl(datetime_extended, str) ||
+      grepl(datetime_basic, str) ||
+      grepl(datetime_mixed1, str) ||
+      grepl(datetime_mixed2, str)
+  })
+
+  return(all(as.logical(result)))
 }
 
 #' Convert time vector to numeric hours

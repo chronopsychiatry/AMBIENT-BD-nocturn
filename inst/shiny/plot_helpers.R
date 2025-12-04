@@ -1,10 +1,7 @@
 update_colorby_dropdown <- function(df, plot_options, input, session, input_id = "colorby") {
   shiny::observe({
 
-    col <- get_colnames(df())
-    excluded_vars <- c(col$session_start, col$session_end, col$time_at_sleep_onset, col$time_at_wakeup,
-                       col$sleep_period, col$time_in_bed, col$timestamp, col$signal_quality)
-    available_vars <- setdiff(c("default", "annotation", names(df())), excluded_vars)
+    available_vars <- c("default", "annotation", names(df()))
 
     # Update the dropdown, but preserve the selected variable if possible
     current_variable <- plot_options$colorby

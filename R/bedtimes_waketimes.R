@@ -16,6 +16,7 @@ plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "def
   check_session_colnames(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "is_workday"))
   if (color_by != "default") {
     groupby <- "night"
+    sessions[[color_by]] <- as.factor(sessions[[color_by]])
   }
 
   col <- get_session_colnames(sessions)
@@ -69,7 +70,7 @@ plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "def
     color_levels <- unique(plot_data$color_group)
     color_map <- stats::setNames(scales::hue_pal()(length(color_levels)), color_levels)
     plot_data$fill_col <- plot_data$color_group
-    fill_scale <- ggplot2::scale_fill_manual(values = color_map, name = color_by)
+    fill_scale <- ggplot2::scale_fill_manual(values = color_map)
     legend_show <- TRUE
   } else {
     plot_data$fill_col <- "blue"
@@ -122,7 +123,7 @@ plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "def
       title = "Average Sleep onset and Wakeup times",
       x = NULL,
       y = NULL,
-      fill = if (color_by != "default" && color_by %in% names(sessions)) color_by else NULL
+      fill = NULL
     ) +
     ggplot2::theme_minimal() +
     ggplot2::theme(
