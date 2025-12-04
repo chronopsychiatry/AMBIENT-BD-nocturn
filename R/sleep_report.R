@@ -78,9 +78,9 @@ sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf")
       sleep_times = sleep_times
     ),
     plot_scale = list(
-      clock_plot = 1.5,
-      sleep_duration_plot = 1.5,
-      sleep_times = 2
+      clock_plot = 0.66,
+      sleep_duration_plot = 0.66,
+      sleep_times = 0.5
     ),
     text = list(
       title = title,
