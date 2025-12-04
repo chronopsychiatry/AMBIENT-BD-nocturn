@@ -108,3 +108,10 @@
   color: #6c757d;
   border: 1px solid #999;
 }
+
+/* Drop-down menus text overflow (e.g. color by) */
+.selectize-control.single .selectize-input {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

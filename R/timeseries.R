@@ -36,7 +36,7 @@ plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero
     ggplot2::labs(
       x = "Time",
       y = variable,
-      color = color_by
+      color = NULL
     ) +
     ggplot2::theme_minimal(base_size = 16) +
     ggplot2::theme(
@@ -98,7 +98,7 @@ plot_timeseries_sessions <- function(sessions, variable, color_by = "default", e
     ggplot2::labs(
       x = NULL,
       y = variable,
-      color = if (color_by != "default" && color_by %in% names(sessions)) color_by else NULL
+      color = NULL
     ) +
     ggplot2::theme_minimal(base_size = 16) +
     ggplot2::theme(

@@ -49,7 +49,7 @@ plot_sleep_bubbles <- function(sessions, color_by = "default") {
       x = NULL,
       y = "Sleep Duration (hours)",
       title = NULL,
-      color = if (color_by != "default" && color_by %in% names(sessions)) color_by else NULL
+      color = NULL
     ) +
     ggplot2::theme_minimal(base_size = 16) +
     ggplot2::theme(
