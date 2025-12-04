@@ -4,6 +4,15 @@ input_ui <- function(id) {
     input_sessions_ui(ns("sessions_input_panel")),
     input_epochs_ui(ns("epochs_input_panel")),
     shiny::actionButton(ns("load_example_data"), "Load Example Data", icon = shiny::icon("upload")),
+    bslib::tooltip(
+      shiny::tags$span(
+        shiny::icon("circle-info"),
+        class = "colnames-help"
+      ),
+      "After loading the data, click through the tabs on the right to see the different plots and tables!",
+      placement = "right",
+      options = list(delay = list(show = 0, hide = 100))
+    )
   )
 }
 
