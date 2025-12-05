@@ -19,6 +19,7 @@ plot_sleep_clock <- function(sessions, color_by = "default") {
   sessions <- sessions |>
     dplyr::filter(!is.na(.data[[col$time_at_sleep_onset]]) & !is.na(.data[[col$time_at_wakeup]])) |>
     dplyr::mutate(
+      # session_idx = .data[[col$id]],
       sleep_onset_hour = time_to_hours(.data[[col$time_at_sleep_onset]]),
       wakeup_hour = time_to_hours(.data[[col$time_at_wakeup]]),
       night = as.factor(.data[[col$night]])
@@ -26,24 +27,21 @@ plot_sleep_clock <- function(sessions, color_by = "default") {
 
   sleep_onset_data <- sessions |>
     dplyr::select("sleep_onset_hour", "night", "session_idx") |>
-    dplyr::mutate(type = "Sleep Onset")
+    dplyr::mutate(type = "Sleep Onset") |>
+    dplyr::rename(hour = "sleep_onset_hour")
 
   wakeup_data <- sessions |>
     dplyr::select("wakeup_hour", "night", "session_idx") |>
-    dplyr::mutate(type = "Wakeup")
+    dplyr::mutate(type = "Wakeup") |>
+    dplyr::rename(hour = "wakeup_hour")
 
   plot_data <- dplyr::bind_rows(
-    sleep_onset_data |> dplyr::rename(hour = "sleep_onset_hour"),
-    wakeup_data |> dplyr::rename(hour = "wakeup_hour")
+    sleep_onset_data,
+    wakeup_data
   ) |>
     dplyr::mutate(
-      radial_distance = as.numeric(as.factor(.data$night)) / max(as.numeric(as.factor(.data$night)))
+      radial_distance = as.numeric(.data$night) / max(as.numeric(.data$night))
     )
-
-  circle_outline <- data.frame(
-    hour = seq(0, 24, length.out = 100),
-    y = 1
-  )
 
   curve_data <- sessions |>
     dplyr::mutate(
@@ -74,32 +72,27 @@ plot_sleep_clock <- function(sessions, color_by = "default") {
       }
     })
 
+  circle_outline <- data.frame(
+    hour = seq(0, 24, length.out = 100),
+    y = 1
+  )
+
   if (color_by != "default" && color_by %in% names(sessions)) {
     color_var <- sessions[[color_by]]
     if (is_iso8601_datetime(color_var)) {
       color_var <- parse_time(color_var) |> update_date(date = "1970-01-01")
       plot_data$color_group <- color_var[plot_data$session_idx]
       curve_data$color_group <- color_var[curve_data$session_idx]
-      color_scale <- ggplot2::scale_color_viridis_c(
-        labels = function(x) format(as.POSIXct(x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
-      )
     } else if (is.numeric(color_var)) {
       plot_data$color_group <- color_var[plot_data$session_idx]
       curve_data$color_group <- color_var[curve_data$session_idx]
-      color_scale <- ggplot2::scale_color_viridis_c()
     } else {
-      color_levels <- levels(as.factor(color_var))
-      color_map <- stats::setNames(
-        scales::hue_pal()(length(color_levels)),
-        color_levels
-      )
       plot_data$color_group <- as.factor(color_var)[plot_data$session_idx]
       curve_data$color_group <- as.factor(color_var)[curve_data$session_idx]
-      color_scale <- ggplot2::scale_color_manual(
-        values = color_map
-      )
     }
+    color_scale <- get_color_scale(color_var)
 
+    # Custom color_by: color both curves and points by color_group
     p <- ggplot2::ggplot(plot_data, ggplot2::aes(x = .data$hour, y = .data$radial_distance)) +
       ggplot2::geom_path(
         data = circle_outline,
@@ -173,6 +166,7 @@ plot_sleep_clock <- function(sessions, color_by = "default") {
       )
   }
 
+  # Common plot elements to default and custom color_by
   p <- p +
     ggplot2::scale_x_continuous(
       limits = c(0, 24),

@@ -41,9 +41,6 @@ plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero
         color = color_var,
         group = .data[[col$night]]
       )
-      color_scale <- ggplot2::scale_color_viridis_c(
-        labels = function(x) format(as.POSIXct(x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
-      )
     } else if (is.numeric(color_var)) {
       color_aes <- ggplot2::aes(
         x = time_to_hours(shift_times_by_12h(.data[[col$timestamp]])),
@@ -51,21 +48,16 @@ plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero
         color = color_var,
         group = .data[[col$night]]
       )
-      color_scale <- ggplot2::scale_color_viridis_c()
     } else {
       epochs$color_group <- as.factor(color_var)
-      color_levels <- levels(epochs$color_group)
-      color_map <- stats::setNames(scales::hue_pal()(length(color_levels)), color_levels)
       color_aes <- ggplot2::aes(
         x = time_to_hours(shift_times_by_12h(.data[[col$timestamp]])),
         y = .data$variable,
         color = .data$color_group,
         group = .data[[col$night]]
       )
-      color_scale <- ggplot2::scale_color_manual(
-        values = color_map
-      )
     }
+    color_scale <- get_color_scale(color_var)
   } else {
     color_aes <- ggplot2::aes(
       x = time_to_hours(shift_times_by_12h(.data[[col$timestamp]])),
@@ -139,21 +131,13 @@ plot_timeseries_sessions <- function(sessions, variable, color_by = "default", e
     if (is_iso8601_datetime(color_var)) {
       color_var <- parse_time(color_var) |> update_date(date = "1970-01-01")
       color_aes <- ggplot2::aes(x = .data[[col$night]], y = .data$variable, color = color_var)
-      color_scale <- ggplot2::scale_color_viridis_c(
-        labels = function(x) format(as.POSIXct(x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
-      )
     } else if (is.numeric(color_var)) {
       color_aes <- ggplot2::aes(x = .data[[col$night]], y = .data$variable, color = color_var)
-      color_scale <- ggplot2::scale_color_viridis_c()
     } else {
       sessions$color_group <- as.factor(color_var)
-      color_levels <- levels(sessions$color_group)
-      color_map <- stats::setNames(scales::hue_pal()(length(color_levels)), color_levels)
       color_aes <- ggplot2::aes(x = .data[[col$night]], y = .data$variable, color = .data$color_group)
-      color_scale <- ggplot2::scale_color_manual(
-        values = color_map
-      )
     }
+    color_scale <- get_color_scale(color_var)
   } else {
     color_aes <- ggplot2::aes(x = .data[[col$night]], y = .data$variable)
     color_scale <- ggplot2::scale_color_manual(values = "black", guide = "none")

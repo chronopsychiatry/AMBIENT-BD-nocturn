@@ -23,19 +23,13 @@ plot_sleep_bubbles <- function(sessions, color_by = "default") {
     if (is_iso8601_datetime(color_var)) {
       color_var <- parse_time(color_var) |> update_date(date = "1970-01-01")
       color_aes <- ggplot2::aes(x = .data[[col$night]], y = .data$sleep_duration, color = color_var)
-      color_scale <- ggplot2::scale_color_viridis_c(
-        labels = function(x) format(as.POSIXct(x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
-      )
     } else if (is.numeric(color_var)) {
       color_aes <- ggplot2::aes(x = .data[[col$night]], y = .data$sleep_duration, color = color_var)
-      color_scale <- ggplot2::scale_color_viridis_c()
     } else {
       sessions$color_group <- as.factor(color_var)
-      color_levels <- levels(sessions$color_group)
-      color_map <- stats::setNames(scales::hue_pal()(length(color_levels)), color_levels)
       color_aes <- ggplot2::aes(x = .data[[col$night]], y = .data$sleep_duration, color = .data$color_group)
-      color_scale <- ggplot2::scale_color_manual(values = color_map)
     }
+    color_scale <- get_color_scale(color_var)
   } else {
     sessions$color <- suppressWarnings(dplyr::case_when(
       sessions$sleep_duration >= 6 & sessions$sleep_duration <= 9 ~ scales::col_numeric(

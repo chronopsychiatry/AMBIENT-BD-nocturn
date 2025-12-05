@@ -4,10 +4,10 @@
 \alias{is_iso8601_datetime}
 \title{Check if a column contains ISO 8601 datetime strings}
 \usage{
-is_iso8601_datetime(column)
+is_iso8601_datetime(x)
 }
 \arguments{
-\item{column}{A vector of character strings}
+\item{x}{A vector of character strings}
 }
 \value{
 TRUE if all non-missing values are valid ISO 8601 datetime strings, FALSE otherwise

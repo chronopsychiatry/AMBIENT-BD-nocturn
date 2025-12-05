@@ -42,12 +42,15 @@ plot_sleep_spiral <- function(epochs, color_by = "default") {
     if (is_iso8601_datetime(color_var)) {
       color_var <- parse_time(color_var)
       color_aes <- ggplot2::aes(color = color_var)
-      color_scale <- ggplot2::scale_color_viridis_c(
-        labels = function(x) format(as.POSIXct(x, origin = "1970-01-01", tz = "UTC"), "%Y-%m-%d %H:%M")
+      color_scale <- ggplot2::scale_color_gradientn(
+        colours = grDevices::hcl.colors(100, "viridis"),
+        labels = function(x) format(as.POSIXct(x, origin = "1970-01-01", tz = "UTC"), "%H:%M")
       )
     } else if (is.numeric(color_var)) {
       color_aes <- ggplot2::aes(color = color_var)
-      color_scale <- ggplot2::scale_color_viridis_c()
+      color_scale <- ggplot2::scale_color_gradientn(
+        colours = grDevices::hcl.colors(100, "viridis")
+      )
     } else {
       epochs$color_group <- as.factor(color_var)
       color_levels <- levels(epochs$color_group)

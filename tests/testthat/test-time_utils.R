@@ -112,7 +112,7 @@ test_that("is_iso8601_datetime correctly identifies ISO 8601 datetime strings", 
   expect_true(is_iso8601_datetime(mixed_values))
 
   empty_and_na <- c("", NA, "")
-  expect_true(is_iso8601_datetime(empty_and_na))
+  expect_false(is_iso8601_datetime(empty_and_na))
 
   invalid_datetimes <- c("not-a-date", "2025-04-08 10:00:00", "08-04-2025T10:00:00")
   expect_false(is_iso8601_datetime(invalid_datetimes))
@@ -121,7 +121,7 @@ test_that("is_iso8601_datetime correctly identifies ISO 8601 datetime strings", 
   expect_false(is_iso8601_datetime(mixed_invalid))
 
   empty_vector <- character(0)
-  expect_true(is_iso8601_datetime(empty_vector))
+  expect_true(is.na(is_iso8601_datetime(empty_vector)))
 })
 
 mock_sessions <- data.frame(
