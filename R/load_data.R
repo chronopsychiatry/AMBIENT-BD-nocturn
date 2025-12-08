@@ -166,7 +166,9 @@ load_batch <- function(folder_path = NULL, file_list = NULL, file_names = NULL, 
         "i" = "Please use 'sessions' or 'epochs'."
       ))
     }
-    if (!is.null(file_names)) {
+    if (is.null(file_names)) {
+      data$filename <- basename(f)
+    } else {
       data$filename <- file_names[which(all_files == f)]
     }
     if (!is.null(data)) {
