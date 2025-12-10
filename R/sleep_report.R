@@ -100,8 +100,8 @@ sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf")
   filled_pdf <- tempfile(fileext = ".pdf")
   glossary_pdf <- tempfile(fileext = ".pdf")
 
-  rsvg::rsvg_pdf(filled_svg, filled_pdf)
-  rsvg::rsvg_pdf(paste0(template_path, "/Sleep_report_glossary.svg"), glossary_pdf)
+  rsvg::rsvg_pdf(filled_svg, filled_pdf, width = 842, height = 595)
+  rsvg::rsvg_pdf(paste0(template_path, "/Sleep_report_glossary.svg"), glossary_pdf, width = 842, height = 595)
 
   qpdf::pdf_combine(c(filled_pdf, glossary_pdf), output = output_file)
 }
