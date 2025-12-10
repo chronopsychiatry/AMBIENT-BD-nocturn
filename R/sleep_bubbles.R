@@ -6,6 +6,7 @@
 #' - `sleep_period`
 #' - `night`
 #' @param color_by The variable to color the bubbles by. Can be "default" or any other column name in the sessions dataframe.
+#' @param bubble_size The size of the bubbles. Default is 10.
 #' @returns A ggplot object containing the sleep bubbles graph.
 #' @importFrom rlang .data
 #' @export
