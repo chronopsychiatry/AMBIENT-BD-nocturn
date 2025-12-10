@@ -1,6 +1,6 @@
 # nocturn changelog
 
-## 1.1.0 (in dev)
+## 1.1.0 (10/12/2025)
 
 ### App UI
 
