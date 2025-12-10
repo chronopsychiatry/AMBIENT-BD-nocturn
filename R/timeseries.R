@@ -110,16 +110,13 @@ plot_timeseries_sessions <- function(sessions, variable, color_by = "default", e
   check_session_colnames(sessions, c("night"))
   col <- get_session_colnames(sessions)
 
-  sessions <- sessions |>
-    dplyr::filter(!is.na(.data[[variable]]) & .data[[variable]] != "")
-
   if (exclude_zero) {
     sessions <- sessions |>
       dplyr::filter(.data[[variable]] != 0)
   }
 
   if (is_iso8601_datetime(sessions[[variable]])) {
-    sessions$variable <- parse_time(sessions[[variable]])
+    sessions$variable <- parse_time(sessions[[variable]]) |> update_date(date = "1970-01-01")
     y_is_time <- TRUE
   } else {
     sessions$variable <- sessions[[variable]]
