@@ -10,7 +10,7 @@
 #' @importFrom rlang .data
 #' @export
 #' @family plot sessions
-plot_sleep_bubbles <- function(sessions, color_by = "default") {
+plot_sleep_bubbles <- function(sessions, color_by = "default", bubble_size = 10) {
   check_session_colnames(sessions, c("sleep_period", "night"))
   col <- get_session_colnames(sessions)
 
@@ -49,7 +49,7 @@ plot_sleep_bubbles <- function(sessions, color_by = "default") {
       ymin = 6, ymax = 9,
       fill = "lightgrey", alpha = 0.5
     ) +
-    ggplot2::geom_point(size = 10, alpha = 0.5) +
+    ggplot2::geom_point(size = bubble_size, alpha = 0.5) +
     color_scale +
     ggplot2::labs(
       x = NULL,
