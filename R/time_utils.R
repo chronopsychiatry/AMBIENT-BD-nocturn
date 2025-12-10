@@ -189,6 +189,7 @@ shift_times_by_12h <- function(times) {
 #' @examples
 #' epochs <- group_epochs_by_night(example_epochs)
 group_epochs_by_night <- function(epochs) {
+  check_epoch_colnames(epochs, c("timestamp"))
   col <- get_epoch_colnames(epochs)
   epochs |>
     tidyr::drop_na(dplyr::all_of(col$timestamp)) |>
@@ -216,6 +217,7 @@ group_epochs_by_night <- function(epochs) {
 #' @examples
 #' sessions <- group_sessions_by_night(example_sessions)
 group_sessions_by_night <- function(sessions) {
+  check_session_colnames(sessions, c("session_start"))
   col <- get_session_colnames(sessions)
   sessions |>
     tidyr::drop_na(dplyr::all_of(col$session_start)) |>
@@ -248,14 +250,67 @@ get_time_per_day <- function(unit = "second") {
 #' Check if a column contains ISO 8601 datetime strings
 #'
 #' This function checks if all non-missing values in a column are valid ISO 8601 datetime strings.
-#' @param column A vector of character strings
+#' @param x A vector of character strings
 #' @returns TRUE if all non-missing values are valid ISO 8601 datetime strings, FALSE otherwise
 #' @family internal
 #' @export
-is_iso8601_datetime <- function(column) {
-  column <- column[!is.na(column) & column != ""]
-  parsed <- suppressWarnings(lubridate::ymd_hms(column, quiet = TRUE))
-  all(!is.na(parsed))
+is_iso8601_datetime <- function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    x <- stats::na.omit(x)
+  }
+
+  # If x is a POSIXct, return TRUE
+  if (inherits(x, "POSIXct") || inherits(x, "POSIXt")) {
+    return(TRUE)
+  }
+
+  # Date patterns
+  date_extended <- "\\d{4}-\\d{2}-\\d{2}"  # YYYY-MM-DD
+  date_basic <- "\\d{4}\\d{2}\\d{2}"       # YYYYMMDD
+
+  # Time patterns
+  time_extended <- "\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?"  # HH:MM:SS(.sss)
+  time_basic <- "\\d{2}\\d{2}\\d{2}(?:\\.\\d+)?"       # HHMMSS(.sss)
+
+  # Timezone pattern
+  timezone <- "(?:Z|[+-]\\d{2}(?::\\d{2}|\\d{2}))?"
+
+  # Time separator
+  separator <- "[ T]"
+
+  # Combined patterns
+  # Extended format: YYYY-MM-DDThh:mm:ss(.sss)(Z|±hh:mm)
+  datetime_extended <- paste0(
+    "^", date_extended, separator, time_extended, timezone, "$"
+  )
+
+  # Basic format: YYYYMMDDThhmmss(.sss)(Z|±hhmm)
+  datetime_basic <- paste0(
+    "^", date_basic, separator, time_basic, timezone, "$"
+  )
+
+  # Mix of extended date with basic time: YYYY-MM-DDThhmmss(.sss)(Z|±hhmm)
+  datetime_mixed1 <- paste0(
+    "^", date_extended, separator, time_basic, timezone, "$"
+  )
+
+  # Mix of basic date with extended time: YYYYMMDDThh:mm:ss(.sss)(Z|±hh:mm)
+  datetime_mixed2 <- paste0(
+    "^", date_basic, separator, time_extended, timezone, "$"
+  )
+
+  # For each element in the input vector
+  result <- rep(NA, length(x))
+  not_na <- !is.na(x)
+  result[not_na] <-
+    grepl(datetime_extended, x[not_na]) |
+    grepl(datetime_basic, x[not_na]) |
+    grepl(datetime_mixed1, x[not_na]) |
+    grepl(datetime_mixed2, x[not_na])
+
+  all(as.logical(result))
 }
 
 #' Convert time vector to numeric hours
@@ -304,7 +359,12 @@ parse_date <- function(date_vector) {
   if (inherits(date_vector, "Date")) {
     return(date_vector)
   }
-  date_formats <- c("ymd", "Ymd", "mdY", "dmy", "Y-m-d", "m/d/Y", "d/m/Y")
+  parsed_date <- suppressWarnings(lubridate::as_date(date_vector))
+  if (!all(is.na(parsed_date))) {
+    return(parsed_date)
+  }
+
+  date_formats <- c("ymd", "Ymd", "dmy", "Y-m-d", "d/m/Y")
   lubridate::parse_date_time(date_vector, orders = date_formats, tz = NULL, quiet = TRUE) |>
     lubridate::as_date()
 }

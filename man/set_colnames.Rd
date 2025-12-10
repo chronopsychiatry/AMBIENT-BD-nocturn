@@ -7,7 +7,7 @@
 set_colnames(df, col)
 }
 \arguments{
-\item{df}{A data frame containing either sessions or epochs data}
+\item{df}{A data frame}
 
 \item{col}{A named list of column names}
 }
@@ -15,7 +15,13 @@ set_colnames(df, col)
 The data frame with updated "col" attribute
 }
 \description{
-This function sets the "col" attribute for a data frame with a named list of column names.
+This function updates the "col" attribute for a dataframe, overwriting existing column names with the ones provided.
+}
+\examples{
+sessions <- set_colnames(
+ example_sessions,
+ list(night = "calendar_date", sleep_period = "duration_sleep")
+)
 }
 \seealso{
 Other internal: 

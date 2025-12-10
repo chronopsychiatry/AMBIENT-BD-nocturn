@@ -24,6 +24,10 @@ function(input, output, session) {
     )
   })
 
+  observeEvent(input$sidebar_toggle_btn, {
+    bslib::sidebar_toggle("sidebar")
+  })
+
   # Data loading module
   input_server("input", common)
 

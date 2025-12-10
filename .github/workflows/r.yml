@@ -10,9 +10,9 @@ name: R
 
 on:
   push:
-    branches: [ "main", "dev_branch" ]
+    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ "main", "dev_branch" ]
+    branches: [ "main", "dev" ]
 
 permissions:
   contents: read
@@ -36,10 +36,6 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
-
-      - name: Setup tinytex
-        uses: r-lib/actions/setup-tinytex@v2
-      - run: tlmgr --version
 
       - name: Check
         uses: r-lib/actions/check-r-package@v2

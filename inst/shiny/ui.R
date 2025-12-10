@@ -34,7 +34,11 @@ tagList(
   bslib::layout_sidebar(
     sidebar = bslib::sidebar(
       width = 400,
-      open = "always",
+      tags$button(
+        id = "sidebar_toggle_btn",
+        class = "sidebar-toggle-btn",
+        HTML("&#x25C0;") # Unicode for left-pointing triangle/arrow
+      ),
       div(class = "sidebar_container",
         conditionalPanel(
           condition = "input.tabs == 'intro'",

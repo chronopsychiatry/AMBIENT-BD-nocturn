@@ -31,6 +31,7 @@ Filter sessions by age range
 This function uses columns:
 \itemize{
 \item \code{birth_year}
+\item \code{night}
 }
 }
 \examples{
@@ -44,6 +45,7 @@ Other filtering:
 \code{\link{remove_sessions_no_sleep}()},
 \code{\link{select_devices}()},
 \code{\link{select_subjects}()},
+\code{\link{set_min_sleep_period}()},
 \code{\link{set_min_time_in_bed}()},
 \code{\link{set_session_sleep_onset_range}()},
 \code{\link{set_session_start_time_range}()}

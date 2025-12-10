@@ -14,8 +14,8 @@ sleep_report(sessions, title = "", output_file = "Sleep_report.pdf")
 \item{output_file}{Path for the output PDF. Default is "Sleep_report.pdf"}
 }
 \description{
-This function generates a sleep report in PDF format using an R Markdown template.
-It is designed to work with Somnofy data, so some values may not be available when using other data sources such as GGIR.
+This function generates a sleep report in PDF format using an SVG template.
+It is designed to work with Somnofy data. Other data types may be supported in the future.
 }
 \details{
 This function uses columns:
@@ -25,5 +25,7 @@ This function uses columns:
 \item \code{time_at_wakeup}
 \item \code{time_at_midsleep}
 \item \code{sleep_onset_latency}
+\item \code{sleep_period}
+\item \code{time_in_bed}
 }
 }

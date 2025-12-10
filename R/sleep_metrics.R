@@ -12,6 +12,7 @@
 #' interdaily_stability(example_epochs)
 #' @importFrom rlang .data
 interdaily_stability <- function(epochs) {
+  check_epoch_colnames(epochs, c("timestamp", "is_asleep"))
   col <- get_epoch_colnames(epochs)
 
   epochs <- epochs |>
@@ -48,6 +49,7 @@ interdaily_stability <- function(epochs) {
 #' social_jet_lag(example_sessions)
 #' @importFrom rlang .data
 social_jet_lag <- function(sessions) {
+  check_session_colnames(sessions, c("time_at_midsleep", "is_workday"))
   col <- get_session_colnames(sessions)
 
   sessions <- sessions |>
@@ -78,6 +80,7 @@ social_jet_lag <- function(sessions) {
 #' chronotype(example_sessions)
 #' @importFrom rlang .data
 chronotype <- function(sessions) {
+  check_session_colnames(sessions, c("time_at_midsleep", "sleep_period", "is_workday"))
   col <- get_session_colnames(sessions)
 
   data <- sessions |>
@@ -131,6 +134,7 @@ chronotype <- function(sessions) {
 #' composite_phase_deviation(example_sessions)
 #' @importFrom rlang .data
 composite_phase_deviation <- function(sessions) {
+  check_session_colnames(sessions, c("time_at_midsleep", "is_workday", "night"))
   col <- get_session_colnames(sessions)
 
   chronotype <- chronotype(sessions)
@@ -160,6 +164,7 @@ composite_phase_deviation <- function(sessions) {
 #' sleep_regularity_index(example_epochs)
 #' @importFrom rlang .data
 sleep_regularity_index <- function(epochs) {
+  check_epoch_colnames(epochs, c("timestamp", "is_asleep"))
   col <- get_epoch_colnames(epochs)
 
   epochs <- epochs |>

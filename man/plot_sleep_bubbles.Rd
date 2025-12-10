@@ -4,12 +4,14 @@
 \alias{plot_sleep_bubbles}
 \title{Plot Sleep Bubbles}
 \usage{
-plot_sleep_bubbles(sessions, color_by = "default")
+plot_sleep_bubbles(sessions, color_by = "default", bubble_size = 10)
 }
 \arguments{
 \item{sessions}{The sessions dataframe.}
 
 \item{color_by}{The variable to color the bubbles by. Can be "default" or any other column name in the sessions dataframe.}
+
+\item{bubble_size}{The size of the bubbles. Default is 10.}
 }
 \value{
 A ggplot object containing the sleep bubbles graph.

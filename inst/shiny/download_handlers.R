@@ -32,6 +32,17 @@ get_report_download_handler <- function(session, logger, sessions, title) {
       paste0("Sleep_report_", Sys.Date(), ".pdf")
     },
     content = function(file) {
+      col <- get_colnames(sessions)
+      required_cols <- c(
+        "time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep",
+        "sleep_onset_latency", "sleep_period", "time_in_bed", "night"
+      )
+      missing_cols <- required_cols[sapply(required_cols, function(nm) is.null(col[[nm]]))]
+      if (length(missing_cols) > 0) {
+        logger |> write_log(paste0("Sleep report missing columns: ", paste(missing_cols, collapse = ", ")), type = "error")
+        logger |> write_log("Could not generate sleep report", type = "info")
+        return(invisible(NULL))
+      }
       tmpfile <- tempfile(fileext = ".pdf")
       sleep_report(sessions = sessions, title = title(), output_file = tmpfile)
       file.copy(tmpfile, file)

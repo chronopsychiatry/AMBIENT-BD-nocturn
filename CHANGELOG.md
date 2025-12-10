@@ -1,5 +1,33 @@
 # nocturn changelog
 
+## 1.1.0 (10/12/2025)
+
+### App UI
+
+- Added a button to collapse/expand the sidebar
+
+### Data import and cleaning
+
+- If `session_start` and `sleep_onset_latency` are available, they will be used to infer `time_at_sleep_onset` (if not already provided)
+- Added a tooltip to the "Load example data" button
+
+### Filtering
+
+- Added a function "set_min_sleep_period" to keep sessions with a sleep period longer than a threshold (in hours)
+- Added a filter in the app "sleep" tab: "Minimum Time Asleep"
+
+### Plots
+
+- Improved how plots handle continuous and time data in "Colour by"
+
+### Sleep Report
+
+- Changed report generation method - should now be faster
+
+### Scripts
+
+- Added explicit errors when a function is called, and the necessary column names are not set
+
 ## 1.0.3 (26/22/2025)
 
 ## Set column names (app)

@@ -1,7 +1,7 @@
 #' Generate a patient sleep report in PDF format
 #'
-#' This function generates a sleep report in PDF format using an R Markdown template.
-#' It is designed to work with Somnofy data, so some values may not be available when using other data sources such as GGIR.
+#' This function generates a sleep report in PDF format using an SVG template.
+#' It is designed to work with Somnofy data. Other data types may be supported in the future.
 #' @param sessions The sessions dataframe
 #' @param title The title of the report. Default is an empty string.
 #' @param output_file Path for the output PDF. Default is "Sleep_report.pdf"
@@ -11,18 +11,19 @@
 #' - `time_at_wakeup`
 #' - `time_at_midsleep`
 #' - `sleep_onset_latency`
+#' - `sleep_period`
+#' - `time_in_bed`
 #' @export
 sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf") {
   nocturn_version <- as.character(utils::packageVersion("nocturn"))
-  if (!tinytex::is_tinytex()) {
-    cli::cli_inform(c("!" = "TinyTeX not found.",
-                      "i" = "Installing TinyTeX for consistent PDF rendering..."))
-    tinytex::install_tinytex()
-  }
 
+  check_session_colnames(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep",
+                                     "sleep_onset_latency", "sleep_period", "time_in_bed"))
   col <- get_session_colnames(sessions)
 
   dates <- format(c(min(sessions[[col$night]]), max(sessions[[col$night]])), "%d/%m/%Y")
+
+  sessions <- remove_sessions_no_sleep(sessions)
 
   # Stats: Time to fall asleep, sleep efficiency, chronotype, Sleep Regularity (based on midsleep standard deviation)
   stats <- list()
@@ -65,21 +66,44 @@ sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf")
                    plot.background = ggplot2::element_rect(fill = "transparent", color = NA),
                    legend.background = ggplot2::element_rect(fill = "transparent", color = NA))
 
-  template_path <- system.file("shiny", package = "nocturn")
-  rmarkdown::render(
-    paste0(template_path, "/Rmd/Sleep_report.Rmd"),
-    output_file = basename(output_file),
-    params = list(nocturn_version = nocturn_version,
-                  clock_plot = clock_plot,
-                  title = title,
-                  dates = dates,
-                  stats = stats,
-                  sleep_times = sleep_times,
-                  sleep_duration_plot = sleep_duration_plot),
-    output_dir = dirname(output_file),
-    quiet = TRUE,
+  template_path <- system.file("resources", package = "nocturn")
+  filled_svg <- tempfile(fileext = ".svg")
+
+  svgedit::draw(
+    input_svg = paste0(template_path, "/Sleep_report_template.svg"),
+    output_svg = filled_svg,
+    plots = list(
+      clock_plot = clock_plot,
+      sleep_duration_plot = sleep_duration_plot,
+      sleep_times = sleep_times
+    ),
+    plot_scale = list(
+      clock_plot = 0.66,
+      sleep_duration_plot = 0.66,
+      sleep_times = 0.5
+    ),
+    text = list(
+      title = title,
+      dates = c(dates[1], dates[2]),
+      time_to_fall_asleep = stats$time_to_fall_asleep,
+      sleep_efficiency = stats$sleep_efficiency,
+      chronotype = stats$chronotype,
+      sleep_regularity = stats$sleep_regularity,
+      social_jet_lag = stats$social_jet_lag,
+      credits = c(nocturn_version, stats$chronotype_credit)
+    ),
+    images = list(
+      chronotype_image = paste0(template_path, "/", stats$chronotype_image)
+    )
   )
-  unlink(paste0(template_path, "/Rmd/*.log"))
+
+  filled_pdf <- tempfile(fileext = ".pdf")
+  glossary_pdf <- tempfile(fileext = ".pdf")
+
+  rsvg::rsvg_pdf(filled_svg, filled_pdf, width = 842, height = 595)
+  rsvg::rsvg_pdf(paste0(template_path, "/Sleep_report_glossary.svg"), glossary_pdf, width = 842, height = 595)
+
+  qpdf::pdf_combine(c(filled_pdf, glossary_pdf), output = output_file)
 }
 
 #' @importFrom rlang .data

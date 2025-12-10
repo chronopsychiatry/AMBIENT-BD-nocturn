@@ -50,10 +50,15 @@ clean_sessions <- function(sessions) {
   if (!is.null(col$birth_year)) {
     sessions[[col$birth_year]] <- as.numeric(sessions[[col$birth_year]])
   }
-  # Parse time at sleep onset time
+
+  # Parse time at sleep onset time or create it if possible
   if (!is.null(col$time_at_sleep_onset)) {
     sessions[[col$time_at_sleep_onset]] <- parse_time(sessions[[col$time_at_sleep_onset]])
+  } else if (!is.null(col$session_start) && !is.null(col$sleep_onset_latency)) {
+    sessions$time_at_sleep_onset <- sessions[[col$session_start]] + as.numeric(sessions[[col$sleep_onset_latency]])
+    col$time_at_sleep_onset <- "time_at_sleep_onset"
   }
+
   # Parse time at wakeup time
   if (!is.null(col$time_at_wakeup)) {
     sessions[[col$time_at_wakeup]] <- parse_time(sessions[[col$time_at_wakeup]])

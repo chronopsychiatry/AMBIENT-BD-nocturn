@@ -1,6 +1,6 @@
 Package: nocturn
 Title: Sleep data filtering and visualisation
-Version: 1.0.3
+Version: 1.1.0
 Authors@R: 
     person("Daniel", "Thedie", , "daniel.thedie@ed.ac.uk", role = c("aut", "cre"))
 Description: This package helps importing, filtering and visualising sleep data.
@@ -27,7 +27,6 @@ Imports:
     ggnewscale,
     ggplot2,
     lubridate,
-    rmarkdown,
     readxl,
     rlang,
     scales,
@@ -36,7 +35,11 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    tinytex
+    rsvg,
+    svgedit,
+    qpdf
+Remotes:
+    DanielThedie/svgedit
 Depends: 
     R (>= 4.3)
 LazyData: true

@@ -1,14 +1,33 @@
 /* Main panel */
 .main-panel-wrapper {
-  min-height: 70vh;      /* Ensures it grows with content */
-  max-height: 85vh;      /* Adjust as needed */
-  overflow-y: auto;      /* Adds vertical scroll if content overflows */
+  min-height: 70vh;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 /* Cards for side panel */
 .sidebar_card {
   background-color: var(--bs-light-bg-subtle);
   border-radius: 0.5rem;
+}
+
+/* Side panel collapsing button */
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 10px;
+  right: -20px;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Force some buttons to be small instead of taking up the whole width */
@@ -107,4 +126,11 @@
 .btn.btn-outline-secondary:hover {
   color: #6c757d;
   border: 1px solid #999;
+}
+
+/* Drop-down menus text overflow (e.g. color by) */
+.selectize-control.single .selectize-input {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

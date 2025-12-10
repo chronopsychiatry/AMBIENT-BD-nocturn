@@ -29,7 +29,7 @@ write_log <- function(logger, ..., type = "default") {
         shinyalert::shinyalert(...,
                                type = "error")
       } else {
-        shinyalert::shinyalert("Please, check Log window for more information ",
+        shinyalert::shinyalert("Please check log window for more information ",
                                type = "error")
       }
       pre <- paste0(shiny::icon("xmark", class = "log_error"), " ")

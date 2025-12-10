@@ -95,15 +95,13 @@ make_sessions_display_table <- function(sessions) {
       sleep_onset = parse_time(get_col(sessions, col$time_at_sleep_onset)) |> format("%H:%M"),
       wakeup = parse_time(get_col(sessions, col$time_at_wakeup)) |> format("%H:%M"),
       end = parse_time(get_col(sessions, col$session_end)) |> format("%H:%M"),
-      session_duration_h = difftime(parse_time(get_col(sessions, col$session_end)),
-                                    parse_time(get_col(sessions, col$session_start)),
-                                    units = "hours"),
+      time_in_bed_h = if (!is.null(col$time_in_bed)) get_col(sessions, col$time_in_bed) / 60 / 60 else NA,
       night = if (!is.null(col$night)) {
         lubridate::as_date(get_col(sessions, col$night)) |> format("%Y-%m-%d")
       } else {
         NA
       },
-      time_in_bed_h = if (!is.null(col$time_in_bed)) get_col(sessions, col$time_in_bed) / 60 / 60 else NA
+      time_asleep_h = if (!is.null(col$sleep_period)) get_col(sessions, col$sleep_period) / 60 / 60 else NA
     ) |>
     dplyr::select(
       dplyr::any_of(c(
@@ -114,8 +112,8 @@ make_sessions_display_table <- function(sessions) {
         "sleep_onset",
         "wakeup",
         "end",
-        "session_duration_h",
         "time_in_bed_h",
+        "time_asleep_h",
         "annotation"
       ))
     )
