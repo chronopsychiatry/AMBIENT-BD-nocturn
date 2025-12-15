@@ -111,8 +111,8 @@ filtering_server <- function(id, common) {
         birth_years <- common$sessions()[[col$birth_year]]
         birth_years <- birth_years[!is.na(birth_years)]
         if (length(birth_years) > 0) {
-          min_age <- lubridate::year(Sys.Date()) - max(birth_years)
-          max_age <- lubridate::year(Sys.Date()) - min(birth_years)
+          min_age <- min(lubridate::year(common$sessions()[[col$night]]) - birth_years)
+          max_age <- max(lubridate::year(common$sessions()[[col$night]]) - birth_years)
           shiny::sliderInput(
             session$ns("age_range"),
             "Age Range:",
