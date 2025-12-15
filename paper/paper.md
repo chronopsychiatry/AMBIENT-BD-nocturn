@@ -167,36 +167,34 @@ library(nocturn)
 
 # Load the data
 sessions <- load_sessions("path/to/sessions_reports.csv")
-epochs <- load_epochs("path/to/epoch_data.csv")
 
 # Filter the sessions
 filtered_sessions <- sessions |>
-  remove_sessions_no_sleep() |>
-  set_min_time_in_bed(2) |>
-  set_session_sleep_onset_range("20:00", "06:00")
+  set_min_time_asleep(2)
 
 # Print the number of duplicate sessions
-print(paste0("There are ", nrow(get_non_complying_sessions(filtered_sessions)), " duplicate sessions."))
-
-# Filter epoch data based on the filtered sessions (requires the `session_id` column in epochs)
-filtered_epochs <- filter_epochs_from_sessions(epochs, filtered_sessions)
+print(paste0(
+  "There are ",
+  nrow(get_non_complying_sessions(filtered_sessions)),
+  " duplicate sessions."
+))
 
 # Make a sleep clock plot
 clock_plot <- plot_sleep_clock(filtered_sessions)
 
-# Make a sleep spiral plot
-spiral_plot <- plot_sleep_spiral(filtered_epochs)
-
 # Save plots as png
-ggplot2::ggsave(filename = "clock.png", plot = clock_plot, device = "png", bg = "white")
-ggplot2::ggsave(filename = "spiral.png", plot = spiral_plot, device = "png", bg = "white")
+ggplot2::ggsave(
+  filename = "clock.png",
+  plot = clock_plot,
+  device = "png",
+  bg = "white"
+)
 ```
 
-If you do not have data available, you can use the script with pre-loaded example data. To do so, replace the lines under `# Load the data` by:
+If you do not have data available, you can use the script with pre-loaded example data. To do so, replace the line under `# Load the data` by:
 
 ```r
 sessions <- example_sessions
-epochs <- example_epochs
 ```
 
 # Acknowledgements
