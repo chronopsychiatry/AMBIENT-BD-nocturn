@@ -52,10 +52,10 @@ show_colnames_modal <- function(
   save_id = "save_col_names",
   reset_id = "reset_col_names"
 ) {
-  inputs <- lapply(names(current_map), function(key) {
+  inputs <- lapply(names(.sessions_long), function(key) {
     current_value <- as.character(current_map[[key]])
-    if (is.null(current_map[[key]]) || is.na(current_map[[key]])) current_value <- ""
-    choices <- c("", colnames_list)
+    if (is.null(current_map[[key]]) || is.na(current_map[[key]]) || current_map[[key]] == "-") current_value <- "-"
+    choices <- c("-", colnames_list)
     label_text <- .sessions_long[[key]] %||% .epochs_long[[key]] %||% key
     help_text <- .sessions_help[[key]] %||% .epochs_help[[key]] %||% NULL
     label <- shiny::tagList(

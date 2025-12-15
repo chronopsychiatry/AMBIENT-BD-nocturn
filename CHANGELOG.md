@@ -5,6 +5,7 @@
 ### Bug fixes
 
 - Fixed an issue with the age filter in the app (filtering function unaffected)
+- Column names (app): allow "un-setting" column names by selecting "-"
 
 ## 1.1.0 (10/12/2025)
 

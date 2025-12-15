@@ -1,7 +1,6 @@
 # Long names ----
 
 #' Long names for sessions columns, for display in app
-#' @export
 #' @keywords internal
 .sessions_long <- list(
   id = "Session ID",
@@ -22,7 +21,6 @@
 )
 
 #' Long names for epochs columns, for display in app
-#' @export
 #' @keywords internal
 .epochs_long <- list(
   timestamp = "Timestamp",
@@ -36,13 +34,12 @@
 # Help tooltip texts ----
 
 #' Help tooltips for sessions columns, for display in app
-#' @export
 #' @keywords internal
 .sessions_help <- list(
   id = "Unique identifier for each session.",
   subject_id = "Unique identifier for each subject.",
-  sex = NULL,
-  birth_year = NULL,
+  sex = "Sex of the subject.",
+  birth_year = "Birth year for the subject (full dates can be provided, only the year will be used).",
   device_id = "Unique identifier for the recording device.",
   session_start = "Start time of the session (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
   session_end = "End time of the session (YYYY-MM-DD HH:MM:SS, HH:MM:SS or HH:MM).",
@@ -61,7 +58,6 @@
 )
 
 #' Help tooltips for epochs columns, for display in app
-#' @export
 #' @keywords internal
 .epochs_help <- list(
   timestamp = "Timestamp of the epoch (YYYY-MM-DD HH:MM:SS).",
@@ -75,7 +71,6 @@
 # Session column name presets ----
 
 #' Preset values for session column names
-#' @export
 #' @keywords internal
 .sessions_col_presets <- list(
   id = c("id", "session_id", "window_number"),
@@ -96,7 +91,6 @@
 )
 
 #' Empty list of session column names used in nocturn
-#' @export
 #' @keywords internal
 .sessions_col_none <- list(
   id = NULL,
@@ -119,7 +113,6 @@
 # Epoch column name presets ----
 
 #' Preset values for epoch column names
-#' @export
 #' @keywords internal
 .epochs_col_presets <- list(
   timestamp = c("timestamp", "timenum"),
@@ -131,7 +124,6 @@
 )
 
 #' Empty list of epoch column names used in nocturn
-#' @export
 #' @keywords internal
 .epochs_col_none <- list(
   timestamp = NULL,

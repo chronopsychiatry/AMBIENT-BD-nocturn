@@ -73,10 +73,10 @@ input_sessions_server <- function(id, common) {
     })
 
     shiny::observeEvent(input$save_session_col_names, {
-      keys <- names(get_colnames(common$sessions()))
+      keys <- names(.sessions_long)
       vals <- lapply(keys, function(key) {
         val <- input[[paste0("col_", key)]]
-        if (identical(val, "")) NULL else val
+        if (identical(val, "-")) NULL else val
       })
       common$sessions(set_colnames(common$sessions(), stats::setNames(vals, keys)))
       common$sessions(clean_sessions(common$sessions()))
