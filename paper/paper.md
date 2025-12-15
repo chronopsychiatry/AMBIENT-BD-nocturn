@@ -27,38 +27,39 @@ bibliography: paper.bib
 
 # Summary
 
+# Glossary
+
+| Term | Definition                                    |
+| ---- | --------------------------------------------- |
+| User | The person using the nocturn app or R package |
+| Subject | The person whos sleep has been recorded    |
+| Night | The date of a sleep session, calculated from 12pm to 12pm. For example, all sessions between 2025-01-01 12:00 and 2025-01-02 12:00 will be part of night "2025-01-01" |
 
 # Statement of need
 
-Radar technology has recently emerged as a useful tool for longitudinal sleep monitoring for wellbeing and research. It has been used in the Ambient-BD study [@Manrai2025], where Somnofy devices (VitalThings) were used to monitor the sleep of 180 participants over 18 months. Somnofy is a promising tool for research applications, as it allows long-term, non-intrusive sleep monitoring, with minimal maintenance. This can be harnessed to pick up long-term trends in sleep and circadian rhythm, and monitor related health outcomes. However, due to the novelty of this technology, few specialised tools are currently available for the analysis of radar-derived sleep data, as is produced by Somnofy. nocturn was developed as part of the Ambient-BD study to enable researchers to:
+Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their usual environment. The increasing availability of these data makes it essential to have tools that allow easy, high-level exploration of sleep data recorded through different modalities. With this in mind, nocturn was developed to enable researchers to:
 
-- Explore Somnofy sleep data, regardless of their familiarity with programming languages
-- Apply thresholds on key variables (such as time spent in bed) to remove spurious sleep sessions, for example caused by pets lying on the bed
+- Explore sleep data, regardless of their familiarity with programming languages
+- Apply thresholds on key variables (such as time spent in bed) to remove spurious sleep sessions
 - Generate attractive visualisations that can be used in research outputs during and after the project
-- Produce accessible sleep summaries to be shared with study participants
+- Produce accessible sleep summary reports to be shared with study participants
 - Create automated workflows to quickly produce the outputs listed above for a large number of participants
 
-To achieve these aims, nocturn was developped as an R package and an R shiny app, which can be accessed directly online, or run locally.
+To achieve these aims, nocturn was developed as an R package and an R shiny app, which can be accessed directly online or run locally. While the shiny app is geared towards ease-of-use and rapid data exploration, the functions available in the R package are aimed at power-users who wish to produce their own automated workflows.
 
 # Main functionalities
 
-## Interface
+## Graphical interface
 
-nocturn can be used through a graphical interface (running online or locally), or as an R package.
+The nocturn app graphical interface features three main menus, which can be accessed using the top navigation bar, and will be displayed in the app's sidebar. **Import Data** allows importing Session and Epoch data (more on data types below), and setting column names, i.e. specifying which columns in the data contain information such as start of the sleep session, time at sleep onset, or time at wakeup. **Filtering** lets the user select sleep sessions by date range, subject ID, sleep onset time, as well as minimum time spent in bed or spent asleep. **Export data** allows exporting the current filtered data as csv, and generating a summary "sleep report" (currently only available for data generated from the Somnofy radar device).
 
-The nocturn graphical interface is conceived as a dashboard, where the different information and menus are easily reachable. It contains five main areas:
+The main app panel displays several summary data tables (top), and data visualisations (bottom). Both are updated reactively when the input data or the filters change.
 
-- Data input
-- Data filtering
-- Data export
-- Tables
-- Figures
+## Programmatic interface
 
-The application is reactive, allowing for direct feedback on the effect of data filters.
+Using nocturn as an R package allows designing custom data processing workflows:
 
-Conversely, using nocturn as an R package allows designing custom data processing workflows:
-
-- The session and epoch data are stored as DataFrames, which allows easy integration of `dplyr` or custom functions in the processing
+- The session and epoch data are stored as DataFrames, which allows easy integration with tidyverse or custom functions
 - Plotting functions all return `ggplot2` objects, allowing for further editing of figures
 - All functionalities available via the graphical interface can easily be reproduced in code
 
@@ -66,50 +67,141 @@ This makes it straightforward to integrate nocturn functions into existing data 
 
 ## Input data
 
-### Somnofy
-
-During the Ambient-BD project, the raw radar data produced by Somnofy devices was processed internally by VitalThings to extract information such as sleep onset and wakeup time, as well as classifying sleep stages (awake, light sleep, REM, deep sleep). The processed data was then made available to the researchers via an API, in the form of two separate .csv files:
-
-- Sessions file: one row per sleep session, with data including time at sleep onset, time at wakeup, time spent in bed, and aggregate values such as the average temperature during the session
-- Epochs file: timestamped sleep data with 30-second resolution, including classification of sleep stages. A session ID is indicated for each timepoint, so epoch data can be linked with session data
-
-### Data from other devices
-
-Although nocturn was primarily designed to work with Somnofy data, it can also accept data from other devices, in .csv format. This requires the data to have a similar structure, i.e. one file containing "sleep sessions" (with measurements such as sleep onset and wakeup times), and (optionally) one file containing timestamped "epoch data" (at any time resolution). Once loaded in nocturn, use the "Set Session Columns" and "Set Epoch Columns" menus (in the Data Input section) to select the right column names for your data files. Column names can be left blank if they are not available in the data, though that might prevent certain visualisations from being displayed. If you plan to work with a certain data format on a regular basis, please open an issue on github so it can be added to nocturn's automatically recognised formats.
-
-nocturn does not accept raw actigraphy data. However, it accepts outputs from the [GGIR package](https://wadpac.github.io/GGIR/index.html) (cite). To do so, the option `save_ms5rawlevels` of the GGIR pipeline must be set to `TRUE`. The output can be found in `meta/ms5.outraw`. After running the pipeline, the following files can be loaded into nocturn:
-- The "day summary" results (output from part 5) as Somnofy Sessions
-- The "raw output" time-series (ms5.outraw) as Somnofy Epochs
+Two main types of sleep data can be imported into nocturn. **Sessions** are the main data type used in nocturn. They are data tables where each row represents a different "sleep session", from the time the subject went to bed (or started sleeping) to the time they got out of bed (or woke up). This could be for example the "night summary" output from part 4 of the [`GGIR`](https://wadpac.github.io/GGIR/index.html) pipeline (actigraphy data), the "sleep sessions" from a Somnofy device (VitalThings), or entries from a sleep diary. **Epochs** are timestamped data (at any resolution), where each data point is annotated to indicate if the subject is asleep or awake.
 
 ## Data compliance and filtering
 
-A common issue with sleep data collected by Somnofy devices, is the presence of "spurious sleep sessions". These are typically short sessions (a few minutes to hours), and can be due to:
+### Compliance
 
-- House pets lying on the bed
-- The participant lying still in bed (e.g. reading or watching TV)
-- Movement in the room, such as curtains blowing in the wind
+A common occurence in sleep data is spurious sleep sessions, where the subject is incorrectly reported as being asleep. Spurious sleep sessions are typically short (a few minutes to hours), occur during the day, and can be due to:
+
+- Pets lying on the bed (radar devices)
+- The participant lying still in bed, e.g. reading or watching TV (radar devices, actigraphy)
+- Movement in the room, such as curtains blowing in the wind (radar devices)
 - The participant taking a nap during the day, which might not be of interest in the context of a particular study
 
-Given the scale of the data collected (in the case of the Ambient-BD study, 18 months of daily data collection for 180 participants), manual curation of the sleep sessions would be too time-consuming. Hence, nocturn reports days where multiple sleep sessions have been detected, and provides the following filters:
+The **Compliance tab** (main app panel) highlights days where multiple sleep sessions took place, as well as some characteristics of these sessions. This can help quickly identify spurious sleep sessions, as well as days with multiple sleep sessions which could bias sleep regularity measurements.
 
-- Removal of sessions where no sleep occurred (enabled by default in the app)
-- Removal of sessions where the participant spent less than X hours in bed (in our experience, 2 hours is a good threshold to remove short sessions)
-- Removal of sessions where sleep onset occurred outside of a defined range (e.g. 17:00 to 18:00)
+### Filtering
+
+The following filters are available in the nocturn filtering menu:
+
+| Filter name      | Description                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| Date             | Restricts the data to a particular date range                                                          |
+| Subjects         | Select one or several subjects in the data, identified by the "subject ID" column"                     |
+| Age              | Select a range of subject ages, calculated as the difference between session start time and birth year |
+| Sex              | Select subjects by sex (multiple choices possible)                                                     |
+| Sleep onset time | Only keep sleep sessions where the sleep onset is in the specified range                               |
+| Time in bed      | Minimum time spent in bed (interval between session start and session end), in hours                   |
+| Time asleep      | Minimum time spent asleep (interval between sleep onset and wakeup), in hours                          |
+
+Note that filters will only appear in the menu if the necessary information is available. For example the "sex" filter will not appear if the data does not have a column indicating the sex of the subject.
+
+All filters work at the "Sessions" level. To filter Epoch data, make sure the it has a column selected for "Session ID" (Import Data, Epochs, Set Column Names), which links to the IDs in the Sessions table. Any filters applied to Sessions will automatically remove the corresponding epochs.
+
+The **Filtering tab** displays all sleep sessions that were removed by filtering. The last column of the table ("filters") shows which filter(s) caused the session to be excluded from the data.
 
 ## Annotations
 
-In the nocturn app, the annotation tab allows manually adding tags to sleep sessions. Tags can then be used to set the colormap on the different figures. This can be useful to:
+The **Annotation tab** allows manually adding tags to sleep sessions, which can then be used to set the colormap on the different figures. This can be useful to:
 
 - Highlight specific sessions of interest in figures
-- Include information from other sources, for example health questionnaires completed by participants
+- Display information from other sources, for example health questionnaires completed by participants
+
+To add an annotation, write it in the "Annotation" text box; click on all sessions this should apply to in the table (ctrl + click can help select multiple sessions rapidly), and click on "Apply".
+
+Tip: use the search box above the Annotation table to select specific sessions: for example, searching for "2024-01" will show all sessions that started or ended in January 2024.
+
+## Sleep regularity
+
+The **Sleep Regularity tab** contains two tables displaying sleep regularity metrics based on either session or epoch data. Clicking on the name of the metrics will display a help page with a definition, how to interpret the values, and any relevant references.
+
+## Visualisations
+
+nocturn provides a range of different visualisations, which can be accessed by clicking on the different tabs in the main panel. Visualisations use either Session of Epoch data.
+
+| Data type | Name | Description |
+| --------- | ---- | ----------- |
+| Sessions  | Sleep Clock | A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle |
+| Sessions  | Sleep Onset & Wakeup | A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day. |
+| Sessions  | Sleep Times Distributions | A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots. |
+| Sessions | Sleep bubbles | A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise. |
+| Sessions | Session Timeseries | A scatter plot showing the evolution of any variable in the Session data over time. |
+| Epochs   | Sleep Spiral | A spiral where each turn represents a 24h day, showing when the subject was asleep or awake. |
+| Epochs   | Hypnogram | A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data. |
+| Epochs   | Epoch Timeseries | A scatter plot showing the evolution of any variable in the Epoch data over time. |
+
+For most visualisations, a "Colour by" menu allows changing the color scale depending on variables contained in the data.
+
+All visualisations can be saved as png, pdf or svg.
 
 # Examples of use
 
+## App
 
+In a web browser, navigate to [nocturn.bio.ed.ac.uk](https://nocturn.bio.ed.ac.uk)
+
+### Load and inspect the data
+
+- Under Import Data, click on Load Example Data to use the example dataset
+- Once the data has loaded, the Sleep Clock will be displayed in the main panel, showing that most sleep sessions range from ~ 22:30 to ~ 07:00, while three short sessions were recorded during the day
+- Click on the Compliance tab (highlighted in red) to see nights where multiple sleep sessions were recorded
+
+### Filter out potential spurious sleep sessions
+
+- Under Filtering, set the Sleep filter "Minimum Time Asleep" to 2 hours
+- Note that the shorter sleep sessions have been removed from the Sleep Clock, and from the Compliance tab
+
+### Explore the data
+
+- Browse the different visualisations in the main panel
+- Have a look at the sleep regularity metrics (Sleep Regularity tab)
+
+## R package
+
+The script below imports session and epoch data, applies filtering and saves two figures in png format.
+
+```r
+library(nocturn)
+
+# Load the data
+sessions <- load_sessions("path/to/sessions_reports.csv")
+epochs <- load_epochs("path/to/epoch_data.csv")
+
+# Filter the sessions
+filtered_sessions <- sessions |>
+  remove_sessions_no_sleep() |>
+  set_min_time_in_bed(2) |>
+  set_session_sleep_onset_range("20:00", "06:00")
+
+# Print the number of duplicate sessions
+print(paste0("There are ", nrow(get_non_complying_sessions(filtered_sessions)), " duplicate sessions."))
+
+# Filter epoch data based on the filtered sessions (requires the `session_id` column in epochs)
+filtered_epochs <- filter_epochs_from_sessions(epochs, filtered_sessions)
+
+# Make a sleep clock plot
+clock_plot <- plot_sleep_clock(filtered_sessions)
+
+# Make a sleep spiral plot
+spiral_plot <- plot_sleep_spiral(filtered_epochs)
+
+# Save plots as png
+ggplot2::ggsave(filename = "clock.png", plot = clock_plot, device = "png", bg = "white")
+ggplot2::ggsave(filename = "spiral.png", plot = spiral_plot, device = "png", bg = "white")
+```
+
+If you do not have data available, you can use the script with pre-loaded example data. To do so, replace the lines under `# Load the data` by:
+
+```r
+sessions <- example_sessions
+epochs <- example_epochs
+```
 
 # Acknowledgements
 
-The authors would like to thank all members of the "Chronopsychiatry group" (division of Psychiatry, University of Edinburgh) for their feedback during the development of nocturn.
+The authors would like to thank all members of the "Chronopsychiatry group" (division of Psychiatry, University of Edinburgh) and the BioRDM team (School of Biological Sciences, University of Edinburgh) for their feedback and advice during the development of nocturn. The authors would like to thank the authors of the `shinyscholar` R package, which provided inspiration for the design and layout of the nocturn app.
 
 # Funding
 
