@@ -104,12 +104,12 @@ The **Filtering tab** displays all sleep sessions that were removed by filtering
 
 ## Annotations
 
-The **Annotation tab** allows manually adding tags to sleep sessions, which can then be used to set the colormap on the different figures. This can be useful to:
+The **Annotation tab** allows users to manually add tags to sleep sessions. This can be useful to:
 
-- Highlight specific sessions of interest in figures
+- Highlight specific sessions in figures
 - Display information from other sources, for example health questionnaires completed by participants
 
-To add an annotation, write it in the "Annotation" text box; click on all sessions this should apply to in the table (ctrl + click can help select multiple sessions rapidly), and click on "Apply".
+To add an annotation, write it in the "Annotation" text box, select sessions by clicking on the table (ctrl + click can help select multiple sessions rapidly), and click on "Apply".
 
 Tip: use the search box above the Annotation table to select specific sessions: for example, searching for "2024-01" will show all sessions that started or ended in January 2024.
 
@@ -119,18 +119,18 @@ The **Sleep Regularity tab** contains two tables displaying sleep regularity met
 
 ## Visualisations
 
-nocturn provides a range of different visualisations, which can be accessed by clicking on the different tabs in the main panel. Visualisations use either Session of Epoch data.
+nocturn provides a range of different visualisations, which can be accessed by clicking on the different tabs in the main panel. Visualisations use either Session or Epoch data.
 
-| Data type | Name | Description |
-| --------- | ---- | ----------- |
-| Sessions  | Sleep Clock | A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle |
-| Sessions  | Sleep Onset & Wakeup | A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day. |
-| Sessions  | Sleep Times Distributions | A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots. |
-| Sessions | Sleep bubbles | A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise. |
-| Sessions | Session Timeseries | A scatter plot showing the evolution of any variable in the Session data over time. |
-| Epochs   | Sleep Spiral | A spiral where each turn represents a 24h day, showing when the subject was asleep or awake. |
-| Epochs   | Hypnogram | A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data. |
-| Epochs   | Epoch Timeseries | A scatter plot showing the evolution of any variable in the Epoch data over time. |
+| Name                      | Input data type | Description |
+| ------------------------- | --------------- | ----------- |
+| Sleep Clock               | Sessions        | A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle |
+| Sleep Onset & Wakeup      | Sessions        | A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day. |
+| Sleep Times Distributions | Sessions        | A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots. |
+| Sleep bubbles             | Sessions        | A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise. |
+| Session Timeseries        | Sessions        | A scatter plot showing the evolution of any variable in the Session data over time. |
+| Sleep Spiral              | Epochs          | A spiral where each turn represents a 24h day, showing when the subject was asleep or awake. |
+| Hypnogram                 | Epochs          | A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data. |
+| Epoch Timeseries          | Epochs          | A scatter plot showing the evolution of any variable in the Epoch data over time. |
 
 For most visualisations, a "Colour by" menu allows changing the color scale depending on variables contained in the data.
 
