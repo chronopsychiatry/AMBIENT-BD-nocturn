@@ -48,16 +48,25 @@ show_colnames_modal <- function(
   ns,
   colnames_list,
   current_map,
-  title = "Set Session Column Names",
+  type = "Sessions",
   save_id = "save_col_names",
   reset_id = "reset_col_names"
 ) {
-  inputs <- lapply(names(.sessions_long), function(key) {
+  if (type == "Sessions") {
+    title <- "Set Session Column Names"
+    long_names <- .sessions_long
+    help_tips <- .sessions_help
+  } else if (type == "Epochs") {
+    title <- "Set Epoch Column Names"
+    long_names <- .epochs_long
+    help_tips <- .epochs_help
+  }
+  inputs <- lapply(names(long_names), function(key) {
     current_value <- as.character(current_map[[key]])
     if (is.null(current_map[[key]]) || is.na(current_map[[key]]) || current_map[[key]] == "-") current_value <- "-"
     choices <- c("-", colnames_list)
-    label_text <- .sessions_long[[key]] %||% .epochs_long[[key]] %||% key
-    help_text <- .sessions_help[[key]] %||% .epochs_help[[key]] %||% NULL
+    label_text <- long_names[[key]] %||% key
+    help_text <- help_tips[[key]] %||% NULL
     label <- shiny::tagList(
       label_text,
       if (!is.null(help_text)) bslib::tooltip(

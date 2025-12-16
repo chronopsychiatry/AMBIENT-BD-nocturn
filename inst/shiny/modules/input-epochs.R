@@ -57,14 +57,15 @@ input_epochs_server <- function(id, common) {
         ns = ns,
         colnames_list = colnames(common$epochs()),
         current_map = get_colnames(common$epochs()),
-        title = "Set Epoch Column Names",
+        type = "Epochs",
         save_id = "save_epoch_col_names",
         reset_id = "reset_epoch_col_names"
       )
     })
 
     shiny::observeEvent(input$reset_epoch_col_names, {
-      epochs <- set_colnames(common$epochs(), NULL)
+      epochs <- common$epochs()
+      attr(epochs, "col") <- NULL
       col <- get_colnames(epochs)
       common$epochs(set_colnames(epochs, col))
       common$logger |> write_log("Reset epoch column names to default", type = "complete")

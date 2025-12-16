@@ -6,7 +6,7 @@ tags:
   - sleep
   - somnofy
 authors:
-  - name: Daniel Thedie
+  - name: Daniel Thédié
     orcid: 0000-0002-1352-7245
     affiliation: 1
   - name: Andrew J. Millar
@@ -37,7 +37,7 @@ bibliography: paper.bib
 
 # Statement of need
 
-Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their usual environment. The increasing availability of these data makes it essential to have tools that allow easy, high-level exploration of sleep data recorded through different modalities. With this in mind, nocturn was developed to enable researchers to:
+Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their home environment. The increasing availability of these data makes it essential to have tools that allow rapid, high-level exploration of sleep data recorded through different modalities. With this in mind, nocturn was developed to enable researchers to:
 
 - Explore sleep data, regardless of their familiarity with programming languages
 - Apply thresholds on key variables (such as time spent in bed) to remove spurious sleep sessions
@@ -51,7 +51,7 @@ To achieve these aims, nocturn was developed as an R package and an R shiny app,
 
 ## Graphical interface
 
-The nocturn app graphical interface features three main menus, which can be accessed using the top navigation bar, and will be displayed in the app's sidebar. **Import Data** allows importing Session and Epoch data (more on data types below), and setting column names, i.e. specifying which columns in the data contain information such as start of the sleep session, time at sleep onset, or time at wakeup. **Filtering** lets the user select sleep sessions by date range, subject ID, sleep onset time, as well as minimum time spent in bed or spent asleep. **Export data** allows exporting the current filtered data as csv, and generating a summary "sleep report" (currently only available for data generated from the Somnofy radar device).
+The nocturn app graphical interface features three main menus, which can be accessed using the top navigation bar, and are displayed in the app's sidebar. **Import Data** allows importing Session and Epoch data (more on data types below), and setting column names, i.e. specifying which columns in the data contain information such as start of the sleep session, time at sleep onset, or time at wakeup. **Filtering** lets the user select sleep sessions by date range, subject ID, sleep onset time, as well as minimum time spent in bed or spent asleep. **Export data** allows exporting the current filtered data as csv, and generating a summary "sleep report" (currently only available for data generated from the Somnofy radar device).
 
 The main app panel displays several summary data tables (top), and data visualisations (bottom). Both are updated reactively when the input data or the filters change.
 
@@ -59,7 +59,7 @@ The main app panel displays several summary data tables (top), and data visualis
 
 Using nocturn as an R package allows designing custom data processing workflows:
 
-- The session and epoch data are stored as DataFrames, which allows easy integration with tidyverse or custom functions
+- The data are stored as DataFrames, which allows easy integration with tidyverse or custom functions
 - Plotting functions all return `ggplot2` objects, allowing for further editing of figures
 - All functionalities available via the graphical interface can easily be reproduced in code
 
@@ -76,9 +76,9 @@ Two main types of sleep data can be imported into nocturn. **Sessions** are the 
 A common occurence in sleep data is spurious sleep sessions, where the subject is incorrectly reported as being asleep. Spurious sleep sessions are typically short (a few minutes to hours), occur during the day, and can be due to:
 
 - Pets lying on the bed (radar devices)
-- The participant lying still in bed, e.g. reading or watching TV (radar devices, actigraphy)
+- The subject lying still in bed, e.g. reading or watching TV (radar devices, actigraphy)
 - Movement in the room, such as curtains blowing in the wind (radar devices)
-- The participant taking a nap during the day, which might not be of interest in the context of a particular study
+- The subject taking a nap during the day, which might not be of interest in the context of a particular study
 
 The **Compliance tab** (main app panel) highlights days where multiple sleep sessions took place, as well as some characteristics of these sessions. This can help quickly identify spurious sleep sessions, as well as days with multiple sleep sessions which could bias sleep regularity measurements.
 
@@ -98,7 +98,7 @@ The following filters are available in the nocturn filtering menu:
 
 Note that filters will only appear in the menu if the necessary information is available. For example the "sex" filter will not appear if the data does not have a column indicating the sex of the subject.
 
-All filters work at the "Sessions" level. To filter Epoch data, make sure the it has a column selected for "Session ID" (Import Data, Epochs, Set Column Names), which links to the IDs in the Sessions table. Any filters applied to Sessions will automatically remove the corresponding epochs.
+All filters work at the "Sessions" level. To filter Epoch data, make sure it has a column selected for "Session ID" (Import Data, Epochs, Set Column Names), which links to the IDs in the Sessions table. Any filters applied to Sessions will automatically remove the corresponding epochs.
 
 The **Filtering tab** displays all sleep sessions that were removed by filtering. The last column of the table ("filters") shows which filter(s) caused the session to be excluded from the data.
 

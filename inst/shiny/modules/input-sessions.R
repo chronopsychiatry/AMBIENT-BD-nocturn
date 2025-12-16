@@ -57,14 +57,15 @@ input_sessions_server <- function(id, common) {
         ns = ns,
         colnames_list = colnames(common$sessions()),
         current_map = get_colnames(common$sessions()),
-        title = "Set Session Column Names",
+        type = "Sessions",
         save_id = "save_session_col_names",
         reset_id = "reset_session_col_names"
       )
     })
 
     shiny::observeEvent(input$reset_session_col_names, {
-      sessions <- set_colnames(common$sessions(), NULL)
+      sessions <- common$sessions()
+      attr(sessions, "col") <- NULL
       col <- get_colnames(sessions)
       common$sessions(set_colnames(sessions, col))
       common$sessions(clean_sessions(common$sessions()))
