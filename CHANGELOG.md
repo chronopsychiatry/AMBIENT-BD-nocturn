@@ -1,4 +1,4 @@
-# nocturn changelog
+# 1.1
 
 ## 1.1.1 (15/12/2025)
 
@@ -34,6 +34,8 @@
 ### Scripts
 
 - Added explicit errors when a function is called, and the necessary column names are not set
+
+# 1.0
 
 ## 1.0.3 (26/22/2025)
 
@@ -81,6 +83,8 @@
 - The `col_names` argument was removed from all functions that used it
   - Column names are now stored as part of the sessions or epochs tables
   - They can be retrieved with `get_colnames` and modified with `set_colnames`
+
+# 0.0
 
 ## 0.0.10 (13/10/2025)
 
