@@ -22,13 +22,15 @@ affiliations:
    index: 1
  - name: The University of Edinburgh Division of Psychiatry, Edinburgh, Scotland, UK
    index: 2
-date: 19 September 2025
+date: 05 January 2026
 bibliography: paper.bib
 ---
 
 # Summary
 
+nocturn was designed to enable rapid and easy exploration of sleep data, regardless of the data collection method used. It provides a graphical user interface using R shiny, as well as functions that can be imported as an R package. nocturn is particularly suited to the visualisation of large longitudinal sleep datasets, e.g. ranging over several months. It allows filtering data, and generating visualisations and metrics to assess sleep regularity. The graphical interface makes the app easily usable without any programming experience, while the functions available in the R package are aimed at power-users who wish to produce their own automated workflows.
 
+![Hex logo for the nocturn package](./nocturn_logo.png){width="500"}
 
 # Glossary
 
@@ -38,17 +40,19 @@ bibliography: paper.bib
 | Subject | The person whose sleep has been recorded      |
 | Night   | The date of a sleep session, calculated from 12pm to 12pm. For example, all sessions between 2025-01-01 12:00 and 2025-01-02 12:00 will be part of night "2025-01-01" |
 
+Table: Glossary of terms used in the nocturn app.
+
 # Statement of need
 
-Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their home environment. The increasing availability of these data makes it essential to have tools that allow rapid, high-level exploration of sleep data recorded through different modalities. nocturn was developed to enable researchers to:
+Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their home environment. The increasing availability of these data makes it essential to have tools that allow rapid, high-level exploration of sleep data recorded through different modalities. Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy or PSG), is not always free to use or open-source, and is often difficult to integrate with other tools to build analysis pipelines. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
+
+nocturn was developed to enable researchers to:
 
 - Explore sleep data, regardless of their familiarity with programming languages
 - Apply thresholds on key variables (such as time spent in bed) to remove spurious sleep sessions
 - Generate attractive visualisations that can be used in research outputs during and after the project
 - Produce sleep summary reports to be shared with study participants
 - Create automated workflows to quickly produce the outputs listed above for a large number of participants
-
-To achieve these aims, nocturn was developed as an R package and an R shiny app, which can be accessed directly online or run locally. While the shiny app is geared towards ease-of-use and rapid data exploration, the functions available in the R package are aimed at power-users who wish to produce their own automated workflows.
 
 # Main functionalities
 
@@ -138,6 +142,8 @@ nocturn provides a range of different visualisations, which can be accessed by c
 | Sleep Spiral              | Epochs          | A spiral where each turn represents a 24h day, showing when the subject was asleep or awake. |
 | Hypnogram                 | Epochs          | A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data. |
 | Epoch Timeseries          | Epochs          | A scatter plot showing the evolution of any variable in the Epoch data over time. |
+
+Table: List of sleep visualisations that can be generated in nocturn, from either Session or Epoch data.
 
 For most visualisations, a "Colour by" menu allows changing the color scale depending on variables contained in the data.
 
