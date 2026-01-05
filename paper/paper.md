@@ -132,16 +132,16 @@ The **Sleep Regularity tab** contains two tables displaying sleep regularity met
 
 nocturn provides a range of different visualisations, which can be accessed by clicking on the different tabs in the main panel. Visualisations use either Session or Epoch data.
 
-| Name                      | Input data type | Description |
-| ------------------------- | --------------- | ----------- |
-| Sleep Clock               | Sessions        | A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle. |
-| Sleep Onset & Wakeup      | Sessions        | A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day. |
-| Sleep Times Distributions | Sessions        | A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots. |
-| Sleep bubbles             | Sessions        | A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise. |
-| Session Timeseries        | Sessions        | A scatter plot showing the evolution of any variable in the Session data over time. |
-| Sleep Spiral              | Epochs          | A spiral where each turn represents a 24h day, showing when the subject was asleep or awake. |
-| Hypnogram                 | Epochs          | A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data. |
-| Epoch Timeseries          | Epochs          | A scatter plot showing the evolution of any variable in the Epoch data over time. |
+| Name | Input data type | Description |
+| ------ | ------ | ------ |
+| Sleep Clock | Sessions | A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle. |
+| Sleep Onset & Wakeup | Sessions | A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day. |
+| Sleep Times Distributions | Sessions | A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots. |
+| Sleep bubbles | Sessions | A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise. |
+| Session Timeseries | Sessions | A scatter plot showing the evolution of any variable in the Session data over time. |
+| Sleep Spiral | Epochs | A spiral where each turn represents a 24h day, showing when the subject was asleep or awake. |
+| Hypnogram | Epochs | A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data. |
+| Epoch Timeseries | Epochs | A scatter plot showing the evolution of any variable in the Epoch data over time. |
 
 Table: List of sleep visualisations that can be generated in nocturn, from either Session or Epoch data.
 
