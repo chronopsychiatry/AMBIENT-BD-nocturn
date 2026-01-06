@@ -46,13 +46,15 @@ Table: Glossary of terms used in the nocturn app.
 
 Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their home environment. The increasing availability of these data makes it essential to have tools that allow rapid, high-level exploration of sleep data recorded through different modalities. Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy or PSG), is not always free to use or open-source, and is often difficult to integrate with other tools to build analysis pipelines. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
 
-nocturn was developed to enable researchers to:
+nocturn was developed to be used by researchers studying sleep, to enable them to:
 
 - Explore sleep data, regardless of their familiarity with programming languages
 - Apply thresholds on key variables (such as time spent in bed) to remove spurious sleep sessions
 - Generate attractive visualisations that can be used in research outputs during and after the project
 - Produce sleep summary reports to be shared with study participants
 - Create automated workflows to quickly produce the outputs listed above for a large number of participants
+
+nocturn is currently being used for data analysis in the Ambient-BD project, which studies sleep and circadian rhythm in 180 participants diagnosed with Bipolar Disorder over 18 months [@Manrai2025].
 
 # Main functionalities
 
@@ -210,12 +212,18 @@ If you do not have data available, you can use the script with pre-loaded exampl
 sessions <- example_sessions
 ```
 
+# AI usage disclosure
+
+Github Copilot with ChatGPT 4.1 was used to assist with writing the code for nocturn, through line completion and generating short code snippets (less than 10 lines of code). All AI outputs were reviewed and edited by the authors, and validated through tests and comparison to expected results. AI was not used for software design, or to generate large amounts of code.
+
+AI was not used in the writing of this article, or the writing of software documentation.
+
 # Acknowledgements
 
 The authors would like to thank all members of the "Chronopsychiatry group" (division of Psychiatry, University of Edinburgh) and the BioRDM team (School of Biological Sciences, University of Edinburgh) for their feedback and advice during the development of nocturn. The authors would like to thank the authors of the `shinyscholar` R package, which provided inspiration for the design and layout of the nocturn app.
 
 # Funding
 
-The development of nocturn was funded by the XXX grant awarded to Prof. Daniel Smith (and others?).
+The development of nocturn was supported by the Wellcome trust grant XXX awarded to Prof. Daniel Smith.
 
 # References
