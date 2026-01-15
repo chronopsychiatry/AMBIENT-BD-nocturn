@@ -9,20 +9,15 @@ tags:
 authors:
   - name: Daniel Thédié
     orcid: 0000-0002-1352-7245
+    corresponding: true
     affiliation: 1
   - name: Andrew J. Millar
     orcid: 0000-0003-1756-3654
-    corresponding: true
     affiliation: 1
-  - name: Daniel Smith
-    orcid: 0000-0002-2267-1951
-    affiliation: 2
 affiliations:
  - name: The University of Edinburgh School of Biological Sciences, Edinburgh, Scotland, UK
    index: 1
- - name: The University of Edinburgh Division of Psychiatry, Edinburgh, Scotland, UK
-   index: 2
-date: 05 January 2026
+date: 15 January 2026
 bibliography: paper.bib
 ---
 
@@ -60,7 +55,7 @@ nocturn is currently being used for data analysis in the Ambient-BD project, whi
 
 ## Graphical interface
 
-The nocturn graphical interface features three main menus, which can be accessed using the top navigation bar, and are displayed in the app's sidebar (\autoref{fig:nocturn_main}). **Import Data** allows importing Session and Epoch data (more on data types below), and setting column names, i.e. specifying which columns in the data contain information such as start of the sleep session, time at sleep onset, or time at wakeup. **Filtering** lets the user select sleep sessions by date range, subject ID, sleep onset time, as well as minimum time spent in bed or spent asleep. **Export data** allows exporting the current filtered data as csv, and generating a summary "sleep report" (currently only available for data generated from the Somnofy radar device).
+The nocturn graphical interface features three main menus, which can be accessed using the top navigation bar, and are displayed in the app's sidebar (\autoref{fig:nocturn_main}). **Import Data** allows importing Session and Epoch data (more on data types below), and setting column names, i.e. specifying which columns in the data contain information such as start of the sleep session, time at sleep onset, or time at wakeup. **Filtering** lets the user select sleep sessions by date range, subject ID, sleep onset time, as well as minimum time spent in bed or spent asleep. **Export data** allows exporting the pre-processed data as csv, and generating a summary "sleep report" (currently only available for data generated from the Somnofy radar device).
 
 The main app panel displays several summary data tables (top), and data visualisations (bottom). Both are updated reactively when the input data or the filters change.
 
@@ -78,9 +73,9 @@ This makes it straightforward to integrate nocturn functions into existing data 
 
 ## Input data
 
-Two main types of sleep data can be imported into nocturn. **Sessions** are the main data type used in nocturn. They are data tables where each row represents a different "sleep session", from the time the subject went to bed (or started sleeping) to the time they got out of bed (or woke up). This could be for example the "night summary" output from part 4 of the [`GGIR`](https://wadpac.github.io/GGIR/index.html) pipeline (actigraphy data), the "sleep sessions" from a Somnofy device (VitalThings), or entries from a sleep diary. **Epochs** are timestamped data (at any resolution), where each data point is annotated to indicate if the subject is asleep or awake.
+Two main types of sleep data can be imported into nocturn. **Sessions** are the main data type used in nocturn. They are data tables where each row represents a different "sleep session", from the time the subject went to bed (or started sleeping) to the time they got out of bed (or woke up). This could be for example the "night summary" output from part 4 of the [`GGIR`](https://wadpac.github.io/GGIR/index.html) pipeline (actigraphy data), the "sleep sessions" from a Somnofy device (VitalThings), or entries from a sleep diary. **Epochs** are timestamped data (at any resolution), where each data point is annotated to indicate if the subject is asleep or awake. Supported data formats are .csv, .xls, .xlsx, and .edf.
 
-## Data compliance and filtering
+## Data compliance and data pre-processing
 
 ### Compliance
 
@@ -132,24 +127,23 @@ The **Sleep Regularity tab** contains two tables displaying sleep regularity met
 
 ## Visualisations
 
-nocturn provides a range of different visualisations, which can be accessed by clicking on the different tabs in the main panel. Visualisations use either Session or Epoch data.
+nocturn provides a range of different visualisations, which can be accessed by clicking on the different tabs in the main panel. Visualisations use either Session or Epoch data, and can be saved in png, pdf or svg format.
 
-| Name | Input data type | Description |
-| ------ | ------ | ------ |
-| Sleep Clock | Sessions | A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle. |
-| Sleep Onset & Wakeup | Sessions | A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day. |
-| Sleep Times Distributions | Sessions | A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots. |
-| Sleep bubbles | Sessions | A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise. |
-| Session Timeseries | Sessions | A scatter plot showing the evolution of any variable in the Session data over time. |
-| Sleep Spiral | Epochs | A spiral where each turn represents a 24h day, showing when the subject was asleep or awake. |
-| Hypnogram | Epochs | A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data. |
-| Epoch Timeseries | Epochs | A scatter plot showing the evolution of any variable in the Epoch data over time. |
+For most visualisations, a "Colour by" menu allows changing the colour scale depending on variables contained in the data.
 
-Table: List of sleep visualisations that can be generated in nocturn, from either Session or Epoch data.
+### Session-based
 
-For most visualisations, a "Colour by" menu allows changing the color scale depending on variables contained in the data.
+- **Sleep Clock** - A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle.
+- **Sleep Onset & Wakeup** - A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day.
+- **Sleep Times Distributions** - A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots.
+- **Sleep bubbles** - A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise.
+- **Session Timeseries** - A scatter plot showing the evolution of any variable in the Session data over time.
 
-All visualisations can be saved in png, pdf or svg format.
+### Epoch-based
+
+- **Sleep Spiral** - A spiral where each turn represents a 24h day, showing when the subject was asleep or awake.
+- **Hypnogram** - A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data.
+- **Epoch Timeseries** - A scatter plot showing the evolution of any variable in the Epoch data over time.
 
 # Examples of use
 
