@@ -39,7 +39,7 @@ Table: Glossary of terms used in the nocturn app.
 
 # Statement of need
 
-Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their home environment. The increasing availability of these data makes it essential to have tools that allow rapid, high-level exploration of sleep data recorded through different modalities. Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy or PSG), is not always free to use or open-source, and is often difficult to integrate with other tools to build analysis pipelines. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
+Advances in Open Science and data sharing have lead to the publication of a large number of sleep monitoring datasets, as can be found on the [National Sleep Research Resource](https://sleepdata.org) (NSRR), or on general repositories such as [Zenodo](https://zenodo.org). While Polysomnography (PSG) remains the gold standard for sleep monitoring, other methods such as actigraphy and radar-sensing are being used for longitudinal studies, and to study people's sleep in their home environment. The increasing availability of these data makes it essential to have tools that allow rapid, high-level exploration of sleep data recorded through different modalities.
 
 nocturn was developed to be used by researchers studying sleep, to enable them to:
 
@@ -49,7 +49,25 @@ nocturn was developed to be used by researchers studying sleep, to enable them t
 - Produce sleep summary reports to be shared with study participants
 - Create automated workflows to quickly produce the outputs listed above for a large number of participants
 
-nocturn is currently being used for data analysis in the Ambient-BD project, which studies sleep and circadian rhythm in 180 participants diagnosed with Bipolar Disorder over 18 months [@Manrai2025].
+# State of the field
+
+Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy or PSG), is not always free to use or open-source, and is often difficult to integrate with other tools. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
+
+# Software design
+
+An important consideration in the design of nocturn was to make it flexible to use for people with different programming knowledge. Therefore, it was essential for the software to have a graphical user interface. We decided to use R shiny, for the following reasons:
+
+- Its rapidity and ease of implementation, to quickly provide a working solution to researchers in our research project
+- The availability of a dedicated shiny server at the University of Edinburgh that could host the app - therefore removing any installation work for users who only want to use the graphical interface
+- The "dashboard" interface of R shiny apps, which makes the different menus and software outputs easy for users to access
+- The possibility to expose the main functions underlying the R shiny app as an R package, for users wanting to write their own data analysis scripts
+- R being one of the most widely used programming languages in the field of sleep research
+
+The codebase for the nocturn R shiny app is organised into modules, for clarity and to facilitate ongoing maintenance and development. Finally, nocturn development has been open on github from its onset, and the software uses an MIT license in order to maximise its reusability.
+
+# Research impact statement
+
+nocturn is currently used for data analysis in the Ambient-BD project, which studies sleep and circadian rhythm in 180 participants diagnosed with Bipolar Disorder over 18 months [@Manrai2025]. It was previously used by the Ambient-Teens project, which used radar-sensing, actigraphy and sleep diaries to perform longitudinal sleep monitoring in adolescents [Caddick2024].
 
 # Main functionalities
 
