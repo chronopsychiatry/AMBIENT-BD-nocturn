@@ -236,6 +236,6 @@ The authors would like to thank all members of the "Chronopsychiatry group" (div
 
 # Funding
 
-The development of nocturn was supported by the Wellcome trust grant XXX awarded to Prof. Daniel Smith.
+The development of nocturn was supported by the Wellcome trust grant 226944 awarded to Prof. Andrew Millar and others.
 
 # References
