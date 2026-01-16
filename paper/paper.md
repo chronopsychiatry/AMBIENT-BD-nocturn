@@ -67,7 +67,7 @@ The codebase for the nocturn R shiny app is organised into modules, for clarity 
 
 # Research impact statement
 
-nocturn is currently used for data analysis in the Ambient-BD project, which studies sleep and circadian rhythm in 180 participants diagnosed with Bipolar Disorder over 18 months [@Manrai2025]. It was previously used by the Ambient-Teens project, which used radar-sensing, actigraphy and sleep diaries to perform longitudinal sleep monitoring in adolescents [Caddick2024].
+nocturn is currently used for data analysis in the Ambient-BD project, which studies sleep and circadian rhythm in 180 participants diagnosed with Bipolar Disorder over 18 months [@Manrai2025]. It was previously used by the Ambient-Teens project, which used radar-sensing, actigraphy and sleep diaries to perform longitudinal sleep monitoring in adolescents [@Caddick2024].
 
 # Main functionalities
 
