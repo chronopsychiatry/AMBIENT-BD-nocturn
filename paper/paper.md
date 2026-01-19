@@ -34,7 +34,7 @@ Both researchers and self-trackers commonly record sleep times, using various me
 | User    | The person using the nocturn app or R package |
 | Subject | The person whose sleep has been recorded      |
 | Night   | The date of a sleep session, calculated from 12pm to 12pm. For example, all sessions between 2025-01-01 12:00 noon and 2025-01-02 12:00 noon will be part of night "2025-01-01" |
-| Session | A sleep session, defined by its start and end time, and optionally some additional metrics such as the number of awakenings, breathing rate, or ambient temperature |
+| Session | A long sleep interval, typically an entire night, defined by its start and end time, and optionally some additional metrics such as the number of awakenings, breathing rate, or ambient temperature |
 | Epoch | A timestamped interval (typically 30sec) during a sleep session, annotated to indicate if the subject is asleep, and optionally which stage of sleep they are in |
 
 Table: Glossary of terms used in the nocturn app.
@@ -164,6 +164,8 @@ For most visualisations, a "Colour by" menu allows changing the colour scale dep
 
 ![Sleep duration scatterplot with dot colour showing the average temperature during the sleep session.\label{fig:bubbles_temp}](./Sleep_bubbles_temperature.png)
 
+A gallery of nocturn visualisations can be found on the [nocturn wiki](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki/List-of-available-plots).
+
 ### Session-based
 
 - **Sleep Clock** - A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle.
@@ -247,7 +249,7 @@ AI was not used in the writing of this article, or the writing of software docum
 
 # Author contributions
 
-DT and AJM conceptualised the project. DT designed and wrote the software, and wrote the original draft of the article. AJM provided supervision and acquired funding. DT and AJM both reviewed and edited the article draft prior to submission.
+Conceptualisation: DT and AJM; Software: DT; Supervision: AJM; Funding acquisition: AJM; Writing - original draft: DT; Writing - review & editing: DT and AJM.
 
 # Acknowledgements
 
