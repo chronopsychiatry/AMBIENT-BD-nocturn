@@ -19,7 +19,6 @@ plot_sleep_clock <- function(sessions, color_by = "default") {
   sessions <- sessions |>
     dplyr::filter(!is.na(.data[[col$time_at_sleep_onset]]) & !is.na(.data[[col$time_at_wakeup]])) |>
     dplyr::mutate(
-      # session_idx = .data[[col$id]],
       sleep_onset_hour = time_to_hours(.data[[col$time_at_sleep_onset]]),
       wakeup_hour = time_to_hours(.data[[col$time_at_wakeup]]),
       night = as.factor(.data[[col$night]])

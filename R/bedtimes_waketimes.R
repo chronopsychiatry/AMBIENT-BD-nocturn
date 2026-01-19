@@ -16,7 +16,6 @@ plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "def
   check_session_colnames(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "is_workday"))
   if (color_by != "default") {
     groupby <- "night"
-    sessions[[color_by]] <- as.factor(sessions[[color_by]])
   }
 
   col <- get_session_colnames(sessions)
@@ -67,14 +66,20 @@ plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "def
     )
 
   if (color_by != "default" && color_by %in% names(sessions)) {
-    color_levels <- unique(plot_data$color_group)
-    color_map <- stats::setNames(scales::hue_pal()(length(color_levels)), color_levels)
-    plot_data$fill_col <- plot_data$color_group
-    fill_scale <- ggplot2::scale_fill_manual(values = color_map)
+    color_var <- plot_data$color_group
+    if (is_iso8601_datetime(color_var)) {
+      color_var <- parse_time(color_var) |> update_date(date = "1970-01-01")
+      plot_data$color_group <- color_var
+    } else if (is.numeric(color_var)) {
+      plot_data$color_group <- color_var
+    } else {
+      plot_data$color_group <- as.factor(color_var)
+    }
+    color_scale <- get_fill_scale(color_var)
     legend_show <- TRUE
   } else {
-    plot_data$fill_col <- "blue"
-    fill_scale <- ggplot2::scale_fill_manual(values = c("blue"), guide = "none")
+    plot_data$color_group <- "blue"
+    color_scale <- ggplot2::scale_fill_manual(values = c("blue"), guide = "none")
     legend_show <- FALSE
   }
 
@@ -85,12 +90,12 @@ plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "def
         xmax = .data$sleep_end,
         ymin = .data$group_numeric - 0.4,
         ymax = .data$group_numeric + 0.4,
-        fill = .data$fill_col
+        fill = .data$color_group
       ),
       alpha = 0.6,
       show.legend = legend_show
     ) +
-    fill_scale +
+    color_scale +
     ggplot2::geom_text(
       ggplot2::aes(
         x = .data$sleep_start,
