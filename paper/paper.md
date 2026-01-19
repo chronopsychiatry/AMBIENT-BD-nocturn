@@ -15,15 +15,15 @@ authors:
     orcid: 0000-0003-1756-3654
     affiliation: 1
 affiliations:
- - name: The University of Edinburgh School of Biological Sciences, Edinburgh, Scotland, UK
+ - name: Centre for Engineering Biology and School of Biological Sciences, University of Edinburgh, Edinburgh EH9 3BF, Scotland, UK
    index: 1
-date: 15 January 2026
+date: 19 January 2026
 bibliography: paper.bib
 ---
 
 # Summary
 
-nocturn was designed to enable rapid and easy exploration of sleep data, regardless of the data collection method used. It provides a graphical user interface using R shiny, as well as functions that can be imported as an R package. nocturn is particularly suited to the visualisation of large longitudinal sleep datasets, e.g. ranging over several months. It allows filtering data, and generating visualisations and metrics to assess sleep regularity. The graphical interface makes the app easily usable without any programming experience, while the functions available in the R package are aimed at power-users who wish to produce their own automated workflows.
+Both researchers and self-trackers commonly record sleep times, using various methods. nocturn was designed to enable rapid and easy exploration of sleep data, regardless of the data collection method used. It provides a graphical user interface using R shiny, as well as functions that can be imported as an R package. nocturn is particularly suited to the visualisation of large longitudinal sleep datasets, e.g. ranging over several months. It allows filtering data, and generating visualisations and metrics to assess sleep regularity. The graphical interface makes the app easily usable without any programming experience, while the functions available in the R package are aimed at power-users who wish to produce their own automated workflows.
 
 ![Hex logo for the nocturn package](./nocturn_logo.png){width="500"}
 
@@ -33,7 +33,9 @@ nocturn was designed to enable rapid and easy exploration of sleep data, regardl
 | ------- | --------------------------------------------- |
 | User    | The person using the nocturn app or R package |
 | Subject | The person whose sleep has been recorded      |
-| Night   | The date of a sleep session, calculated from 12pm to 12pm. For example, all sessions between 2025-01-01 12:00 and 2025-01-02 12:00 will be part of night "2025-01-01" |
+| Night   | The date of a sleep session, calculated from 12pm to 12pm. For example, all sessions between 2025-01-01 12:00 noon and 2025-01-02 12:00 noon will be part of night "2025-01-01" |
+| Session | A sleep session, defined by its start and end time, and optionally some additional metrics such as the number of awakenings, breathing rate, or ambient temperature |
+| Epoch | A timestamped interval (typically 30sec) during a sleep session, annotated to indicate if the subject is asleep, and optionally which stage of sleep they are in |
 
 Table: Glossary of terms used in the nocturn app.
 
@@ -51,13 +53,13 @@ nocturn was developed to be used by researchers studying sleep, to enable them t
 
 # State of the field
 
-Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy or PSG), is not always free to use or open-source, and is often difficult to integrate with other tools. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
+Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy [@GGIR2024], PSG [@Luna] or CPAP [@OSCAR]), is not always free to use or open-source [@Muthen2025], and is often difficult to integrate with other tools. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
 
 # Software design
 
 An important consideration in the design of nocturn was to make it flexible to use for people with different programming knowledge. Therefore, it was essential for the software to have a graphical user interface. We decided to use R shiny, for the following reasons:
 
-- Its rapidity and ease of implementation, to quickly provide a working solution to researchers in our research project
+- Its rapidity and ease of implementation, to quickly provide a working solution to researchers in our ongoing research projects
 - The availability of a dedicated shiny server at the University of Edinburgh that could host the app - therefore removing any installation work for users who only want to use the graphical interface
 - The "dashboard" interface of R shiny apps, which makes the different menus and software outputs easy for users to access
 - The possibility to expose the main functions underlying the R shiny app as an R package, for users wanting to write their own data analysis scripts
@@ -81,17 +83,17 @@ The main app panel displays several summary data tables (top), and data visualis
 
 ## Programmatic interface
 
-Using nocturn as an R package allows designing custom data processing workflows:
+The nocturn R package supports custom data processing workflows:
 
-- The data are stored as DataFrames, which allows easy integration with tidyverse or custom functions
-- Plotting functions all return `ggplot2` objects, allowing for further editing of figures
+- The data are stored as DataFrames, which allows easy integration with tidyverse [@Wickham2019] or custom functions
+- Plotting functions all return `ggplot2` objects [@Wickham2016], allowing for further editing of figures
 - All functionalities available via the graphical interface can easily be reproduced in code
 
 This makes it straightforward to integrate nocturn functions into existing data analysis pipelines.
 
 ## Input data
 
-Two main types of sleep data can be imported into nocturn. **Sessions** are the main data type used in nocturn. They are data tables where each row represents a different "sleep session", from the time the subject went to bed (or started sleeping) to the time they got out of bed (or woke up). This could be for example the "night summary" output from part 4 of the [`GGIR`](https://wadpac.github.io/GGIR/index.html) pipeline (actigraphy data), the "sleep sessions" from a Somnofy device (VitalThings), or entries from a sleep diary. **Epochs** are timestamped data (at any resolution), where each data point is annotated to indicate if the subject is asleep or awake. Supported data formats are .csv, .xls, .xlsx, and .edf.
+Two main types of sleep data can be imported into nocturn. **Sessions** are the main data type used in nocturn. They are data tables where each row represents a different "sleep session", from the time the subject went to bed (or started sleeping) to the time they got out of bed (or woke up). This could be for example the "night summary" output from part 4 of the [`GGIR`](https://wadpac.github.io/GGIR/index.html) pipeline (actigraphy data), the "sleep sessions" from a Somnofy device (VitalThings - Trondheim, Norway), or entries from a sleep diary. **Epochs** are timestamped data (at any resolution), where each data point is annotated to indicate if the subject is asleep or awake. Supported data formats are .csv, .xls, .xlsx, and .edf.
 
 ## Data compliance and data pre-processing
 
@@ -128,6 +130,8 @@ All filters work at the Sessions level. To filter Epoch data, make sure it has a
 
 The **Filtering tab** displays all sleep sessions that were removed by filtering. The last column of the table ("filters") shows which filter(s) caused the session to be excluded from the data.
 
+The pre-processed data can be downloaded from the **Export data** menu. The sessions highlighted in the compliance and filtering tables can be downloaded by clicking the "download" button in their respective tabs.
+
 ## Annotations
 
 The **Annotation tab** allows users to manually add tags to sleep sessions. This can be useful to:
@@ -141,26 +145,37 @@ Tip: use the search box above the Annotation table to select specific sessions: 
 
 ## Sleep regularity
 
-The **Sleep Regularity tab** contains two tables displaying sleep regularity metrics based on either session or epoch data. Clicking on the name of the metrics will display a help page with a definition, how to interpret the values, and any relevant references.
+The **Sleep Regularity tab** contains two tables displaying sleep regularity metrics [@Fischer2021] based on either session or epoch data. Clicking on the name of the metrics will display a help page with a definition, how to interpret the values, and any relevant references.
+
+Currently available sleep regularity metrics are:
+
+- **Mid-sleep standard deviation**: a measure of the variation in sleep pattern
+- **Social Jet-Lag**: the mismatch in midsleep time between work days and free days
+- **Chronotype**: the midpoint between sleep onset and wakeup time on work-free days [@Roenneberg2019]
+- **Composite Phase Deviation (CPD)**: uses the chronotype to assess the regularity of sleep over several days
+- **Interdaily Stability (IS)**: compares sleep-wake patterns (at the epoch level) over multiple days
+- **Sleep Regularity Index (SRI)**: measures the similarity of sleep-wake patterns from one day to the next (ranges from 0 to 100)
 
 ## Visualisations
 
 nocturn provides a range of different visualisations, which can be accessed by clicking on the different tabs in the main panel. Visualisations use either Session or Epoch data, and can be saved in png, pdf or svg format.
 
-For most visualisations, a "Colour by" menu allows changing the colour scale depending on variables contained in the data.
+For most visualisations, a "Colour by" menu allows changing the colour scale depending on variables contained in the data. For example, \autoref{fig:bubbles_temp} shows a sleep duration scatterplot ("Sleep Bubbles" in nocturn) coloured by the average temperature recorded during the sleep session.
+
+![Sleep duration scatterplot with dot colour showing the average temperature during the sleep session.\label{fig:bubbles_temp}](./Sleep_bubbles_temperature.svg)
 
 ### Session-based
 
 - **Sleep Clock** - A circular plot showing sleep onset and wakeup times. Each night is plotted at a different radius on the circle.
 - **Sleep Onset & Wakeup** - A horizontal bar graph showing the average times at sleep onset and wakeup, grouped either by night, by day of the week, or by work day vs. work-free day.
-- **Sleep Times Distributions** - A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots.
+- **Sleep Time Distributions** - A distribution of sleep onset, midsleep and wakeup times, taking into account the circularity of time. The distributions can be shown as boxplot, histogram or density, and all three types can optionally be shown as circular plots.
 - **Sleep bubbles** - A scatterplot showing the sleep duration per session. A grey rectangle on the plot emphasises the usual duration of sleep at night (6 to 9 hours). Dots are coloured according to sleep duration if they are within the 6-9 hour range, and grey otherwise.
 - **Session Timeseries** - A scatter plot showing the evolution of any variable in the Session data over time.
 
 ### Epoch-based
 
 - **Sleep Spiral** - A spiral where each turn represents a 24h day, showing when the subject was asleep or awake.
-- **Hypnogram** - A hypnogram-type graph, showing the different stages of sleep, if available in the Epoch data.
+- **Hypnogram** - A bar graph showing the transition times between the different stages of sleep, if available in the Epoch data.
 - **Epoch Timeseries** - A scatter plot showing the evolution of any variable in the Epoch data over time.
 
 # Examples of use
@@ -230,12 +245,18 @@ Github Copilot with ChatGPT 4.1 was used to assist with writing the code for noc
 
 AI was not used in the writing of this article, or the writing of software documentation.
 
+# Author contributions
+
+DT and AJM conceptualised the project. DT designed and wrote the software, and wrote the original draft of the article. AJM provided supervision and acquired funding. DT and AJM both reviewed and edited the article draft prior to submission.
+
 # Acknowledgements
 
 The authors would like to thank all members of the "Chronopsychiatry group" (division of Psychiatry, University of Edinburgh) and the BioRDM team (School of Biological Sciences, University of Edinburgh) for their feedback and advice during the development of nocturn. The authors would like to thank the authors of the `shinyscholar` R package, which provided inspiration for the design and layout of the nocturn app.
 
+For the purpose of open access, the author has applied a Creative Commons Attribution (CC BY) license to any Author Accepted Manuscript version arising from this submission.
+
 # Funding
 
-The development of nocturn was supported by the Wellcome trust grant 226944 awarded to Prof. Andrew Millar and others.
+The development of nocturn was supported by the Wellcome Trust grant [226944/Z/23/Z](https://doi.org/10.35802/226944) awarded to Prof. Andrew Millar and others.
 
 # References
