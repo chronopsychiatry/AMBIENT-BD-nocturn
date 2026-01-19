@@ -53,7 +53,7 @@ nocturn was developed to be used by researchers studying sleep, to enable them t
 
 # State of the field
 
-Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy [@GGIR2024], PSG [@Luna] or CPAP [@OSCAR]), is not always free to use or open-source [@Muthen2025], and is often difficult to integrate with other tools. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
+Current software for sleep data analysis either focuses exclusively on one data type (e.g. actigraphy [@GGIR2024] or PSG [@Luna]), is not always free to use or open-source [@Muthen2025], and is often difficult to integrate with other tools. To avoid these pitfalls, nocturn was designed according to the FAIR principles (making software that is Findable, Accessible, Interoperable and Reusable), making it easy to integrate into existing analysis pipelines.
 
 # Software design
 
@@ -162,7 +162,7 @@ nocturn provides a range of different visualisations, which can be accessed by c
 
 For most visualisations, a "Colour by" menu allows changing the colour scale depending on variables contained in the data. For example, \autoref{fig:bubbles_temp} shows a sleep duration scatterplot ("Sleep Bubbles" in nocturn) coloured by the average temperature recorded during the sleep session.
 
-![Sleep duration scatterplot with dot colour showing the average temperature during the sleep session.\label{fig:bubbles_temp}](./Sleep_bubbles_temperature.svg)
+![Sleep duration scatterplot with dot colour showing the average temperature during the sleep session.\label{fig:bubbles_temp}](./Sleep_bubbles_temperature.png)
 
 ### Session-based
 
