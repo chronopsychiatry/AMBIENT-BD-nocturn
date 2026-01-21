@@ -1,6 +1,4 @@
-# nocturn
-
-<img src="./inst/shiny/www/logo.png" width="200" height="200" alt="nocturn logo">
+# nocturn <img src="man/figures/logo.png" align="right" height="138" alt="nocturn hex logo" />
 
 nocturn provides tools to filter and visualise sleep data.
 
