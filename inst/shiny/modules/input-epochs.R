@@ -73,10 +73,10 @@ input_epochs_server <- function(id, common) {
     })
 
     shiny::observeEvent(input$save_epoch_col_names, {
-      keys <- names(get_colnames(common$epochs()))
+      keys <- names(.epochs_long)
       vals <- lapply(keys, function(key) {
         val <- input[[paste0("col_", key)]]
-        if (identical(val, "")) NULL else val
+        if (identical(val, "-")) NULL else val
       })
       common$epochs(set_colnames(common$epochs(), stats::setNames(vals, keys)))
       common$epochs(clean_epochs(common$epochs()))
