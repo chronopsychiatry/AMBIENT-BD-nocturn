@@ -1,5 +1,11 @@
 # 1.1
 
+## 1.1.2 (03/03/2026)
+
+### Bug fixes
+
+- Fixed an issue that prevented setting column names for Epochs in some cases
+
 ## 1.1.1 (15/12/2025)
 
 ### Bug fixes
