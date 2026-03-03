@@ -15,7 +15,7 @@ plot_hypnogram <- function(epochs) {
   hypnogram_data <- epochs |>
     dplyr::mutate(
       timestamp = parse_time(.data[[col$timestamp]]),
-      sleep_stage_numeric = .data[[col$sleep_stage]] + 1,
+      sleep_stage_numeric = unclass(factor(.data[[col$sleep_stage]])) + 1,
       sleep_stage = factor(
         .data[[col$sleep_stage]],
         levels = sort(unique(.data[[col$sleep_stage]]))
