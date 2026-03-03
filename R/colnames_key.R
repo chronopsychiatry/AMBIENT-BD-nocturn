@@ -115,12 +115,12 @@
 #' Preset values for epoch column names
 #' @keywords internal
 .epochs_col_presets <- list(
-  timestamp = c("timestamp", "timenum"),
+  timestamp = c("timestamp", "timenum", "Time"),
   session_id = c("session_id", "window"),
   signal_quality = c("signal_quality_mean"),
-  sleep_stage = c("sleep_stage", "class_id"),
+  sleep_stage = c("sleep_stage", "class_id", "Stage"),
   night = c("night"),
-  is_asleep = c("")
+  is_asleep = c("is_asleep")
 )
 
 #' Empty list of epoch column names used in nocturn
