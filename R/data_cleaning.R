@@ -124,14 +124,14 @@ clean_epochs <- function(epochs) {
     col$session_id <- "session_id"
   }
   # GGIR: parse timenum to POSIXct
-  if (identical(col$timestamp, "timenum")) {
+  if (!is.null(col$timestamp) && identical(col$timestamp, "timenum")) {
     epochs[[col$timestamp]] <- as.POSIXct(epochs[[col$timestamp]], origin = "1970-01-01", tz = "Europe/London")
   }
   # Set is_asleep column
-  if (identical(col$sleep_stage, "class_id")) {  # GGIR format
+  if (!is.null(col$sleep_stage) && identical(col$sleep_stage, "class_id")) {  # GGIR format
     epochs$is_asleep <- ifelse(epochs[[col$sleep_stage]] == 0, 1, 0) # is_asleep: 0 = awake, 1 = asleep
     col$is_asleep <- "is_asleep"
-  } else if (col$sleep_stage == "sleep_stage") {  # Somnofy format
+  } else if (!is.null(col$sleep_stage) && col$sleep_stage == "sleep_stage") {  # Somnofy format
     epochs$is_asleep <- ifelse(epochs[[col$sleep_stage]] %in% c(4, 5), 0, 1)
     col$is_asleep <- "is_asleep"
   }
