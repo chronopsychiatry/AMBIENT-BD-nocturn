@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/956490777.svg)](https://doi.org/10.5281/zenodo.20067661)
+
 # nocturn <img src="man/figures/logo.png" align="right" height="138" alt="nocturn hex logo" />
 
 nocturn provides tools to filter and visualise sleep data.
