@@ -18,8 +18,12 @@ A vector containing the values of the specified column, or a vector of NULLs if 
 This function retrieves a column from a dataframe.
 If the column does not exist or is NULL, it returns a vector of NULLs of the same length as the number of rows in the dataframe.
 }
+\examples{
+get_col(example_sessions, "session_start")
+}
 \seealso{
 Other internal: 
+\code{\link{check_suggests}()},
 \code{\link{get_colnames}()},
 \code{\link{get_epoch_colnames}()},
 \code{\link{get_session_colnames}()},

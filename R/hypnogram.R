@@ -8,6 +8,8 @@
 #' @importFrom rlang .data
 #' @export
 #' @family plot epochs
+#' @examples
+#' plot_hypnogram(example_epochs)
 plot_hypnogram <- function(epochs) {
   check_epoch_colnames(epochs, c("timestamp", "sleep_stage"))
   col <- get_epoch_colnames(epochs)

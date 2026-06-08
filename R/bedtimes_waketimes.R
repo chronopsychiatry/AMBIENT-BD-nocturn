@@ -12,6 +12,8 @@
 #' @returns A ggplot graph showing the bedtimes and waketimes
 #' @importFrom rlang .data
 #' @export
+#' @examples
+#' plot_bedtimes_waketimes(example_sessions)
 plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "default") {
   check_session_colnames(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "is_workday"))
   if (color_by != "default") {

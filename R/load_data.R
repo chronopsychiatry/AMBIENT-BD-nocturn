@@ -6,6 +6,9 @@
 #' Supported formats: CSV, Excel, EDF.
 #' @export
 #' @family data loading
+#' @examples
+#' tf <- tempfile(fileext = ".csv")
+#' load_sessions(tf)
 load_sessions <- function(sessions_file) {
   if (!file.exists(sessions_file)) {
     cli::cli_abort(c(
@@ -56,6 +59,9 @@ load_sessions <- function(sessions_file) {
 #' @export
 #' @family data loading
 #' @importFrom rlang .data
+#' @examples
+#' tf <- tempfile(fileext = ".csv")
+#' load_epochs(tf)
 load_epochs <- function(epochs_file, file_name = NULL) {
   if (!file.exists(epochs_file)) {
     cli::cli_abort(c(
@@ -193,6 +199,8 @@ load_batch <- function(folder_path = NULL, file_list = NULL, file_names = NULL, 
 #' @return The data frame with updated "type" attribute
 #' @family internal
 #' @export
+#' @examples
+#' set_data_type(example_sessions, "sessions")
 set_data_type <- function(data, type) {
   attr(data, "type") <- type
   data

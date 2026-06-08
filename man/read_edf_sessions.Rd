@@ -19,6 +19,10 @@ Read EDF Sessions
 The function reads the header of the EDF file to extract session information such as
 start time, duration, and calculates end time and midsleep time.
 }
+\examples{
+tf <- tempfile(fileext = ".edf")
+read_edf_sessions(tf)
+}
 \seealso{
 Other data loading: 
 \code{\link{load_batch}()},

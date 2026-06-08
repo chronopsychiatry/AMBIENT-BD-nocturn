@@ -7,6 +7,8 @@
 #' @return No return value, called for its side effects.
 #' @keywords internal
 #' @export
+#' @examples
+#' check_session_colnames(example_sessions, required_cols = c("time_at_sleep_onset", "time_at_wakeup"))
 check_session_colnames <- function(sessions, required_cols, call = rlang::caller_env()) {
   col <- get_session_colnames(sessions)
   unset_cols <- required_cols[sapply(col[required_cols], is.null)]
@@ -36,6 +38,8 @@ check_session_colnames <- function(sessions, required_cols, call = rlang::caller
 #' @return No return value, called for its side effects.
 #' @keywords internal
 #' @export
+#' @examples
+#' check_epoch_colnames(example_epochs, required_cols = c("timestamp"))
 check_epoch_colnames <- function(epochs, required_cols, call = rlang::caller_env()) {
   col <- get_epoch_colnames(epochs)
   unset_cols <- required_cols[sapply(col[required_cols], is.null)]

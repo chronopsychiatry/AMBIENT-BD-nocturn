@@ -18,4 +18,7 @@ No return value, called for its side effects.
 This function checks that the required column names have been set (e.g. using set_colnames)
 and that these columns are present in the provided sessions data frame.
 }
+\examples{
+check_session_colnames(example_sessions, required_cols = c("time_at_sleep_onset", "time_at_wakeup"))
+}
 \keyword{internal}

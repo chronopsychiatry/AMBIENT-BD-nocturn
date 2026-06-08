@@ -22,6 +22,9 @@ This function uses columns:
 \item \code{sleep_stage}
 }
 }
+\examples{
+plot_hypnogram(example_epochs)
+}
 \seealso{
 Other plot epochs: 
 \code{\link{plot_sleep_spiral}()},

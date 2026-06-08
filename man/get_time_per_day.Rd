@@ -17,6 +17,7 @@ This function returns the number of specified time units (seconds, minutes or ho
 }
 \seealso{
 Other internal: 
+\code{\link{check_suggests}()},
 \code{\link{get_col}()},
 \code{\link{get_colnames}()},
 \code{\link{get_epoch_colnames}()},

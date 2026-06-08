@@ -25,6 +25,7 @@ sessions <- set_colnames(
 }
 \seealso{
 Other internal: 
+\code{\link{check_suggests}()},
 \code{\link{get_col}()},
 \code{\link{get_colnames}()},
 \code{\link{get_epoch_colnames}()},

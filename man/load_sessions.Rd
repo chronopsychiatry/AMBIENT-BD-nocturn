@@ -19,6 +19,10 @@ Load session data
 The function loads the session data from a file
 Supported formats: CSV, Excel, EDF.
 }
+\examples{
+tf <- tempfile(fileext = ".csv")
+load_sessions(tf)
+}
 \seealso{
 Other data loading: 
 \code{\link{load_batch}()},

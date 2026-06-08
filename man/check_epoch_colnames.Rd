@@ -18,4 +18,7 @@ No return value, called for its side effects.
 This function checks that the required column names have been set (e.g. using set_colnames)
 and that these columns are present in the provided epochs data frame.
 }
+\examples{
+check_epoch_colnames(example_epochs, required_cols = c("timestamp"))
+}
 \keyword{internal}

@@ -29,6 +29,11 @@ A dataframe containing the combined session data from all matching files in the 
 \description{
 Load session or epoch data in batch mode
 }
+\examples{
+tf1 <- tempfile(fileext = ".csv")
+tf2 <- tempfile(fileext = ".csv")
+load_batch(file_list = c(tf1, tf2))
+}
 \seealso{
 Other data loading: 
 \code{\link{load_epochs}()},

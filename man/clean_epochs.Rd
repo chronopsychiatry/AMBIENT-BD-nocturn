@@ -17,4 +17,5 @@ Clean epoch data
 }
 \examples{
 epochs <- clean_epochs(nocturn::example_epochs)
+clean_epochs(example_epochs)
 }

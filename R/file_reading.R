@@ -6,6 +6,9 @@
 #' start time, duration, and calculates end time and midsleep time.
 #' @export
 #' @family data loading
+#' @examples
+#' tf <- tempfile(fileext = ".edf")
+#' read_edf_sessions(tf)
 read_edf_sessions <- function(file) {
   if (!file.exists(file)) {
     cli::cli_abort(c(
@@ -35,6 +38,9 @@ read_edf_sessions <- function(file) {
 #' a column for timestamps and a column for sleep stage annotations.
 #' @export
 #' @family data loading
+#' @examples
+#' tf <- tempfile(fileext = ".edf")
+#' read_edf_epochs(tf)
 read_edf_epochs <- function(file) {
   if (!file.exists(file)) {
     cli::cli_abort(c(

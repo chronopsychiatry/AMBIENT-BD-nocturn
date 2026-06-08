@@ -1,7 +1,10 @@
 #' @title Check whether suggested packages are installed
 #' @description Checks whether all the packages in Suggests are installed and prompts for install if not.
 #' @returns No return value, called for side effects
+#' @family internal
 #' @export
+#' @examples
+#' check_suggests()
 check_suggests <- function() {
   desc <- read.dcf(system.file("DESCRIPTION", package = "nocturn"))
   suggests <- trimws(

@@ -15,8 +15,12 @@ A named list of column names
 \description{
 Dispatch to the appropriate function based on the dataframe type attribute (expecting "sessions" or "epochs").
 }
+\examples{
+get_colnames(example_sessions)
+}
 \seealso{
 Other internal: 
+\code{\link{check_suggests}()},
 \code{\link{get_col}()},
 \code{\link{get_epoch_colnames}()},
 \code{\link{get_session_colnames}()},

@@ -17,8 +17,12 @@ This function retrieves the standard column names for epochs data.
 If the column names are not set as an attribute, it attempts to infer them
 from a list of common column names.
 }
+\examples{
+get_epoch_colnames(example_epochs)
+}
 \seealso{
 Other internal: 
+\code{\link{check_suggests}()},
 \code{\link{get_col}()},
 \code{\link{get_colnames}()},
 \code{\link{get_session_colnames}()},

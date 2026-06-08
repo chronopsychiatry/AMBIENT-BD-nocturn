@@ -19,6 +19,10 @@ Read EDF Epochs
 The function reads the signals of the EDF file to extract epoch information. It must contain
 a column for timestamps and a column for sleep stage annotations.
 }
+\examples{
+tf <- tempfile(fileext = ".edf")
+read_edf_epochs(tf)
+}
 \seealso{
 Other data loading: 
 \code{\link{load_batch}()},

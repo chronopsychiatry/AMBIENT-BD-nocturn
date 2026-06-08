@@ -7,6 +7,8 @@
 #' @returns A named list of column names
 #' @family internal
 #' @export
+#' @examples
+#' get_session_colnames(example_sessions)
 get_session_colnames <- function(sessions) {
   col_names <- attr(sessions, "col")
   if (is.null(col_names)) {
@@ -35,6 +37,8 @@ get_session_colnames <- function(sessions) {
 #' @returns A named list of column names
 #' @family internal
 #' @export
+#' @examples
+#' get_epoch_colnames(example_epochs)
 get_epoch_colnames <- function(epochs) {
   col_names <- attr(epochs, "col")
   if (is.null(col_names)) {
@@ -61,6 +65,8 @@ get_epoch_colnames <- function(epochs) {
 #' @returns A named list of column names
 #' @family internal
 #' @export
+#' @examples
+#' get_colnames(example_sessions)
 get_colnames <- function(df) {
   type <- attr(df, "type")
   if (is.null(type)) {

@@ -6,6 +6,8 @@
 #' sessions <- clean_sessions(nocturn::example_sessions)
 #' @importFrom rlang .data
 #' @export
+#' @examples
+#' clean_sessions(example_sessions)
 clean_sessions <- function(sessions) {
   col <- get_session_colnames(sessions)
 
@@ -115,6 +117,8 @@ clean_sessions <- function(sessions) {
 #' epochs <- clean_epochs(nocturn::example_epochs)
 #' @importFrom rlang .data
 #' @export
+#' @examples
+#' clean_epochs(example_epochs)
 clean_epochs <- function(epochs) {
   col <- get_epoch_colnames(epochs)
 

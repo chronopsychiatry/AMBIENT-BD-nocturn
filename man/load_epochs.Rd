@@ -21,6 +21,10 @@ Load epoch data
 The function loads the epoch data from a file and groups the epochs by night.
 Supported formats: CSV, Excel, EDF.
 }
+\examples{
+tf <- tempfile(fileext = ".csv")
+load_epochs(tf)
+}
 \seealso{
 Other data loading: 
 \code{\link{load_batch}()},

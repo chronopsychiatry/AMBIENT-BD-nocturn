@@ -84,6 +84,8 @@ get_epochs_summary <- function(epochs) {
 #' @returns A vector containing the values of the specified column, or a vector of NULLs if the column does not exist
 #' @family internal
 #' @export
+#' @examples
+#' get_col(example_sessions, "session_start")
 get_col <- function(df, col) {
   if (is.null(col) || !col %in% colnames(df)) {
     rep(list(NULL), nrow(df))

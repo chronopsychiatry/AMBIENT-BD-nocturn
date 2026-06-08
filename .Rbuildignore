@@ -6,3 +6,4 @@
 .github
 .lintr
 ^LICENSE\.md$
+^cran-comments\.md$

@@ -29,3 +29,6 @@ This function uses columns:
 \item \code{is_workday}
 }
 }
+\examples{
+plot_bedtimes_waketimes(example_sessions)
+}
