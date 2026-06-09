@@ -156,7 +156,7 @@
 
 ### New
 
-- Added functions to calculate different metrics on sleep regularity (see [Fischer et al., 2021](https://academic.oup.com/sleep/article/44/10/zsab103/6232042#400055633) for details on these metrics)
+- Added functions to calculate different metrics on sleep regularity:
   - Interdaily stability (IS)
   - Social jet-lag (SJL)
   - Chronotype

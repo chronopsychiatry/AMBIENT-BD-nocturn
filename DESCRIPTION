@@ -1,5 +1,5 @@
 Package: nocturn
-Title: Sleep data filtering and visualisation
+Title: Sleep Data Filtering and Visualisation
 Version: 1.1.2
 Authors@R: 
   person(
@@ -9,7 +9,7 @@ Authors@R:
     role = c("aut", "cre", "cph"),
     comment = c(ORCID = "0000-0002-1352-7245")
   )
-Description: An online app and command-line utility to import, filter and visualise sleep data. Can be used with sleep data collected from any type of device (e.g. actigraphy, radar, sleep diary,...) as long as the data contains sleep onset and wakeup times for each sleep session.
+Description: An online app and command-line utility to import, filter and visualise sleep data. Can be used with sleep data collected from any type of device (e.g. actigraphy, radar, sleep diary,...) as long as the data contains sleep onset and wake-up times for each sleep session.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

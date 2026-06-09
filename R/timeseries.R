@@ -13,7 +13,7 @@
 #' @family plot epochs
 #' @seealso [plot_timeseries_sessions()] to plot session data.
 #' @examples
-#' plot_timeseries(example_epochs)
+#' plot_timeseries(example_epochs, variable="signal_quality_mean")
 plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero = FALSE) {
   check_epoch_colnames(epochs, c("timestamp", "night"))
   col <- get_epoch_colnames(epochs)
@@ -109,7 +109,7 @@ plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero
 #' @family plot sessions
 #' @seealso [plot_timeseries()] to plot epoch data.
 #' @examples
-#' plot_timeseries_sessions(example_sessions)
+#' plot_timeseries_sessions(example_sessions, variable="time_at_midsleep")
 plot_timeseries_sessions <- function(sessions, variable, color_by = "default", exclude_zero = FALSE) {
   check_session_colnames(sessions, c("night"))
   col <- get_session_colnames(sessions)

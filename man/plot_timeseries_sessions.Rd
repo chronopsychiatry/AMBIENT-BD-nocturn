@@ -33,7 +33,7 @@ This function uses columns:
 }
 }
 \examples{
-plot_timeseries_sessions(example_sessions)
+plot_timeseries_sessions(example_sessions, variable="time_at_midsleep")
 }
 \seealso{
 \code{\link[=plot_timeseries]{plot_timeseries()}} to plot epoch data.

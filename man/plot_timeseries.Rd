@@ -29,7 +29,7 @@ This function uses columns:
 }
 }
 \examples{
-plot_timeseries(example_epochs)
+plot_timeseries(example_epochs, variable="signal_quality_mean")
 }
 \seealso{
 \code{\link[=plot_timeseries_sessions]{plot_timeseries_sessions()}} to plot session data.

@@ -32,7 +32,7 @@ If you wish to run the app locally, or to use the R package, please follow the [
 
 Descriptions of functions from the nocturn R package can be found in the [package manual](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/tree/main/Package_manuals). Select the package version that corresponds to the one you have installed. If you are unsure, you can check your current version of nocturn by running `packageVersion("nocturn")` in R.
 
-The [changelog](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/blob/main/CHANGELOG.md) contains information about changes made in each version. Generally, it is preferable to run the latest version of the package, as each version will contain bug fixes and improvements. You can update your installed version by running `devtools::install_github("Chronopsychiatry/AMBIENT-BD-nocturn", force = TRUE)` in R.
+The [changelog](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/blob/main/NEWS.md) contains information about changes made in each version. Generally, it is preferable to run the latest version of the package, as each version will contain bug fixes and improvements.
 
 ## Bugs and suggestions
 

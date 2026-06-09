@@ -30,5 +30,5 @@ This function uses columns:
 }
 }
 \examples{
-sleep_report(example_sessions)
+\dontrun{sleep_report(example_sessions)}
 }
