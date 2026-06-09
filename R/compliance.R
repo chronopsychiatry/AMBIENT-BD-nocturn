@@ -200,3 +200,23 @@ get_removed_sessions <- function(sessions, filtered_sessions) {
     dplyr::anti_join(filtered_sessions, by = col$id) |>
     remove_sessions_no_sleep()
 }
+
+#' Remove duplicate sessions by keeping only the longest
+#'
+#' @param sessions The sessions dataframe to process
+#' @details This function uses columns:
+#' - `night`
+#' - `sleep_period`
+#' @returns The sessions dataframe with duplicate sessions removed
+#' @importFrom rlang .data
+#' @export
+#' @family filtering
+#' @examples
+#' keep_longest(example_sessions)
+keep_longest <- function(sessions) {
+  col <- get_session_colnames(sessions)
+  sessions |>
+    dplyr::arrange(dplyr::desc(.data[[col$sleep_period]])) |>
+    dplyr::distinct(.data[[col$night]], .keep_all = TRUE) |>
+    dplyr::arrange(.data[[col$night]])
+}

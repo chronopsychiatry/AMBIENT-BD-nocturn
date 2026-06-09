@@ -102,3 +102,10 @@ test_that("get_removed_sessions handles reverse input", {
   filtered_sessions <- set_session_sleep_onset_range(sessions, "19:00", "02:00")
   expect_error(get_removed_sessions(filtered_sessions, sessions), "There are more rows in filtered sessions than in sessions")
 })
+
+test_that("keep_longest works as expected", {
+  filtered_sessions <- keep_longest(sessions)
+  expected_result <- sessions[c(1, 4, 5), ]
+  rownames(expected_result) <- NULL
+  expect_equal(filtered_sessions, expected_result)
+})
