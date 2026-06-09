@@ -22,14 +22,14 @@ If the column does not exist or is NULL, it returns a vector of NULLs of the sam
 get_col(example_sessions, "session_start")
 }
 \seealso{
-Other internal: 
-\code{\link{check_suggests}()},
-\code{\link{get_colnames}()},
-\code{\link{get_epoch_colnames}()},
-\code{\link{get_session_colnames}()},
-\code{\link{get_time_per_day}()},
-\code{\link{is_iso8601_datetime}()},
-\code{\link{set_colnames}()},
-\code{\link{set_data_type}()}
+Other internal:
+\code{\link[=check_suggests]{check_suggests()}},
+\code{\link[=get_colnames]{get_colnames()}},
+\code{\link[=get_epoch_colnames]{get_epoch_colnames()}},
+\code{\link[=get_session_colnames]{get_session_colnames()}},
+\code{\link[=get_time_per_day]{get_time_per_day()}},
+\code{\link[=is_iso8601_datetime]{is_iso8601_datetime()}},
+\code{\link[=set_colnames]{set_colnames()}},
+\code{\link[=set_data_type]{set_data_type()}}
 }
 \concept{internal}

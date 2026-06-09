@@ -17,18 +17,21 @@ This function parses a vector of time strings into POSIXct objects.
 Supported formats include "YYYY-MM-DD HH:MM:SS", "YYYY-MM-DD HH:MM", "HH:MM:SS", and "HH:MM".
 Timezone information is ignored.
 }
+\examples{
+parse_time("2026-01-01T14:34:09")
+}
 \seealso{
-Other time processing: 
-\code{\link{group_epochs_by_night}()},
-\code{\link{group_sessions_by_night}()},
-\code{\link{max_time}()},
-\code{\link{mean_time}()},
-\code{\link{min_time}()},
-\code{\link{parse_date}()},
-\code{\link{sd_time}()},
-\code{\link{shift_times_by_12h}()},
-\code{\link{time_diff}()},
-\code{\link{time_to_hours}()},
-\code{\link{update_date}()}
+Other time processing:
+\code{\link[=group_epochs_by_night]{group_epochs_by_night()}},
+\code{\link[=group_sessions_by_night]{group_sessions_by_night()}},
+\code{\link[=max_time]{max_time()}},
+\code{\link[=mean_time]{mean_time()}},
+\code{\link[=min_time]{min_time()}},
+\code{\link[=parse_date]{parse_date()}},
+\code{\link[=sd_time]{sd_time()}},
+\code{\link[=shift_times_by_12h]{shift_times_by_12h()}},
+\code{\link[=time_diff]{time_diff()}},
+\code{\link[=time_to_hours]{time_to_hours()}},
+\code{\link[=update_date]{update_date()}}
 }
 \concept{time processing}

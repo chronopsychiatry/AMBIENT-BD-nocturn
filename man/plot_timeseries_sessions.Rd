@@ -32,11 +32,14 @@ This function uses columns:
 \item \code{night}
 }
 }
+\examples{
+plot_timeseries_sessions(example_sessions)
+}
 \seealso{
 \code{\link[=plot_timeseries]{plot_timeseries()}} to plot epoch data.
 
-Other plot sessions: 
-\code{\link{plot_sleep_bubbles}()},
-\code{\link{plot_sleep_clock}()}
+Other plot sessions:
+\code{\link[=plot_sleep_bubbles]{plot_sleep_bubbles()}},
+\code{\link[=plot_sleep_clock]{plot_sleep_clock()}}
 }
 \concept{plot sessions}

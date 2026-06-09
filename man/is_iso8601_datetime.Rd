@@ -15,15 +15,18 @@ TRUE if all non-missing values are valid ISO 8601 datetime strings, FALSE otherw
 \description{
 This function checks if all non-missing values in a column are valid ISO 8601 datetime strings.
 }
+\examples{
+is_iso8601_datetime(c("2026-01-01T14:10"))
+}
 \seealso{
-Other internal: 
-\code{\link{check_suggests}()},
-\code{\link{get_col}()},
-\code{\link{get_colnames}()},
-\code{\link{get_epoch_colnames}()},
-\code{\link{get_session_colnames}()},
-\code{\link{get_time_per_day}()},
-\code{\link{set_colnames}()},
-\code{\link{set_data_type}()}
+Other internal:
+\code{\link[=check_suggests]{check_suggests()}},
+\code{\link[=get_col]{get_col()}},
+\code{\link[=get_colnames]{get_colnames()}},
+\code{\link[=get_epoch_colnames]{get_epoch_colnames()}},
+\code{\link[=get_session_colnames]{get_session_colnames()}},
+\code{\link[=get_time_per_day]{get_time_per_day()}},
+\code{\link[=set_colnames]{set_colnames()}},
+\code{\link[=set_data_type]{set_data_type()}}
 }
 \concept{internal}

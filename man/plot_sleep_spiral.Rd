@@ -24,9 +24,12 @@ This function uses columns:
 \item \code{is_asleep}
 }
 }
+\examples{
+plot_sleep_spiral(example_epochs)
+}
 \seealso{
-Other plot epochs: 
-\code{\link{plot_hypnogram}()},
-\code{\link{plot_timeseries}()}
+Other plot epochs:
+\code{\link[=plot_hypnogram]{plot_hypnogram()}},
+\code{\link[=plot_timeseries]{plot_timeseries()}}
 }
 \concept{plot epochs}

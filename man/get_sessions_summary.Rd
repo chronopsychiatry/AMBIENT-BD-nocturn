@@ -31,9 +31,9 @@ get_sessions_summary(example_sessions)
 \seealso{
 \code{\link[=get_epochs_summary]{get_epochs_summary()}} to summarise epoch information.
 
-Other data tables: 
-\code{\link{get_epochs_summary}()},
-\code{\link{get_non_complying_sessions}()},
-\code{\link{get_removed_sessions}()}
+Other data tables:
+\code{\link[=get_epochs_summary]{get_epochs_summary()}},
+\code{\link[=get_non_complying_sessions]{get_non_complying_sessions()}},
+\code{\link[=get_removed_sessions]{get_removed_sessions()}}
 }
 \concept{data tables}

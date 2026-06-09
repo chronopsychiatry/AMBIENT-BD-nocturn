@@ -28,10 +28,10 @@ This function uses columns:
 composite_phase_deviation(example_sessions)
 }
 \seealso{
-Other sleep metrics: 
-\code{\link{chronotype}()},
-\code{\link{interdaily_stability}()},
-\code{\link{sleep_regularity_index}()},
-\code{\link{social_jet_lag}()}
+Other sleep metrics:
+\code{\link[=chronotype]{chronotype()}},
+\code{\link[=interdaily_stability]{interdaily_stability()}},
+\code{\link[=sleep_regularity_index]{sleep_regularity_index()}},
+\code{\link[=social_jet_lag]{social_jet_lag()}}
 }
 \concept{sleep metrics}

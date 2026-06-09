@@ -16,18 +16,21 @@ A vector of Date objects
 This function parses a vector of date strings into Date objects.
 All formats containing year, month, and day information are supported.
 }
+\examples{
+parse_date("2026-01-02T14:33:09")
+}
 \seealso{
-Other time processing: 
-\code{\link{group_epochs_by_night}()},
-\code{\link{group_sessions_by_night}()},
-\code{\link{max_time}()},
-\code{\link{mean_time}()},
-\code{\link{min_time}()},
-\code{\link{parse_time}()},
-\code{\link{sd_time}()},
-\code{\link{shift_times_by_12h}()},
-\code{\link{time_diff}()},
-\code{\link{time_to_hours}()},
-\code{\link{update_date}()}
+Other time processing:
+\code{\link[=group_epochs_by_night]{group_epochs_by_night()}},
+\code{\link[=group_sessions_by_night]{group_sessions_by_night()}},
+\code{\link[=max_time]{max_time()}},
+\code{\link[=mean_time]{mean_time()}},
+\code{\link[=min_time]{min_time()}},
+\code{\link[=parse_time]{parse_time()}},
+\code{\link[=sd_time]{sd_time()}},
+\code{\link[=shift_times_by_12h]{shift_times_by_12h()}},
+\code{\link[=time_diff]{time_diff()}},
+\code{\link[=time_to_hours]{time_to_hours()}},
+\code{\link[=update_date]{update_date()}}
 }
 \concept{time processing}

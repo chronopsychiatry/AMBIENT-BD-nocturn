@@ -27,3 +27,6 @@ This function uses columns:
 \item \code{time_at_midsleep}
 }
 }
+\examples{
+sleeptimes_density(example_sessions)
+}

@@ -29,10 +29,10 @@ This function uses columns:
 chronotype(example_sessions)
 }
 \seealso{
-Other sleep metrics: 
-\code{\link{composite_phase_deviation}()},
-\code{\link{interdaily_stability}()},
-\code{\link{sleep_regularity_index}()},
-\code{\link{social_jet_lag}()}
+Other sleep metrics:
+\code{\link[=composite_phase_deviation]{composite_phase_deviation()}},
+\code{\link[=interdaily_stability]{interdaily_stability()}},
+\code{\link[=sleep_regularity_index]{sleep_regularity_index()}},
+\code{\link[=social_jet_lag]{social_jet_lag()}}
 }
 \concept{sleep metrics}

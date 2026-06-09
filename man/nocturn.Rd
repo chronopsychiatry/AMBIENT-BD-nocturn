@@ -9,3 +9,8 @@ nocturn()
 \description{
 This function launches the nocturn app, a Shiny application for visualizing and analyzing sleep data.
 }
+\examples{
+\dontrun{
+nocturn()
+}
+}

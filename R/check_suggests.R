@@ -3,8 +3,6 @@
 #' @returns No return value, called for side effects
 #' @family internal
 #' @export
-#' @examples
-#' check_suggests()
 check_suggests <- function() {
   desc <- read.dcf(system.file("DESCRIPTION", package = "nocturn"))
   suggests <- trimws(

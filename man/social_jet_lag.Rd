@@ -27,10 +27,10 @@ This function uses columns:
 social_jet_lag(example_sessions)
 }
 \seealso{
-Other sleep metrics: 
-\code{\link{chronotype}()},
-\code{\link{composite_phase_deviation}()},
-\code{\link{interdaily_stability}()},
-\code{\link{sleep_regularity_index}()}
+Other sleep metrics:
+\code{\link[=chronotype]{chronotype()}},
+\code{\link[=composite_phase_deviation]{composite_phase_deviation()}},
+\code{\link[=interdaily_stability]{interdaily_stability()}},
+\code{\link[=sleep_regularity_index]{sleep_regularity_index()}}
 }
 \concept{sleep metrics}

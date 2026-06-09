@@ -20,14 +20,14 @@ The function reads the header of the EDF file to extract session information suc
 start time, duration, and calculates end time and midsleep time.
 }
 \examples{
-tf <- tempfile(fileext = ".edf")
-read_edf_sessions(tf)
+edf <- system.file("extdata", "mini.edf", package = "nocturn")
+read_edf_sessions(edf)
 }
 \seealso{
-Other data loading: 
-\code{\link{load_batch}()},
-\code{\link{load_epochs}()},
-\code{\link{load_sessions}()},
-\code{\link{read_edf_epochs}()}
+Other data loading:
+\code{\link[=load_batch]{load_batch()}},
+\code{\link[=load_epochs]{load_epochs()}},
+\code{\link[=load_sessions]{load_sessions()}},
+\code{\link[=read_edf_epochs]{read_edf_epochs()}}
 }
 \concept{data loading}

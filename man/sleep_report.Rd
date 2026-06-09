@@ -29,3 +29,6 @@ This function uses columns:
 \item \code{time_in_bed}
 }
 }
+\examples{
+sleep_report(example_sessions)
+}

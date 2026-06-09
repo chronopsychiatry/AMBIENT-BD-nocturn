@@ -8,6 +8,7 @@
 #' @family data loading
 #' @examples
 #' tf <- tempfile(fileext = ".csv")
+#' utils::write.csv(data.frame(id = 1), tf, row.names = FALSE)
 #' load_sessions(tf)
 load_sessions <- function(sessions_file) {
   if (!file.exists(sessions_file)) {
@@ -61,6 +62,7 @@ load_sessions <- function(sessions_file) {
 #' @importFrom rlang .data
 #' @examples
 #' tf <- tempfile(fileext = ".csv")
+#' utils::write.csv(data.frame(id = 1), tf, row.names = FALSE)
 #' load_epochs(tf)
 load_epochs <- function(epochs_file, file_name = NULL) {
   if (!file.exists(epochs_file)) {
@@ -121,6 +123,12 @@ load_epochs <- function(epochs_file, file_name = NULL) {
 #' @returns A dataframe containing the combined session data from all matching files in the folder
 #' @family data loading
 #' @export
+#' @examples
+#' tf1 <- tempfile(fileext = ".csv")
+#' tf2 <- tempfile(fileext = ".csv")
+#' utils::write.csv(data.frame(id = 1), tf1, row.names = FALSE)
+#' utils::write.csv(data.frame(id = 1), tf2, row.names = FALSE)
+#' load_batch(file_list = c(tf1, tf2))
 load_batch <- function(folder_path = NULL, file_list = NULL, file_names = NULL, pattern = NULL, type = "sessions") {
   if (is.null(folder_path) && is.null(file_list)) {
     cli::cli_abort(c(

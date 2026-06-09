@@ -20,14 +20,14 @@ The function reads the signals of the EDF file to extract epoch information. It 
 a column for timestamps and a column for sleep stage annotations.
 }
 \examples{
-tf <- tempfile(fileext = ".edf")
-read_edf_epochs(tf)
+edf <- system.file("extdata", "mini.edf", package = "nocturn")
+read_edf_epochs(edf)
 }
 \seealso{
-Other data loading: 
-\code{\link{load_batch}()},
-\code{\link{load_epochs}()},
-\code{\link{load_sessions}()},
-\code{\link{read_edf_sessions}()}
+Other data loading:
+\code{\link[=load_batch]{load_batch()}},
+\code{\link[=load_epochs]{load_epochs()}},
+\code{\link[=load_sessions]{load_sessions()}},
+\code{\link[=read_edf_sessions]{read_edf_sessions()}}
 }
 \concept{data loading}

@@ -17,18 +17,21 @@ A POSIXct time object with the updated date
 \description{
 This function updates the date component of a POSIXct time object while preserving the time component.
 }
+\examples{
+update_date("2026-01-01T14:09:09", "0000-01-01")
+}
 \seealso{
-Other time processing: 
-\code{\link{group_epochs_by_night}()},
-\code{\link{group_sessions_by_night}()},
-\code{\link{max_time}()},
-\code{\link{mean_time}()},
-\code{\link{min_time}()},
-\code{\link{parse_date}()},
-\code{\link{parse_time}()},
-\code{\link{sd_time}()},
-\code{\link{shift_times_by_12h}()},
-\code{\link{time_diff}()},
-\code{\link{time_to_hours}()}
+Other time processing:
+\code{\link[=group_epochs_by_night]{group_epochs_by_night()}},
+\code{\link[=group_sessions_by_night]{group_sessions_by_night()}},
+\code{\link[=max_time]{max_time()}},
+\code{\link[=mean_time]{mean_time()}},
+\code{\link[=min_time]{min_time()}},
+\code{\link[=parse_date]{parse_date()}},
+\code{\link[=parse_time]{parse_time()}},
+\code{\link[=sd_time]{sd_time()}},
+\code{\link[=shift_times_by_12h]{shift_times_by_12h()}},
+\code{\link[=time_diff]{time_diff()}},
+\code{\link[=time_to_hours]{time_to_hours()}}
 }
 \concept{time processing}

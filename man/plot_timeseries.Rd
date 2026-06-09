@@ -28,11 +28,14 @@ This function uses columns:
 \item \code{night}
 }
 }
+\examples{
+plot_timeseries(example_epochs)
+}
 \seealso{
 \code{\link[=plot_timeseries_sessions]{plot_timeseries_sessions()}} to plot session data.
 
-Other plot epochs: 
-\code{\link{plot_hypnogram}()},
-\code{\link{plot_sleep_spiral}()}
+Other plot epochs:
+\code{\link[=plot_hypnogram]{plot_hypnogram()}},
+\code{\link[=plot_sleep_spiral]{plot_sleep_spiral()}}
 }
 \concept{plot epochs}

@@ -237,6 +237,8 @@ group_sessions_by_night <- function(sessions) {
 #' @returns The number of time units in a day (numeric)
 #' @family internal
 #' @export
+#' @examples
+#' get_time_per_day("hour")
 get_time_per_day <- function(unit = "second") {
   switch(unit,
     second = 86400,
@@ -254,6 +256,8 @@ get_time_per_day <- function(unit = "second") {
 #' @returns TRUE if all non-missing values are valid ISO 8601 datetime strings, FALSE otherwise
 #' @family internal
 #' @export
+#' @examples
+#' is_iso8601_datetime(c("2026-01-01T14:10"))
 is_iso8601_datetime <- function(x) {
   if (all(is.na(x))) {
     return(NA)
@@ -321,6 +325,8 @@ is_iso8601_datetime <- function(x) {
 #' @returns A numeric vector representing the time in hours
 #' @family time processing
 #' @export
+#' @examples
+#' time_to_hours(c("2026-10-12T14:20:09"))
 time_to_hours <- function(time_vector) {
   if (inherits(time_vector, "numeric")) {
     return(time_vector)
@@ -338,6 +344,8 @@ time_to_hours <- function(time_vector) {
 #' @returns A vector of POSIXct objects
 #' @family time processing
 #' @export
+#' @examples
+#' parse_time("2026-01-01T14:34:09")
 parse_time <- function(time_vector) {
   if ((inherits(time_vector, "POSIXct") || inherits(time_vector, "POSIXt") || inherits(time_vector, "numeric"))) {
     return(time_vector)
@@ -355,6 +363,8 @@ parse_time <- function(time_vector) {
 #' @returns A vector of Date objects
 #' @family time processing
 #' @export
+#' @examples
+#' parse_date("2026-01-02T14:33:09")
 parse_date <- function(date_vector) {
   if (inherits(date_vector, "Date")) {
     return(date_vector)
@@ -377,6 +387,8 @@ parse_date <- function(date_vector) {
 #' @returns A POSIXct time object with the updated date
 #' @family time processing
 #' @export
+#' @examples
+#' update_date("2026-01-01T14:09:09", "0000-01-01")
 update_date <- function(time, date) {
   if (!inherits(time, "POSIXct")) {
     time <- parse_time(time)

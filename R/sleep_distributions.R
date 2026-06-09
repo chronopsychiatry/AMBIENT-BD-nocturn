@@ -11,6 +11,8 @@ utils::globalVariables(".")
 #' @returns A ggplot object with three horizontal boxplots (onset, midsleep, wakeup)
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' sleeptimes_boxplot(example_sessions)
 sleeptimes_boxplot <- function(sessions, circular = FALSE) {
   check_session_colnames(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
   plot_data <- prepare_sleeptimes_data(sessions)
@@ -118,6 +120,8 @@ sleeptimes_boxplot <- function(sessions, circular = FALSE) {
 #' @returns A ggplot object with three overlaid histograms (sleep onset, midsleep, wakeup)
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' sleeptimes_histogram(example_sessions)
 sleeptimes_histogram <- function(sessions, binwidth = 0.25, circular = FALSE) {
   check_session_colnames(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
   plot_data <- prepare_sleeptimes_data(sessions)
@@ -186,6 +190,8 @@ sleeptimes_histogram <- function(sessions, binwidth = 0.25, circular = FALSE) {
 #' @returns A ggplot object with three overlaid density curves (sleep onset, midsleep, wakeup)
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' sleeptimes_density(example_sessions)
 sleeptimes_density <- function(sessions, adjust = 1, circular = FALSE) {
   check_session_colnames(sessions, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep"))
   plot_data <- prepare_sleeptimes_data(sessions)

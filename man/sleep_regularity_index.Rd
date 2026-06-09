@@ -27,10 +27,10 @@ This function uses columns:
 sleep_regularity_index(example_epochs)
 }
 \seealso{
-Other sleep metrics: 
-\code{\link{chronotype}()},
-\code{\link{composite_phase_deviation}()},
-\code{\link{interdaily_stability}()},
-\code{\link{social_jet_lag}()}
+Other sleep metrics:
+\code{\link[=chronotype]{chronotype()}},
+\code{\link[=composite_phase_deviation]{composite_phase_deviation()}},
+\code{\link[=interdaily_stability]{interdaily_stability()}},
+\code{\link[=social_jet_lag]{social_jet_lag()}}
 }
 \concept{sleep metrics}

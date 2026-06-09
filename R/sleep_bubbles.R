@@ -11,6 +11,8 @@
 #' @importFrom rlang .data
 #' @export
 #' @family plot sessions
+#' @examples
+#' plot_sleep_bubbles(example_sessions)
 plot_sleep_bubbles <- function(sessions, color_by = "default", bubble_size = 10) {
   check_session_colnames(sessions, c("sleep_period", "night"))
   col <- get_session_colnames(sessions)

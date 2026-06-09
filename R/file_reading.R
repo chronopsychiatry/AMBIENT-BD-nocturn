@@ -7,8 +7,8 @@
 #' @export
 #' @family data loading
 #' @examples
-#' tf <- tempfile(fileext = ".edf")
-#' read_edf_sessions(tf)
+#' edf <- system.file("extdata", "mini.edf", package = "nocturn")
+#' read_edf_sessions(edf)
 read_edf_sessions <- function(file) {
   if (!file.exists(file)) {
     cli::cli_abort(c(
@@ -39,8 +39,8 @@ read_edf_sessions <- function(file) {
 #' @export
 #' @family data loading
 #' @examples
-#' tf <- tempfile(fileext = ".edf")
-#' read_edf_epochs(tf)
+#' edf <- system.file("extdata", "mini.edf", package = "nocturn")
+#' read_edf_epochs(edf)
 read_edf_epochs <- function(file) {
   if (!file.exists(file)) {
     cli::cli_abort(c(

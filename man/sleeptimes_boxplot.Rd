@@ -25,3 +25,6 @@ This function uses columns:
 \item \code{time_at_midsleep}
 }
 }
+\examples{
+sleeptimes_boxplot(example_sessions)
+}

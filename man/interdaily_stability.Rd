@@ -26,10 +26,10 @@ This function uses columns:
 interdaily_stability(example_epochs)
 }
 \seealso{
-Other sleep metrics: 
-\code{\link{chronotype}()},
-\code{\link{composite_phase_deviation}()},
-\code{\link{sleep_regularity_index}()},
-\code{\link{social_jet_lag}()}
+Other sleep metrics:
+\code{\link[=chronotype]{chronotype()}},
+\code{\link[=composite_phase_deviation]{composite_phase_deviation()}},
+\code{\link[=sleep_regularity_index]{sleep_regularity_index()}},
+\code{\link[=social_jet_lag]{social_jet_lag()}}
 }
 \concept{sleep metrics}

@@ -25,9 +25,12 @@ This function uses columns:
 \item \code{night}
 }
 }
+\examples{
+plot_sleep_clock(example_sessions)
+}
 \seealso{
-Other plot sessions: 
-\code{\link{plot_sleep_bubbles}()},
-\code{\link{plot_timeseries_sessions}()}
+Other plot sessions:
+\code{\link[=plot_sleep_bubbles]{plot_sleep_bubbles()}},
+\code{\link[=plot_timeseries_sessions]{plot_timeseries_sessions()}}
 }
 \concept{plot sessions}

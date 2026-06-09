@@ -32,13 +32,15 @@ Load session or epoch data in batch mode
 \examples{
 tf1 <- tempfile(fileext = ".csv")
 tf2 <- tempfile(fileext = ".csv")
+utils::write.csv(data.frame(id = 1), tf1, row.names = FALSE)
+utils::write.csv(data.frame(id = 1), tf2, row.names = FALSE)
 load_batch(file_list = c(tf1, tf2))
 }
 \seealso{
-Other data loading: 
-\code{\link{load_epochs}()},
-\code{\link{load_sessions}()},
-\code{\link{read_edf_epochs}()},
-\code{\link{read_edf_sessions}()}
+Other data loading:
+\code{\link[=load_epochs]{load_epochs()}},
+\code{\link[=load_sessions]{load_sessions()}},
+\code{\link[=read_edf_epochs]{read_edf_epochs()}},
+\code{\link[=read_edf_sessions]{read_edf_sessions()}}
 }
 \concept{data loading}

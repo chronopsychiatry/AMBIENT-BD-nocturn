@@ -9,6 +9,8 @@
 #' @importFrom rlang .data
 #' @export
 #' @family plot epochs
+#' @examples
+#' plot_sleep_spiral(example_epochs)
 plot_sleep_spiral <- function(epochs, color_by = "default") {
   check_epoch_colnames(epochs, c("timestamp", "is_asleep"))
   col <- get_epoch_colnames(epochs)

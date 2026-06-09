@@ -12,18 +12,15 @@ No return value, called for side effects
 \description{
 Checks whether all the packages in Suggests are installed and prompts for install if not.
 }
-\examples{
-check_suggests()
-}
 \seealso{
-Other internal: 
-\code{\link{get_col}()},
-\code{\link{get_colnames}()},
-\code{\link{get_epoch_colnames}()},
-\code{\link{get_session_colnames}()},
-\code{\link{get_time_per_day}()},
-\code{\link{is_iso8601_datetime}()},
-\code{\link{set_colnames}()},
-\code{\link{set_data_type}()}
+Other internal:
+\code{\link[=get_col]{get_col()}},
+\code{\link[=get_colnames]{get_colnames()}},
+\code{\link[=get_epoch_colnames]{get_epoch_colnames()}},
+\code{\link[=get_session_colnames]{get_session_colnames()}},
+\code{\link[=get_time_per_day]{get_time_per_day()}},
+\code{\link[=is_iso8601_datetime]{is_iso8601_datetime()}},
+\code{\link[=set_colnames]{set_colnames()}},
+\code{\link[=set_data_type]{set_data_type()}}
 }
 \concept{internal}

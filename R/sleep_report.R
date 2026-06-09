@@ -14,6 +14,8 @@
 #' - `sleep_period`
 #' - `time_in_bed`
 #' @export
+#' @examples
+#' sleep_report(example_sessions)
 sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf") {
   nocturn_version <- as.character(utils::packageVersion("nocturn"))
 

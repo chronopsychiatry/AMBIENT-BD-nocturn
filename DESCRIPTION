@@ -13,7 +13,6 @@ Description: An online app and command-line utility to import, filter and visual
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Suggests: 
     bslib,
     devtools,
@@ -49,3 +48,4 @@ Depends:
 LazyData: true
 URL: https://github.com/chronopsychiatry/AMBIENT-BD-nocturn
 BugReports: https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/issues
+Config/roxygen2/version: 8.0.0

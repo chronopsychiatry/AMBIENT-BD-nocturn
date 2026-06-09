@@ -26,8 +26,8 @@ This function uses columns:
 plot_hypnogram(example_epochs)
 }
 \seealso{
-Other plot epochs: 
-\code{\link{plot_sleep_spiral}()},
-\code{\link{plot_timeseries}()}
+Other plot epochs:
+\code{\link[=plot_sleep_spiral]{plot_sleep_spiral()}},
+\code{\link[=plot_timeseries]{plot_timeseries()}}
 }
 \concept{plot epochs}
