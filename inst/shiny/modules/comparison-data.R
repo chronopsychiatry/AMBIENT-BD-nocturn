@@ -89,7 +89,7 @@ comparison_data_server <- function(id, common) {
       x <- secondary_sessions()
       x[[id]] <- list(
         data = data,
-        title = id
+        title = input$sessions_file$name
       )
       secondary_sessions(x)
     })
