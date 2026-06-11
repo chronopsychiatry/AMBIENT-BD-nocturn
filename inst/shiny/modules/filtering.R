@@ -341,7 +341,7 @@ update_masks <- function(df, filters, filter_values) {
     filters$sex <- df |>
       filter_by_sex(filter_values$sex, return_mask = TRUE)
   }
-  if (!is.null(col$subject_id) && !is.null(filter_values$subject_filter)) {
+  if (!is.null(col$subject_id) && !is.null(filter_values$subject)) {
     filters$subject_id <- df |>
       select_subjects(filter_values$subject_filter, return_mask = TRUE)
   }
