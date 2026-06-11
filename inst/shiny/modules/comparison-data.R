@@ -50,6 +50,29 @@ comparison_data_server <- function(id, common) {
     secondary_sessions <- reactiveVal(list())
     started <- shiny::reactiveVal(character())
 
+    # Add/clear main dataset if available
+    shiny::observeEvent(common$sessions(), {
+      df <- common$sessions()
+      x <- isolate(secondary_sessions())
+
+      # Clear "main" if common$sessions was cleared
+      if (is.null(df)) {
+        if (!is.null(x[["main"]])) {
+          x[["main"]] <- NULL
+          secondary_sessions(x)
+        }
+        return()
+      }
+
+      if (is.null(x[["main"]])) {
+        x[["main"]] <- list(data = df, title = "main")
+      } else {
+        x[["main"]]$data <- df
+      }
+
+      secondary_sessions(x)
+    }, ignoreInit = TRUE)
+
     # New file upload ----
     shiny::observeEvent(input$sessions_file, {
       shiny::req(input$sessions_file)
