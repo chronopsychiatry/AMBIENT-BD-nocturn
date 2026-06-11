@@ -65,7 +65,7 @@ comparison_data_server <- function(id, common) {
       }
 
       if (is.null(x[["main"]])) {
-        x[["main"]] <- list(data = df, title = "main")
+        x[["main"]] <- list(data = df, title = "main", filters = common$session_filters())
       } else {
         x[["main"]]$data <- df
       }
@@ -91,11 +91,23 @@ comparison_data_server <- function(id, common) {
         data = data,
         title = id
       )
-
       secondary_sessions(x)
     })
 
-    # ---- Dynamic rows UI ----
+    # Keep filters up-to-date ----
+    shiny::observeEvent(common$filter_values, {
+      x <- secondary_sessions()
+      keys <- names(x)
+      for (key in keys) {
+        x[[key]]$filters = update_masks(
+          df = x[[key]]$data,
+          filters = x[[key]]$filters,
+          filter_values = common$filter_values()
+        )
+      }
+    })
+
+    # Dynamic rows UI ----
     output$loaded_sessions <- shiny::renderUI({
       x <- secondary_sessions()
       keys <- names(x)
@@ -106,7 +118,7 @@ comparison_data_server <- function(id, common) {
       }))
     })
 
-    # ---- Register observers for each row ----
+    # Register observers for each row ----
     shiny::observe({
       x <- secondary_sessions()
       keys <- names(x)

@@ -193,45 +193,27 @@ filtering_server <- function(id, common) {
     })
 
     shiny::observe({
-      shiny::req(common$sessions(), common$session_filters())
-      col <- get_colnames(common$sessions())
-      filters <- common$session_filters()
+      filter_values <- common$filter_values()
 
       from_time <- if (!is.null(input$time_range[1])) paste0(input$time_range[1], ":00") else NULL
       to_time <- if (!is.null(input$time_range[2])) paste0(input$time_range[2], ":00") else NULL
 
-      if (!is.null(col$sleep_period)) {
-        filters$no_sleep <- common$sessions() |>
-          remove_sessions_no_sleep(return_mask = TRUE)
-      }
-      if (!is.null(col$sleep_period) && !is.null(input$sleep_period)) {
-        filters$time_asleep <- common$sessions() |>
-          set_min_sleep_period(input$sleep_period, return_mask = TRUE)
-      }
-      if (!is.null(col$night) && !is.null(input$date_range)) {
-        filters$night <- common$sessions() |>
-          filter_by_night_range(input$date_range[1], input$date_range[2], return_mask = TRUE)
-      }
-      if (!is.null(col$time_at_sleep_onset)) {
-        filters$sleep_onset <- common$sessions() |>
-          set_session_sleep_onset_range(from_time, to_time, return_mask = TRUE)
-      }
-      if (!is.null(col$time_in_bed) && !is.null(input$time_in_bed)) {
-        filters$time_in_bed <- common$sessions() |>
-          set_min_time_in_bed(input$time_in_bed, return_mask = TRUE)
-      }
-      if (!is.null(col$birth_year) && !is.null(col$night) && !is.null(input$age_range)) {
-        filters$age <- common$sessions() |>
-          filter_by_age_range(input$age_range[1], input$age_range[2], return_mask = TRUE)
-      }
-      if (!is.null(col$sex) && !is.null(input$sex_filter)) {
-        filters$sex <- common$sessions() |>
-          filter_by_sex(input$sex_filter, return_mask = TRUE)
-      }
-      if (!is.null(col$subject_id) && !is.null(input$subject_filter)) {
-        filters$subject_id <- common$sessions() |>
-          select_subjects(input$subject_filter, return_mask = TRUE)
-      }
+      filter_values <- list(
+        sleep_period = input$sleep_period,
+        date_range = input$date_range,
+        from_time = from_time,
+        to_time = to_time,
+        time_in_bed = input$time_in_bed,
+        age_range = input$age_range,
+        sex = input$sex_filter,
+        subject = input$subject_filter
+      )
+      common$filter_values(filter_values)
+    })
+
+    shiny::observe({
+      shiny::req(common$sessions(), common$session_filters())
+      filters <- update_masks(common$sessions(), common$session_filters(), common$filter_values())
       common$session_filters(filters)
     })
 
@@ -322,4 +304,46 @@ apply_filters <- function(df_in, filters) {
 
 get_removed_rows <- function(df_in, filters) {
   df_in[!apply(filters, 1, all), ]
+}
+
+update_masks <- function(df, filters, filter_values) {
+  if (is.null(filters)) filters <- list()
+  col <- get_colnames(df)
+
+  from_time <- if (!is.null(filter_values$time_range[1])) paste0(filter_values$time_range[1], ":00") else NULL
+  to_time <- if (!is.null(filter_values$time_range[2])) paste0(filter_values$time_range[2], ":00") else NULL
+
+  if (!is.null(col$sleep_period)) {
+    filters$no_sleep <- df |>
+      remove_sessions_no_sleep(return_mask = TRUE)
+  }
+  if (!is.null(col$sleep_period) && !is.null(filter_values$sleep_period)) {
+    filters$time_asleep <- df |>
+      set_min_sleep_period(filter_values$sleep_period, return_mask = TRUE)
+  }
+  if (!is.null(col$night) && !is.null(filter_values$date_range)) {
+    filters$night <- df |>
+      filter_by_night_range(filter_values$date_range[1], filter_values$date_range[2], return_mask = TRUE)
+  }
+  if (!is.null(col$time_at_sleep_onset)) {
+    filters$sleep_onset <- df |>
+      set_session_sleep_onset_range(filter_values$from_time, filter_values$to_time, return_mask = TRUE)
+  }
+  if (!is.null(col$time_in_bed) && !is.null(filter_values$time_in_bed)) {
+    filters$time_in_bed <- df |>
+      set_min_time_in_bed(filter_values$time_in_bed, return_mask = TRUE)
+  }
+  if (!is.null(col$birth_year) && !is.null(col$night) && !is.null(filter_values$age_range)) {
+    filters$age <- df |>
+      filter_by_age_range(filter_values$age_range[1], filter_values$age_range[2], return_mask = TRUE)
+  }
+  if (!is.null(col$sex) && !is.null(filter_values$sex)) {
+    filters$sex <- df |>
+      filter_by_sex(filter_values$sex, return_mask = TRUE)
+  }
+  if (!is.null(col$subject_id) && !is.null(filter_values$subject_filter)) {
+    filters$subject_id <- df |>
+      select_subjects(filter_values$subject_filter, return_mask = TRUE)
+  }
+  filters
 }
