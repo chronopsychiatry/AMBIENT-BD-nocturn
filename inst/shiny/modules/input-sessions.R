@@ -50,41 +50,12 @@ input_sessions_server <- function(id, common) {
       init_sessions(data, common)
     })
 
-    # Column names modal ----
-    shiny::observeEvent(input$open_session_col_names, {
-      shiny::req(common$sessions())
-      show_colnames_modal(
-        ns = ns,
-        colnames_list = colnames(common$sessions()),
-        current_map = get_colnames(common$sessions()),
-        type = "Sessions",
-        save_id = "save_session_col_names",
-        reset_id = "reset_session_col_names"
-      )
-    })
-
-    shiny::observeEvent(input$reset_session_col_names, {
-      sessions <- common$sessions()
-      attr(sessions, "col") <- NULL
-      col <- get_colnames(sessions)
-      common$sessions(set_colnames(sessions, col))
-      common$sessions(clean_sessions(common$sessions()))
-      common$logger |> write_log("Reset session column names to default", type = "complete")
-      shiny::removeModal()
-    })
-
-    shiny::observeEvent(input$save_session_col_names, {
-      keys <- names(.sessions_long)
-      vals <- lapply(keys, function(key) {
-        val <- input[[paste0("col_", key)]]
-        if (identical(val, "-")) NULL else val
-      })
-      common$sessions(set_colnames(common$sessions(), stats::setNames(vals, keys)))
-      common$sessions(clean_sessions(common$sessions()))
-      common$logger |> write_log("Session column names saved", type = "complete")
-      shiny::removeModal()
-    })
-
+    register_colnames_modal(
+      input = input, session = session, ns = ns, common = common,
+      open_event = "open_session_col_names",
+      get_df = function() common$sessions(),
+      set_df = function(df) common$sessions(df)
+    )
   })
 }
 
