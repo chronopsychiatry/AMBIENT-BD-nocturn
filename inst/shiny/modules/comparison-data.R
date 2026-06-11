@@ -132,8 +132,10 @@ dataset_row_server <- function(id, key, secondary_sessions, common) {
     # Clear
     shiny::observeEvent(input$clear, {
       x <- secondary_sessions()
-      
-      common$logger |> write_log(paste0("Cleared session ", x[[key]]$title), type = "complete")
+      title <- x[[key]]$title
+      x[[key]] <- NULL
+      secondary_sessions(x)
+      common$logger |> write_log(paste0("Removed sessions ", title), type = "complete")
     })
   })
 }
