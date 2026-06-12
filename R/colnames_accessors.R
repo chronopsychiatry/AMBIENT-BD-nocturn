@@ -104,3 +104,21 @@ set_colnames <- function(df, col) {
   attr(df, "col") <- merged_col
   df
 }
+
+#' Rename sessions columns to canonical names
+#'
+#' @param sessions A sessions dataframe
+#' @returns The updated sessions dataframe with missing canonical columns created
+#' @keywords internal
+sessions_to_canonical <- function(sessions) {
+  col <- get_colnames(sessions)
+  for (canon in names(col)) {
+    src <- col[[canon]]
+
+    if (is.null(src)) next
+    if (!src %in% names(sessions)) next
+
+    sessions[[canon]] <- sessions[[src]]
+  }
+  sessions
+}

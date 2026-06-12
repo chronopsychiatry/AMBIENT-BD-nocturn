@@ -74,21 +74,38 @@
 #' @keywords internal
 .sessions_col_presets <- list(
   id = c("id", "session_id", "window_number"),
-  subject_id = c("subject_id", "user_id", "ID"),
+  subject_id = c("participant_id", "subject_id", "user_id", "ID"),
   sex = c("sex"),
   birth_year = c("birth_year"),
   device_id = c("device_serial_number"),
-  session_start = c("session_start", "startTime", "enter_bed"),
-  session_end = c("session_end", "endTime", "out_of_bed"),
+  session_start = c("session_start", "startTime", "enter_bed", "try_sleep_time"),
+  session_end = c("session_end", "endTime", "out_of_bed", "out_of_bed_time"),
   time_at_sleep_onset = c("time_at_sleep_onset", "sleeponset_ts", "calculate_sleeponset"),
   time_at_midsleep = c("time_at_midsleep"),
-  time_at_wakeup = c("time_at_wakeup", "wakeup_ts", "final_awakening"),
-  sleep_onset_latency = c("sleep_onset_latency"),
+  time_at_wakeup = c("time_at_wakeup", "wakeup_ts", "final_awakening", "wake_time"),
+  sleep_onset_latency = c("sleep_onset_latency", "onset_latency_min"),
   sleep_period = c("sleep_period", "dur_spt_sleep_min", "SleepDurationInSpt"),
   time_in_bed = c("time_in_bed"),
   is_workday = c("is_workday", "daytype"),
-  night = c("calendar_date", "night", "written_date")
+  night = c("calendar_date", "night", "written_date", "date")
 )
+
+#' Parsing functions to use for each column type
+#' @keywords internal
+.sessions_parsers <- function() {
+  list(
+    session_start = parse_time,
+    session_end = parse_time,
+    time_at_sleep_onset = parse_time,
+    time_at_midsleep = parse_time,
+    time_at_wakeup = parse_time,
+    sleep_onset_latency = parse_time,
+    night = parse_date,
+    birth_year = as.numeric,
+    time_in_bed = as.numeric,
+    sleep_period = as.numeric
+  )
+}
 
 #' Empty list of session column names used in nocturn
 #' @keywords internal
