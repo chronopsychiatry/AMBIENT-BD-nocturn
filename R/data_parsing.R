@@ -81,7 +81,7 @@ sessions_rules <- list(
   )
 )
 
-epoch_adapters <- list(
+epochs_adapters <- list(
   list(
     name = "ggir_timenum_to_POSIXct",
     detects = \(df) identical("timenum", get_colnames(df)$timestamp),

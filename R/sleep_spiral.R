@@ -13,20 +13,15 @@
 #' plot_sleep_spiral(example_epochs)
 plot_sleep_spiral <- function(epochs, color_by = "default") {
   check_epoch_colnames(epochs, c("timestamp", "is_asleep"))
-  col <- get_epoch_colnames(epochs)
 
   epochs <- epochs[seq(1, nrow(epochs), by = 5), ] # Downsampling to 5 min intervals to speed up plotting
 
-  reference_time <- epochs[[col$timestamp]] |>
-    parse_time() |>
+  reference_time <- epochs$timestamp |>
     min() |>
     lubridate::floor_date(unit = "day")
 
   epochs <- epochs |>
-    dplyr::mutate(
-      timestamp = parse_time(.data[[col$timestamp]]),
-      is_asleep = as.character(.data[[col$is_asleep]])
-    ) |>
+    dplyr::mutate(is_asleep = as.character(.data$is_asleep)) |>
     tidyr::complete(
       timestamp = seq(min(.data$timestamp), max(.data$timestamp), by = "2 min"),
       fill = list(is_asleep = "0")

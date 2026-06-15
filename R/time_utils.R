@@ -190,11 +190,11 @@ shift_times_by_12h <- function(times) {
 #' epochs <- group_epochs_by_night(example_epochs)
 group_epochs_by_night <- function(epochs) {
   check_epoch_colnames(epochs, c("timestamp"))
-  col <- get_epoch_colnames(epochs)
+
   epochs |>
-    tidyr::drop_na(dplyr::all_of(col$timestamp)) |>
+    tidyr::drop_na(dplyr::all_of("timestamp")) |>
     dplyr::mutate(
-      time_stamp = parse_time(.data[[col$timestamp]]),
+      time_stamp = parse_time(.data$timestamp),
       date = lubridate::as_date(.data$time_stamp),
       hour = time_to_hours(.data$time_stamp),
       night = lubridate::as_date(ifelse(.data$hour < 12, .data$date - 1, .data$date))
@@ -218,11 +218,11 @@ group_epochs_by_night <- function(epochs) {
 #' sessions <- group_sessions_by_night(example_sessions)
 group_sessions_by_night <- function(sessions) {
   check_session_colnames(sessions, c("session_start"))
-  col <- get_session_colnames(sessions)
+
   sessions |>
-    tidyr::drop_na(dplyr::all_of(col$session_start)) |>
+    tidyr::drop_na(dplyr::all_of("session_start")) |>
     dplyr::mutate(
-      start_time = parse_time(.data[[col$session_start]]),
+      start_time = parse_time(.data$session_start),
       date = lubridate::as_date(.data$start_time),
       start_hour = time_to_hours(.data$start_time),
       night = lubridate::as_date(ifelse(.data$start_hour < 12, date - 1, date))

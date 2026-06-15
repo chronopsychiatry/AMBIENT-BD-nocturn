@@ -45,7 +45,6 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
 
     keep_longest(x) |>
       dplyr::mutate(
-        night  = .data[[cols$night]],
         source = source_label,
         value  = !!variable
       ) |>

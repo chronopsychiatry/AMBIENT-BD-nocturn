@@ -90,7 +90,7 @@
   night = c("calendar_date", "night", "written_date", "date")
 )
 
-#' Parsing functions to use for each column type
+#' Parsing functions to use for each sessions column type
 #' @keywords internal
 .sessions_parsers <- function() {
   list(
@@ -103,7 +103,8 @@
     night = parse_date,
     birth_year = as.numeric,
     time_in_bed = as.numeric,
-    sleep_period = as.numeric
+    sleep_period = as.numeric,
+    is_workday = as.logical
   )
 }
 
@@ -139,6 +140,15 @@
   night = c("night"),
   is_asleep = c("is_asleep")
 )
+
+#' Parsing functions to use for each epochs column type
+#' @keywords internal
+.epochs_parser <- function() {
+  list(
+    timestamp = parse_time,
+    night = parse_date
+  )
+}
 
 #' Empty list of epoch column names used in nocturn
 #' @keywords internal

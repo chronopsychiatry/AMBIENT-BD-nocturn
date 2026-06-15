@@ -1,3 +1,15 @@
+#' Plot a timeseries of variables from different session data
+#'
+#' @param sessions_list A list of sessions dataframes from which to plot
+#' @param variable The variable to plot - either a single string, or a list of strings (one per dataframe in sessions_list)
+#' @returns A ggplot object
+#' @details This function uses columns:
+#' - `night`
+#' @export
+#' @family plot sessions
+#' @seealso [plot_bland_altman()] to compare a variable between two session dataframes
+#' @examples
+#' timeseries_comparison(c(example_sessions, example_sessions_v1), variable = "time_at_sleep_onset")
 timeseries_comparison <- function(sessions_list, variable) {
 
   data <- data.frame()
@@ -6,7 +18,7 @@ timeseries_comparison <- function(sessions_list, variable) {
 
   for (i in seq_along(sessions_list)) {
     s <- sessions_list[[i]]
-    col <- get_colnames(s)
+    check_session_colnames(s, c("night"))
 
     if (length(variable) == 1) {
       var <- variable
@@ -36,7 +48,7 @@ timeseries_comparison <- function(sessions_list, variable) {
 
     s <- s |>
       dplyr::mutate(
-        night = .data[[col$night]],
+        night = .data$night,
         value = {
           if (is_time) {
             parse_time(.data[[var]]) |>

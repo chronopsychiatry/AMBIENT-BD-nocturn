@@ -8,6 +8,7 @@
 #' clean_sessions(example_sessions)
 clean_sessions <- function(sessions) {
 
+  attr(sessions, "type") <- "sessions"
   sessions |>
     colnames_to_canonical() |>
     apply_adapters(sessions_adapters) |>
@@ -25,10 +26,11 @@ clean_sessions <- function(sessions) {
 #' clean_epochs(example_epochs)
 clean_epochs <- function(epochs) {
 
+  attr(epochs, "type") <- "epochs"
   epochs |>
     colnames_to_canonical() |>
     apply_adapters(epochs_adapters) |>
-    standardise_types(.epochs_parsers()) |>
+    standardise_types(.epochs_parser()) |>
     apply_rules(epochs_rules)
 }
 
