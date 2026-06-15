@@ -96,7 +96,7 @@ epochs_adapters <- list(
   list(
     name = "ggir_create_is_asleep",
     detects = \(df) identical("class_id", get_colnames(df)$sleep_stage),
-    apply = \(df) df |> dplyr::mutate(is_asleep = ifelse(sleep_stage == 0, 1, 0))
+    apply = \(df) df |> dplyr::mutate(is_asleep = ifelse(class_id == 0, 1, 0))
   ),
 
   list(
