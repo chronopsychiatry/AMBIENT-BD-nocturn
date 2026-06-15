@@ -9,10 +9,10 @@
 clean_sessions <- function(sessions) {
 
   sessions |>
-    sessions_to_canonical() |>
-    apply_adapters(adapters) |>
+    colnames_to_canonical() |>
+    apply_adapters(sessions_adapters) |>
     standardise_types(.sessions_parsers()) |>
-    apply_rules(rules)
+    apply_rules(sessions_rules)
 }
 
 #' Clean epoch data
@@ -24,35 +24,12 @@ clean_sessions <- function(sessions) {
 #' @examples
 #' clean_epochs(example_epochs)
 clean_epochs <- function(epochs) {
-  col <- get_epoch_colnames(epochs)
 
-  # Somnofy_v1: if session IDs are missing, create them from filenames
-  if (is.null(col$session_id)) {
-    epochs$session_id <- stringr::str_extract(epochs$filename[1], "^[^.]+")
-    col$session_id <- "session_id"
-  }
-  # GGIR: parse timenum to POSIXct
-  if (!is.null(col$timestamp) && identical(col$timestamp, "timenum")) {
-    epochs[[col$timestamp]] <- as.POSIXct(epochs[[col$timestamp]], origin = "1970-01-01", tz = "Europe/London")
-  }
-  # Set is_asleep column
-  if (!is.null(col$sleep_stage) && identical(col$sleep_stage, "class_id")) {  # GGIR format
-    epochs$is_asleep <- ifelse(epochs[[col$sleep_stage]] == 0, 1, 0) # is_asleep: 0 = awake, 1 = asleep
-    col$is_asleep <- "is_asleep"
-  } else if (!is.null(col$sleep_stage) && col$sleep_stage == "sleep_stage") {  # Somnofy format
-    epochs$is_asleep <- ifelse(epochs[[col$sleep_stage]] %in% c(4, 5), 0, 1)
-    col$is_asleep <- "is_asleep"
-  }
-  #Convert night to date if it exists
-  if (!is.null(col$night)) {
-    epochs[[col$night]] <- parse_date(epochs[[col$night]])
-  }
-  # Create night column if it doesn't exist
-  if (is.null(col$night) && !is.null(col$timestamp)) {
-    epochs <- group_epochs_by_night(epochs)
-    col$night <- "night"
-  }
-  set_colnames(epochs, col)
+  epochs |>
+    colnames_to_canonical() |>
+    apply_adapters(epochs_adapters) |>
+    standardise_types(.epochs_parsers()) |>
+    apply_rules(epochs_rules)
 }
 
 #' Standardise column types using a list of parser functions
