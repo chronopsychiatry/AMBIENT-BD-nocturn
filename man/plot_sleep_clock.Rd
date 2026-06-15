@@ -31,6 +31,7 @@ plot_sleep_clock(example_sessions)
 \seealso{
 Other plot sessions:
 \code{\link[=plot_sleep_bubbles]{plot_sleep_bubbles()}},
-\code{\link[=plot_timeseries_sessions]{plot_timeseries_sessions()}}
+\code{\link[=plot_timeseries_sessions]{plot_timeseries_sessions()}},
+\code{\link[=timeseries_comparison]{timeseries_comparison()}}
 }
 \concept{plot sessions}

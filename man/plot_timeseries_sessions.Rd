@@ -40,6 +40,7 @@ plot_timeseries_sessions(example_sessions, variable="time_at_midsleep")
 
 Other plot sessions:
 \code{\link[=plot_sleep_bubbles]{plot_sleep_bubbles()}},
-\code{\link[=plot_sleep_clock]{plot_sleep_clock()}}
+\code{\link[=plot_sleep_clock]{plot_sleep_clock()}},
+\code{\link[=timeseries_comparison]{timeseries_comparison()}}
 }
 \concept{plot sessions}
