@@ -34,11 +34,7 @@ sleep_spiral_server <- function(id, common) {
       if (nrow(epochs) == 0) {
         return(NULL)
       }
-      col <- get_colnames(common$epochs())
-      shiny::validate(
-        shiny::need(!is.null(col$timestamp), "'timestamp' column was not specified."),
-        shiny::need(!is.null(col$is_asleep), "'is_asleep' column was not specified.")
-      )
+      validate_columns(epochs, c("timestamp", "is_asleep"))
       plot_sleep_spiral(
         epochs = epochs,
         color_by = input$colorby
@@ -58,6 +54,5 @@ sleep_spiral_server <- function(id, common) {
       width = 8,
       height = 6
     )
-
   })
 }

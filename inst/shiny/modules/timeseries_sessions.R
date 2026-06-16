@@ -48,10 +48,7 @@ timeseries_sessions_server <- function(id, common) {
       shiny::req(input$variable, common$sessions(), common$session_filters())
       sessions <- apply_filters(common$sessions(), common$session_filters()) |>
         annotate(common$annotations())
-      col <- get_colnames(common$sessions())
-      shiny::validate(
-        shiny::need(!is.null(col$night), "'night' column was not specified.")
-      )
+      validate_columns(sessions, "night")
       plot_timeseries_sessions(
         sessions = sessions,
         variable = input$variable,
@@ -73,6 +70,5 @@ timeseries_sessions_server <- function(id, common) {
       width = 12,
       height = 6
     )
-
   })
 }

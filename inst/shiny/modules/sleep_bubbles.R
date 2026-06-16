@@ -34,11 +34,7 @@ sleep_bubbles_server <- function(id, common) {
       if (nrow(sessions) == 0) {
         return(NULL)
       }
-      col <- get_colnames(common$sessions())
-      shiny::validate(
-        shiny::need(!is.null(col$night), "'night' column was not specified."),
-        shiny::need(!is.null(col$sleep_period), "'sleep_period' column was not specified.")
-      )
+      validate_columns(sessions, c("night", "sleep_period"))
       plot_sleep_bubbles(
         sessions = sessions,
         color_by = input$colorby
@@ -58,6 +54,5 @@ sleep_bubbles_server <- function(id, common) {
       width = 10,
       height = 6
     )
-
   })
 }

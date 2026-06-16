@@ -52,20 +52,21 @@ input_sessions_server <- function(id, common) {
 
     register_colnames_modal(
       input = input, session = session, ns = ns, common = common,
+      type = "sessions",
       open_event = "open_session_col_names",
-      get_df = function() common$sessions(),
-      set_df = function(df) common$sessions(df)
+      get_df = \() common$sessions(),
+      set_df = \(df) common$sessions(df)
     )
   })
 }
 
 init_sessions <- function(sessions, common) {
-  col <- get_colnames(sessions)
   sessions$annotation <- ""
   common$sessions(sessions)
+  common$sessions_raw(sessions)
   common$session_filters(data.frame(no_sleep = rep(TRUE, nrow(sessions))))
   common$annotations(data.frame(
-    id = sessions[[col$id]],
+    id = sessions$id,
     annotation = "",
     stringsAsFactors = FALSE
   ))
@@ -73,6 +74,7 @@ init_sessions <- function(sessions, common) {
 
 clear_sessions <- function(common) {
   common$sessions(NULL)
+  common$sessions_raw(NULL)
   common$session_filters(NULL)
   common$annotations(NULL)
 }

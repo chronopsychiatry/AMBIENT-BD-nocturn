@@ -28,10 +28,7 @@ update_colorby_dropdown <- function(df, plot_options, input, session, input_id =
 update_variable_dropdown <- function(df, plot_options, input, session, input_id = "variable") {
   shiny::observe({
 
-    col <- get_colnames(df())
-    excluded_vars <- c(col$id, "state", col$subject_id, col$device_id, col$night, col$timestamp, col$session_start,
-                       "motion_data_count", col$session_id, col$sleep_stage, "epoch_duration", ".data_type", "filename", "display")
-    available_vars <- setdiff(names(df()), excluded_vars)
+    available_vars <- names(df())
 
     # Update the dropdown, but preserve the selected variable if possible
     current_variable <- plot_options$variable
@@ -54,4 +51,17 @@ update_variable_dropdown <- function(df, plot_options, input, session, input_id 
   shiny::observe({
     plot_options$variable <- input[[input_id]]
   })
+}
+
+validate_columns <- function(df, cols, message = TRUE, prefix_msg = "column was not specified") {
+  shiny::validate(shiny::need(!is.null(df), FALSE))
+
+  checks <- lapply(cols, function(col) {
+    shiny::need(
+      col %in% names(df),
+      if (message) sprintf("'%s' %s.", col, prefix_msg) else FALSE
+    )
+  })
+
+  do.call(shiny::validate, checks)
 }

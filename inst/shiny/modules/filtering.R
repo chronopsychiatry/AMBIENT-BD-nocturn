@@ -58,7 +58,7 @@ filtering_server <- function(id, common) {
     shiny::observe({
       shiny::req(common$session_filters())
       filters <- common$session_filters()
-      filter_names <- setdiff(colnames(filters), c("no_sleep"))
+      filter_names <- setdiff(names(filters), c("no_sleep"))
       shinyWidgets::updatePickerInput(
         session = session,
         inputId = "filters_columns",
@@ -69,10 +69,10 @@ filtering_server <- function(id, common) {
 
     output$date_range_slider <- shiny::renderUI({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
-      if (!is.null(col$night) && nrow(common$sessions()) > 0) {
-        min_date <- min(common$sessions()[[col$night]], na.rm = TRUE)
-        max_date <- max(common$sessions()[[col$night]], na.rm = TRUE)
+      sessions <- common$sessions()
+      if ("night" %in% names(sessions) && nrow(sessions) > 0) {
+        min_date <- min(sessions$night, na.rm = TRUE)
+        max_date <- max(sessions$night, na.rm = TRUE)
         shiny::sliderInput(
           inputId = session$ns("date_range"),
           label = "Date Range:",
@@ -87,11 +87,11 @@ filtering_server <- function(id, common) {
 
     output$subject_select <- shiny::renderUI({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
-      if (!is.null(col$subject_id)) {
-        subject_choices <- unique(common$sessions()[[col$subject_id]])
+      sessions <- common$sessions()
+      if ("subject_id" %in% names(sessions)) {
+        subject_choices <- unique(sessions$subject_id)
         shinyWidgets::pickerInput(
-          inputId = session$ns("subject_filter"),
+          inputId = session$ns("subject"),
           label = "Subjects:",
           choices = subject_choices,
           selected = subject_choices,
@@ -106,13 +106,12 @@ filtering_server <- function(id, common) {
 
     output$age_range_slider <- shiny::renderUI({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
-      if (!is.null(col$birth_year)) {
-        birth_years <- common$sessions()[[col$birth_year]]
-        birth_years <- birth_years[!is.na(birth_years)]
+      sessions <- common$sessions()
+      if ("birth_year" %in% names(sessions)) {
+        birth_years <- sessions$birth_year[!is.na(sessions$birth_years)]
         if (length(birth_years) > 0) {
-          min_age <- min(lubridate::year(common$sessions()[[col$night]]) - birth_years)
-          max_age <- max(lubridate::year(common$sessions()[[col$night]]) - birth_years)
+          min_age <- min(lubridate::year(sessions$night) - birth_years)
+          max_age <- max(lubridate::year(sessions$night) - birth_years)
           shiny::sliderInput(
             session$ns("age_range"),
             "Age Range:",
@@ -127,11 +126,11 @@ filtering_server <- function(id, common) {
 
     output$sex_select <- shiny::renderUI({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
-      if (!is.null(col$sex)) {
-        sex_choices <- unique(common$sessions()[[col$sex]])
+      sessions <- common$sessions()
+      if ("sex" %in% names(sessions)) {
+        sex_choices <- unique(sessions$sex)
         shinyWidgets::pickerInput(
-          inputId = session$ns("sex_filter"),
+          inputId = session$ns("sex"),
           label = "Sex:",
           choices = sex_choices,
           selected = sex_choices,
@@ -146,8 +145,8 @@ filtering_server <- function(id, common) {
 
     output$time_in_bed_slider <- shiny::renderUI({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
-      if (!is.null(col$time_in_bed)) {
+      sessions <- common$sessions()
+      if ("time_in_bed" %in% names(sessions)) {
         shiny::sliderInput(
           inputId = session$ns("time_in_bed"),
           label = "Minimum Time in Bed:",
@@ -163,8 +162,8 @@ filtering_server <- function(id, common) {
 
     output$sleep_period_slider <- shiny::renderUI({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
-      if (!is.null(col$sleep_period)) {
+      sessions <- common$sessions()
+      if ("sleep_period" %in% names(sessions)) {
         shiny::sliderInput(
           inputId = session$ns("sleep_period"),
           label = "Minimum Time Asleep:",
@@ -180,8 +179,8 @@ filtering_server <- function(id, common) {
 
     output$sleep_onset_range <- shiny::renderUI({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
-      if (!is.null(col$time_at_sleep_onset)) {
+      sessions <- common$sessions()
+      if ("time_at_sleep_onset" %in% names(sessions)) {
         shinyWidgets::sliderTextInput(
           inputId = session$ns("time_range"),
           label = "Sleep Onset Time:",
@@ -205,8 +204,8 @@ filtering_server <- function(id, common) {
         to_time = to_time,
         time_in_bed = input$time_in_bed,
         age_range = input$age_range,
-        sex = input$sex_filter,
-        subject = input$subject_filter
+        sex = input$sex,
+        subject = input$subject
       )
       common$filter_values(filter_values)
     })
@@ -231,7 +230,6 @@ filtering_server <- function(id, common) {
 
     removed_sessions <- shiny::reactive({
       shiny::req(common$sessions())
-      col <- get_colnames(common$sessions())
       get_removed_sessions_table(common, input$filters_columns)
     })
 
@@ -289,7 +287,7 @@ get_removed_sessions_table <- function(common, filter_list) {
     make_sessions_display_table()
 
   removed_idx <- which(!apply(filters, 1, all))
-  filter_names <- colnames(filters)
+  filter_names <- names(filters)
   filters_applied <- apply(filters[removed_idx, , drop = FALSE], 1, function(row) {
     paste(filter_names[which(!row)], collapse = ", ")
   })
@@ -308,42 +306,41 @@ get_removed_rows <- function(df_in, filters) {
 
 update_masks <- function(df, filters, filter_values) {
   if (is.null(filters)) filters <- list()
-  col <- get_colnames(df)
 
   from_time <- if (!is.null(filter_values$time_range[1])) paste0(filter_values$time_range[1], ":00") else NULL
   to_time <- if (!is.null(filter_values$time_range[2])) paste0(filter_values$time_range[2], ":00") else NULL
 
-  if (!is.null(col$sleep_period)) {
+  if ("sleep_period" %in% names(df)) {
     filters$no_sleep <- df |>
       remove_sessions_no_sleep(return_mask = TRUE)
   }
-  if (!is.null(col$sleep_period) && !is.null(filter_values$sleep_period)) {
+  if ("sleep_period" %in% names(df) && !is.null(filter_values$sleep_period)) {
     filters$time_asleep <- df |>
       set_min_sleep_period(filter_values$sleep_period, return_mask = TRUE)
   }
-  if (!is.null(col$night) && !is.null(filter_values$date_range)) {
+  if ("night" %in% names(df) && !is.null(filter_values$date_range)) {
     filters$night <- df |>
       filter_by_night_range(filter_values$date_range[1], filter_values$date_range[2], return_mask = TRUE)
   }
-  if (!is.null(col$time_at_sleep_onset)) {
+  if ("time_at_sleep_onset" %in% names(df)) {
     filters$sleep_onset <- df |>
       set_session_sleep_onset_range(filter_values$from_time, filter_values$to_time, return_mask = TRUE)
   }
-  if (!is.null(col$time_in_bed) && !is.null(filter_values$time_in_bed)) {
+  if ("time_in_bed" %in% names(df) && !is.null(filter_values$time_in_bed)) {
     filters$time_in_bed <- df |>
       set_min_time_in_bed(filter_values$time_in_bed, return_mask = TRUE)
   }
-  if (!is.null(col$birth_year) && !is.null(col$night) && !is.null(filter_values$age_range)) {
+  if (all(c("birth_year", "night") %in% names(df)) && !is.null(filter_values$age_range)) {
     filters$age <- df |>
       filter_by_age_range(filter_values$age_range[1], filter_values$age_range[2], return_mask = TRUE)
   }
-  if (!is.null(col$sex) && !is.null(filter_values$sex)) {
+  if ("sex" %in% names(df) && !is.null(filter_values$sex)) {
     filters$sex <- df |>
       filter_by_sex(filter_values$sex, return_mask = TRUE)
   }
-  if (!is.null(col$subject_id) && !is.null(filter_values$subject)) {
+  if ("subject_id" %in% names(df) && !is.null(filter_values$subject)) {
     filters$subject_id <- df |>
-      select_subjects(filter_values$subject_filter, return_mask = TRUE)
+      select_subjects(filter_values$subject, return_mask = TRUE)
   }
   filters
 }

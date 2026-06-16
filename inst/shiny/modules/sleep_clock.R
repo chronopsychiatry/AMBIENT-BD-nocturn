@@ -34,12 +34,7 @@ sleep_clock_server <- function(id, common) {
       if (nrow(sessions) == 0) {
         return(NULL)
       }
-      col <- get_colnames(common$sessions())
-      shiny::validate(
-        shiny::need(!is.null(col$time_at_sleep_onset), "'time_at_sleep_onset' column was not specified."),
-        shiny::need(!is.null(col$time_at_wakeup), "'time_at_wakeup' column was not specified."),
-        shiny::need(!is.null(col$night), "'night' column was not specified.")
-      )
+      validate_columns(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup"))
       plot_sleep_clock(
         sessions = sessions,
         color_by = input$colorby
@@ -59,6 +54,5 @@ sleep_clock_server <- function(id, common) {
       width = 7,
       height = 7
     )
-
   })
 }

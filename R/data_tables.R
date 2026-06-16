@@ -80,8 +80,9 @@ get_epochs_summary <- function(epochs) {
 #' @export
 #' @examples
 #' get_col(example_sessions, "session_start")
+#' get_col(example_sessions, "this_col_does_not_exist")
 get_col <- function(df, col) {
-  if (is.null(col) || !col %in% colnames(df)) {
+  if (is.null(col) || !col %in% names(df)) {
     rep(list(NULL), nrow(df))
   } else {
     df[[col]]

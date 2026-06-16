@@ -109,7 +109,6 @@ load_epochs <- function(epochs_file) {
 #'
 #' @param folder_path The path to the folder containing session files (do not use with file_list)
 #' @param file_list The list of file paths to load (do not use with folder_path)
-#' @param file_names An optional vector of file names corresponding to the files in file_list
 #' @param pattern An optional pattern to filter files in the folder
 #' @param type The type of data to load: "sessions" or "epochs"
 #' @returns A dataframe containing the combined session data from all matching files in the folder
@@ -121,7 +120,7 @@ load_epochs <- function(epochs_file) {
 #' utils::write.csv(data.frame(id = 1), tf1, row.names = FALSE)
 #' utils::write.csv(data.frame(id = 1), tf2, row.names = FALSE)
 #' load_batch(file_list = c(tf1, tf2))
-load_batch <- function(folder_path = NULL, file_list = NULL, file_names = NULL, pattern = NULL, type = "sessions") {
+load_batch <- function(folder_path = NULL, file_list = NULL, pattern = NULL, type = "sessions") {
   if (is.null(folder_path) && is.null(file_list)) {
     cli::cli_abort(c(
       "!" = "Either {.code folder_path} or {.code file_list} must be provided.",

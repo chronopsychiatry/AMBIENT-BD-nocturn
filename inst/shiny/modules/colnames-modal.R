@@ -2,15 +2,15 @@ show_colnames_modal <- function(
   ns,
   colnames_list,
   current_map,
-  type = "Sessions",
+  type = "sessions",
   save_id = "save_col_names",
   reset_id = "reset_col_names"
 ) {
-  if (type == "Sessions") {
+  if (type == "sessions") {
     title <- "Set Session Column Names"
     long_names <- .sessions_long
     help_tips <- .sessions_help
-  } else if (type == "Epochs") {
+  } else if (type == "epochs") {
     title <- "Set Epoch Column Names"
     long_names <- .epochs_long
     help_tips <- .epochs_help
@@ -58,6 +58,7 @@ show_colnames_modal <- function(
 
 register_colnames_modal <- function(
   input, session, ns, common,
+  type = "sessions",
   open_event,
   get_df,
   set_df
@@ -72,9 +73,9 @@ register_colnames_modal <- function(
 
     show_colnames_modal(
       ns = ns,
-      colnames_list = colnames(df),
+      colnames_list = names(df),
       current_map = get_colnames(df),
-      type = "Sessions",
+      type = type,
       save_id = save_id,
       reset_id = reset_id
     )
@@ -82,13 +83,12 @@ register_colnames_modal <- function(
 
   # Reset colnames
   shiny::observeEvent(input[[reset_id]], {
-    df <- get_df()
-    shiny::req(df)
 
-    attr(df, "col") <- NULL
-    df <- df |>
-      set_colnames(get_colnames(df)) |>
-      clean_sessions()
+    if (type == "sessions") {
+      df <- clean_sessions(common$sessions_raw())
+    } else {
+      df <- clean_epochs(common$epochs_raw())
+    }
 
     set_df(df)
     common$logger |> write_log("Reset session column names to default", type = "complete")
@@ -97,17 +97,23 @@ register_colnames_modal <- function(
 
   # Save colnames
   shiny::observeEvent(input[[save_id]], {
-    df <- get_df()
+    if (type == "sessions") {
+      df <- common$sessions_raw()
+      keys <- names(.sessions_long)
+    } else {
+      df <- common$epochs_raw()
+      keys <- names(.epochs_long)
+    }
     shiny::req(df)
-    keys <- names(.sessions_long)
     vals <- lapply(keys, function(k) {
       val <- input[[paste0("col_", k)]]
       if (identical(val, "-")) NULL else val
     })
 
     df <- df |>
-      set_colnames(stats::setNames(vals, keys)) |>
-      clean_sessions()
+      set_colnames(stats::setNames(vals, keys))
+
+    df <- if (type == "sessions") clean_sessions(df) else clean_epochs(df)
 
     set_df(df)
     common$logger |> write_log("Session column names saved", type = "complete")
