@@ -6,6 +6,9 @@
 \usage{
 .epochs_long
 }
+\value{
+A list matching canonical epochs column names to their long name
+}
 \description{
 Long names for epochs columns, for display in app
 }

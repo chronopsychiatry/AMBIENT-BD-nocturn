@@ -6,6 +6,9 @@
 \usage{
 .sessions_col_none
 }
+\value{
+A list of canonical session column names with all values set to NULL
+}
 \description{
 Empty list of session column names used in nocturn
 }

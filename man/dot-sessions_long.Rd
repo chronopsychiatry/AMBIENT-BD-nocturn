@@ -6,6 +6,9 @@
 \usage{
 .sessions_long
 }
+\value{
+A list matching canonical sessions column names to their long name
+}
 \description{
 Long names for sessions columns, for display in app
 }

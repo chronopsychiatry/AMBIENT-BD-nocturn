@@ -1,6 +1,6 @@
 #' Make a summary of session information
 #'
-#' This function summarises session information, including the number of sessions, mean session length,
+#' Summarise session information, including the number of sessions, mean session length,
 #' mean time at sleep onset and wakeup, subject and device ID.
 #' @param sessions The sessions dataframe.
 #' @details This function uses columns:
@@ -49,7 +49,7 @@ get_sessions_summary <- function(sessions) {
 
 #' Summarise epoch information
 #'
-#' This function displays the number of sessions in the epoch data, as well as the start and end dates of the epoch data
+#' Display the number of sessions in the epoch data, as well as the start and end dates of the epoch data
 #' @param epochs The epochs dataframe
 #' @details This function uses columns:
 #' - `timestamp`
@@ -77,7 +77,7 @@ get_epochs_summary <- function(epochs) {
 
 #' Get a column from a dataframe safely
 #'
-#' This function retrieves a column from a dataframe.
+#' Retrieve a column from a dataframe.
 #' If the column does not exist or is NULL, it returns a vector of NULLs of the same length as the number of rows in the dataframe.
 #' @param df A dataframe
 #' @param col The name of the column to retrieve

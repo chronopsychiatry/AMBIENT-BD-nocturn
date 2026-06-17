@@ -6,6 +6,9 @@
 \usage{
 .epochs_help
 }
+\value{
+A list with a tooltip string for each canonical epochs column name
+}
 \description{
 Help tooltips for epochs columns, for display in app
 }

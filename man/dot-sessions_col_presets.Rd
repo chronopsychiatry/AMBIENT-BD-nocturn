@@ -6,6 +6,9 @@
 \usage{
 .sessions_col_presets
 }
+\value{
+A list of canonical session column names, where each value is an array of possible matching columns in the data (strings)
+}
 \description{
 Preset values for session column names
 }

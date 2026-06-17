@@ -13,6 +13,9 @@ sleep_report(sessions, title = "", output_file = "Sleep_report.pdf")
 
 \item{output_file}{Path for the output PDF. Default is "Sleep_report.pdf"}
 }
+\value{
+No return value. Called for side-effects
+}
 \description{
 This function generates a sleep report in PDF format using an SVG template.
 It is designed to work with Somnofy data. Other data types may be supported in the future.
@@ -30,5 +33,5 @@ This function uses columns:
 }
 }
 \examples{
-\dontrun{sleep_report(example_sessions)}
+\donttest{sleep_report(example_sessions)}
 }

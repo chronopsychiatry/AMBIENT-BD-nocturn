@@ -4,7 +4,7 @@
 #' and that these columns are present in the provided sessions data frame.
 #' @param sessions A sessions data frame to check for required columns.
 #' @param required_cols A character vector of required column identifiers.
-#' @return No return value, called for its side effects.
+#' @returns No return value, called for its side effects.
 #' @keywords internal
 #' @export
 #' @examples
@@ -35,7 +35,7 @@ check_session_colnames <- function(sessions, required_cols, call = rlang::caller
 #' and that these columns are present in the provided epochs data frame.
 #' @param epochs An epochs data frame to check for required columns.
 #' @param required_cols A character vector of required column identifiers.
-#' @return No return value, called for its side effects.
+#' @returns No return value, called for its side effects.
 #' @keywords internal
 #' @export
 #' @examples

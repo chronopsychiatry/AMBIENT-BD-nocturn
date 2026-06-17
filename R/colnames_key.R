@@ -1,6 +1,7 @@
 # Long names ----
 
 #' Long names for sessions columns, for display in app
+#' @returns A list matching canonical sessions column names to their long name
 #' @keywords internal
 .sessions_long <- list(
   id = "Session ID",
@@ -21,6 +22,7 @@
 )
 
 #' Long names for epochs columns, for display in app
+#' @returns A list matching canonical epochs column names to their long name
 #' @keywords internal
 .epochs_long <- list(
   timestamp = "Timestamp",
@@ -34,6 +36,7 @@
 # Help tooltip texts ----
 
 #' Help tooltips for sessions columns, for display in app
+#' @returns A list with a tooltip string for each canonical sessions column name
 #' @keywords internal
 .sessions_help <- list(
   id = "Unique identifier for each session.",
@@ -58,6 +61,7 @@
 )
 
 #' Help tooltips for epochs columns, for display in app
+#' @returns A list with a tooltip string for each canonical epochs column name
 #' @keywords internal
 .epochs_help <- list(
   timestamp = "Timestamp of the epoch (YYYY-MM-DD HH:MM:SS).",
@@ -71,6 +75,7 @@
 # Session column name presets ----
 
 #' Preset values for session column names
+#' @returns A list of canonical session column names, where each value is an array of possible matching columns in the data (strings)
 #' @keywords internal
 .sessions_col_presets <- list(
   id = c("id", "session_id", "window_number"),
@@ -91,6 +96,7 @@
 )
 
 #' Empty list of session column names used in nocturn
+#' @returns A list of canonical session column names with all values set to NULL
 #' @keywords internal
 .sessions_col_none <- list(
   id = NULL,
@@ -113,6 +119,7 @@
 # Epoch column name presets ----
 
 #' Preset values for epoch column names
+#' @returns A list of canonical epoch column names, where each value is an array of possible matching columns in the data (strings)
 #' @keywords internal
 .epochs_col_presets <- list(
   timestamp = c("timestamp", "timenum", "Time"),
@@ -124,6 +131,7 @@
 )
 
 #' Empty list of epoch column names used in nocturn
+#' @returns A list of canonical epoch column names with all values set to NULL
 #' @keywords internal
 .epochs_col_none <- list(
   timestamp = NULL,

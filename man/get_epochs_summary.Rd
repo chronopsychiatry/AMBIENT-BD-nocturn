@@ -13,7 +13,7 @@ get_epochs_summary(epochs)
 A single-row dataframe summarising epoch information
 }
 \description{
-This function displays the number of sessions in the epoch data, as well as the start and end dates of the epoch data
+Display the number of sessions in the epoch data, as well as the start and end dates of the epoch data
 }
 \details{
 This function uses columns:
