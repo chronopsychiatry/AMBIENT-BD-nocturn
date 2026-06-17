@@ -6,6 +6,9 @@
 \usage{
 .sessions_help
 }
+\value{
+A list with a tooltip string for each canonical sessions column name
+}
 \description{
 Help tooltips for sessions columns, for display in app
 }

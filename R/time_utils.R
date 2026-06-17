@@ -146,7 +146,7 @@ time_diff <- function(t1, t2, unit = "hour") {
 #' This function shifts times so that the day starts at 12 PM.
 #' This is useful for plotting night data
 #' @param times A vector of times in POSIXct format, character convertible to POSIXct, or numerical (in hours).
-#' @return A vector of times in POSIXct format (or numerical if numerical provided as input) shifted to start at 12 PM
+#' @returns A vector of times in POSIXct format (or numerical if numerical provided as input) shifted to start at 12 PM
 #' @export
 #' @family time processing
 #' @examples

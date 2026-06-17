@@ -6,6 +6,9 @@
 \usage{
 .epochs_col_presets
 }
+\value{
+A list of canonical epoch column names, where each value is an array of possible matching columns in the data (strings)
+}
 \description{
 Preset values for epoch column names
 }

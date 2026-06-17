@@ -6,11 +6,12 @@
 \usage{
 nocturn()
 }
+\value{
+No return value, called for side-effects
+}
 \description{
 This function launches the nocturn app, a Shiny application for visualizing and analyzing sleep data.
 }
 \examples{
-\dontrun{
-nocturn()
-}
+if(interactive()){nocturn()}
 }

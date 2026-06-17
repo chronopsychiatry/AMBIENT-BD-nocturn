@@ -5,7 +5,7 @@
 #' @details This function uses columns:
 #' - `timestamp`
 #' - `is_asleep`
-#' @return The Interdaily Stability (IS) value
+#' @returns The Interdaily Stability (IS) value
 #' @export
 #' @family sleep metrics
 #' @examples
@@ -40,7 +40,7 @@ interdaily_stability <- function(epochs) {
 #' @details This function uses columns:
 #' - `time_at_midsleep`
 #' - `is_workday`
-#' @return The Social Jet Lag (SJL) value in hours
+#' @returns The Social Jet Lag (SJL) value in hours
 #' @export
 #' @family sleep metrics
 #' @examples
@@ -69,7 +69,7 @@ social_jet_lag <- function(sessions) {
 #' - `time_at_midsleep`
 #' - `sleep_period`
 #' - `is_workday`
-#' @return The Chronotype value in hours
+#' @returns The Chronotype value in hours
 #' @export
 #' @family sleep metrics
 #' @examples
@@ -121,7 +121,7 @@ chronotype <- function(sessions) {
 #' - `time_at_midsleep`
 #' - `is_workday`
 #' - `night`
-#' @return The Composite Phase Deviation (CPD) value
+#' @returns The Composite Phase Deviation (CPD) value
 #' @export
 #' @family sleep metrics
 #' @examples
@@ -150,7 +150,7 @@ composite_phase_deviation <- function(sessions) {
 #' @details This function uses columns:
 #' - `timestamp`
 #' - `is_asleep`
-#' @return The Sleep Regularity Index (SRI) value
+#' @returns The Sleep Regularity Index (SRI) value
 #' @export
 #' @family sleep metrics
 #' @examples

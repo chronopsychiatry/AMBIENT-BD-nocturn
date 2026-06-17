@@ -15,7 +15,7 @@ get_col(df, col)
 A vector containing the values of the specified column, or a vector of NULLs if the column does not exist
 }
 \description{
-This function retrieves a column from a dataframe.
+Retrieve a column from a dataframe.
 If the column does not exist or is NULL, it returns a vector of NULLs of the same length as the number of rows in the dataframe.
 }
 \examples{

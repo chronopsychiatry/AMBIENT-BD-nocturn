@@ -5,6 +5,7 @@
 #' @param sessions The sessions dataframe
 #' @param title The title of the report. Default is an empty string.
 #' @param output_file Path for the output PDF. Default is "Sleep_report.pdf"
+#' @returns No return value. Called for side-effects
 #' @details This function uses columns:
 #' - `night`
 #' - `time_at_sleep_onset`
@@ -15,7 +16,7 @@
 #' - `time_in_bed`
 #' @export
 #' @examples
-#' \dontrun{sleep_report(example_sessions)}
+#' \donttest{sleep_report(example_sessions)}
 sleep_report <- function(sessions, title = "", output_file = "Sleep_report.pdf") {
   nocturn_version <- as.character(utils::packageVersion("nocturn"))
 

@@ -6,6 +6,9 @@
 \usage{
 .epochs_col_none
 }
+\value{
+A list of canonical epoch column names with all values set to NULL
+}
 \description{
 Empty list of epoch column names used in nocturn
 }
