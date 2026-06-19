@@ -10,6 +10,7 @@ common_class <- R6::R6Class(
     filter_values = NULL,
     session_filters = NULL,
     epoch_filters = NULL,
+    secondary_sessions = NULL,
     initialize = function() {
       self$sessions <- shiny::reactiveVal()
       self$sessions_raw <- shiny::reactiveVal()
@@ -19,6 +20,7 @@ common_class <- R6::R6Class(
       self$filter_values <- shiny::reactiveVal()
       self$session_filters <- shiny::reactiveVal()
       self$epoch_filters <- shiny::reactiveVal()
+      self$secondary_sessions <- shiny::reactiveVal()
     }
   )
 )

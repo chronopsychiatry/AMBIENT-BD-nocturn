@@ -1,5 +1,5 @@
 update_colorby_dropdown <- function(df, plot_options, input, session, input_id = "colorby") {
-  shiny::observe({
+  shiny::observeEvent(df(), {
 
     available_vars <- c("default", "annotation", names(df()))
 
@@ -20,13 +20,13 @@ update_colorby_dropdown <- function(df, plot_options, input, session, input_id =
     )
   })
 
-  shiny::observe({
+  shiny::observeEvent(input[[input_id]], {
     plot_options$colorby <- input[[input_id]]
-  })
+  }, ignoreInit = TRUE)
 }
 
 update_variable_dropdown <- function(df, plot_options, input, session, input_id = "variable") {
-  shiny::observe({
+  shiny::observeEvent(df(), {
 
     available_vars <- names(df())
 
@@ -48,35 +48,34 @@ update_variable_dropdown <- function(df, plot_options, input, session, input_id 
   })
 
   # Update the stored plot options when the user changes them
-  shiny::observe({
+  shiny::observeEvent(input[[input_id]], {
     plot_options[[input_id]] <- input[[input_id]]
-  })
+  }, ignoreInit = TRUE)
 }
 
-update_session_dropdown <- function(df_list, plot_options, input, session, input_id = "variable") {
-  shiny::observe({
-    available_ids <- names(df_list)
-    titles <- sapply(df_list, `[[`, "title")
-    choices <- setNames(titles, available_vars)
+update_session_dropdown <- function(df_list, plot_options, input, session, input_id = "sessions") {
+  shiny::observeEvent(df_list(), {
+    dfs <- df_list()
+
+    available_ids <- names(dfs)
+    titles <- sapply(dfs, `[[`, "title")
+    choices <- stats::setNames(titles, available_ids)
 
     current_sessions <- plot_options[[input_id]]
     if (!is.null(current_sessions)) {
       selected_sessions <- current_sessions
-    } else {
-      selected_sessions <- available_ids[1]
     }
 
     shiny::updateSelectInput(
-      session,
+      session = session,
       inputId = input_id,
-      choices = choices,
-      selected = selected_sessions
+      choices = choices
     )
   })
 
-  shiny::observe({
+  shiny::observeEvent(input[[input_id]], {
     plot_options[[input_id]] <- input[[input_id]]
-  })
+  }, ignoreInit = TRUE)
 }
 
 validate_columns <- function(df, cols, message = TRUE, prefix_msg = "column was not specified") {

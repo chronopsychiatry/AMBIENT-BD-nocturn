@@ -47,13 +47,13 @@ comparison_data_server <- function(id, common) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    secondary_sessions <- reactiveVal(list())
+    secondary_sessions <- common$secondary_sessions
     started <- shiny::reactiveVal(character())
 
     # Add/clear main dataset if available
     shiny::observeEvent(common$sessions(), {
       df <- common$sessions()
-      x <- isolate(secondary_sessions())
+      x <- shiny::isolate(secondary_sessions())
 
       # Clear "main" if common$sessions was cleared
       if (is.null(df)) {
@@ -95,17 +95,18 @@ comparison_data_server <- function(id, common) {
     })
 
     # Keep filters up-to-date ----
-    shiny::observeEvent(common$filter_values, {
+    shiny::observeEvent(common$filter_values(), {
       x <- secondary_sessions()
       keys <- names(x)
       for (key in keys) {
-        x[[key]]$filters = update_masks(
+        x[[key]]$filters <- update_masks(
           df = x[[key]]$data,
           filters = x[[key]]$filters,
           filter_values = common$filter_values()
         )
       }
-    })
+      secondary_sessions(x)
+    }, ignoreInit = TRUE)
 
     # Dynamic rows UI ----
     output$loaded_sessions <- shiny::renderUI({

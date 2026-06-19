@@ -1,25 +1,41 @@
 bland_altman_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::selectInput(
-      InputId = ns("sessions1"),
-      label = "Sessions 1",
-      choices = NULL
+    shiny::fluidRow(
+      shiny::column(
+        width = 4,
+        shiny::selectInput(
+          inputId = ns("sessions1"),
+          label = "Sessions 1",
+          choices = NULL
+        )
+      ),
+      shiny::column(
+        width = 4,
+        shiny::selectInput(
+          inputId = ns("sessions2"),
+          label = "Sessions 2",
+          choices = NULL
+        )
+      )
     ),
-    shiny::selectInput(
-      InputId = ns("sessions2"),
-      label = "Sessions 2",
-      choices = NULL
-    ),
-    shiny::selectInput(
-      InputId = ns("variable1"),
-      label = "Variable 1",
-      choices = NULL
-    ),
-    shiny::selectInput(
-      InputId = ns("variable2"),
-      label = "Variable 2",
-      choices = NULL
+    shiny::fluidRow(
+      shiny::column(
+        width = 4,
+        shiny::selectInput(
+          inputId = ns("variable1"),
+          label = "Variable 1",
+          choices = NULL
+        )
+      ),
+      shiny::column(
+        width = 4,
+        shiny::selectInput(
+          inputId = ns("variable2"),
+          label = "Variable 2",
+          choices = NULL
+        )
+      )
     ),
     shiny::plotOutput(ns("bland_altman_plot")),
     shiny::downloadButton(
@@ -39,28 +55,42 @@ bland_altman_ui <- function(id) {
 bland_altman_server <- function(id, common) {
   shiny::moduleServer(id, function(input, output, session) {
 
-    plot_options = shiny::reactiveValues(sessions1 = NULL, sessions2 = NULL, variable1 = NULL, variable2 = NULL)
-    update_session_dropdown(common$secondary_sessions(), plot_options, input, session, input_id = "sessions1")
-    update_session_dropdown(common$secondary_sessions(), plot_options, input, session, input_id = "sessions2")
+    ss <- common$secondary_sessions
 
-    sessions1 <- shiny::reactiveVal({
+    plot_options <- shiny::reactiveValues(sessions1 = NULL, sessions2 = NULL, variable1 = NULL, variable2 = NULL)
+
+    s1_data <- shiny::reactive({
       shiny::req(input$sessions1)
-      # Here just retrieve the data from the ID select in input$sessions1
+      ss()[[input$sessions1]]$data
     })
 
-    sessions2 <- shiny::reactiveVal({
+    s2_data <- shiny::reactive({
       shiny::req(input$sessions2)
-      
+      ss()[[input$sessions2]]$data
     })
+
+    update_session_dropdown(ss, plot_options, input, session, input_id = "sessions1")
+    update_session_dropdown(ss, plot_options, input, session, input_id = "sessions2")
+
+    update_variable_dropdown(s1_data, plot_options, input, session, input_id = "variable1")
+    update_variable_dropdown(s2_data, plot_options, input, session, input_id = "variable2")
 
     shiny::observe({
-      shiny::req(sessions1(), sessions2())
-      update_variable_dropdown(sessions1(), plot_options, input, session, input_id = "variable1")
-      update_variable_dropdown(sessions2(), plot_options, input, session, input_id = "variable2")
+      print(input$sessions1)
     })
 
     bland_altman_plot <- shiny::reactive({
-      # Plot definition here
+      shiny::req(ss, s1_data(), s2_data(), input$variable1, input$variable2)
+      s1 <- apply_filters(s1_data(), ss()[[input$sessions1]]$filters)
+      s2 <- apply_filters(s2_data(), ss()[[input$sessions2]]$filters)
+      validate_columns(s1, c("night", "sleep_period"))
+      validate_columns(s2, c("night", "sleep_period"))
+
+      plot_bland_altman(
+        s1,
+        s2,
+        variable = c(input$variable1, input$variable2)
+      )
     })
 
     output$bland_altman_plot <- shiny::renderPlot({
