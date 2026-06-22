@@ -59,10 +59,10 @@ update_session_dropdown <- function(df_list, plot_options, input, session, input
 
     available_ids <- names(dfs)
     titles <- sapply(dfs, `[[`, "title")
-    choices <- stats::setNames(titles, available_ids)
+    choices <- stats::setNames(available_ids, titles)
 
     current_sessions <- plot_options[[input_id]]
-    if (!is.null(current_sessions)) {
+    if (!is.null(current_sessions) && current_sessions %in% available_ids) {
       selected_sessions <- current_sessions
     }
 

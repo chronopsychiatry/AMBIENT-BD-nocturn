@@ -43,17 +43,24 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
   standardise <- function(x, source_label, variable) {
     cols <- get_session_colnames(x)
 
-    keep_longest(x) |>
+    x <- keep_longest(x) |>
       dplyr::mutate(
         source = source_label,
         value  = !!variable
       ) |>
       dplyr::select(.data$night, .data$source, .data$value) |>
       dplyr::filter(!is.na(.data$value))
+
+    if (var_type == "time") {
+      x$value <- update_date(x$value, "0000-01-01")
+    }
+    x
   }
 
   s1 <- standardise(sessions1, "sessions1", var1)
   s2 <- standardise(sessions2, "sessions2", var2)
+
+  cat("var_type: ", var_type, "\n")
 
   df <- dplyr::bind_rows(s1, s2) |>
     dplyr::filter(.data$night %in% dplyr::intersect(s1$night, s2$night)) |>
@@ -79,6 +86,10 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
       },
       .groups = "drop"
     )
+
+  print(dplyr::bind_rows(s1, s2) |>
+        dplyr::filter(.data$night %in% dplyr::intersect(s1$night, s2$night)) |>
+        dplyr::arrange(.data$night, .data$source))
 
   # --- Bland–Altman reference lines ---
   md  <- mean(df$diff, na.rm = TRUE)

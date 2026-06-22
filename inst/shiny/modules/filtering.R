@@ -305,7 +305,7 @@ get_removed_rows <- function(df_in, filters) {
 }
 
 update_masks <- function(df, filters, filter_values) {
-  if (is.null(filters)) filters <- list()
+  if (is.null(filters)) filters <- data.frame(no_sleep = rep(TRUE, nrow(df)))
 
   from_time <- if (!is.null(filter_values$time_range[1])) paste0(filter_values$time_range[1], ":00") else NULL
   to_time <- if (!is.null(filter_values$time_range[2])) paste0(filter_values$time_range[2], ":00") else NULL

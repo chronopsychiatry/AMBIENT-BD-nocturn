@@ -75,12 +75,10 @@ bland_altman_server <- function(id, common) {
     update_variable_dropdown(s1_data, plot_options, input, session, input_id = "variable1")
     update_variable_dropdown(s2_data, plot_options, input, session, input_id = "variable2")
 
-    shiny::observe({
-      print(input$sessions1)
-    })
-
     bland_altman_plot <- shiny::reactive({
+      cat("Plotting, var1=", input$variable1, " var2=", input$variable2, "\n")
       shiny::req(ss, s1_data(), s2_data(), input$variable1, input$variable2)
+      validate_column_types(s1_data(), s2_data(), input$variable1, input$variable2)
       s1 <- apply_filters(s1_data(), ss()[[input$sessions1]]$filters)
       s2 <- apply_filters(s2_data(), ss()[[input$sessions2]]$filters)
       validate_columns(s1, c("night", "sleep_period"))
@@ -107,4 +105,25 @@ bland_altman_server <- function(id, common) {
       height = 6
     )
   })
+}
+
+validate_column_types <- function(s1, s2, col1, col2) {
+  shiny::req(col1, col2)
+
+  v1 <- s1[[col1]]
+  v2 <- s2[[col2]]
+
+  is_time1 <- is_iso8601_datetime(v1)
+  is_time2 <- is_iso8601_datetime(v2)
+
+  is_num1  <- is.numeric(v1)
+  is_num2  <- is.numeric(v2)
+
+  is_num_or_date <- (is_num1 || is_time1) && (is_num2 || is_time2)
+  is_same_type   <- (is_num1 && is_num2) || (is_time1 && is_time2)
+
+  shiny::validate(
+    shiny::need(is_num_or_date, "Variable 1 and Variable2 must both be either numerical or time type"),
+    shiny::need(is_same_type, "Variable 1 and Variable 2 must have the same type (numerical or time)")
+  )
 }

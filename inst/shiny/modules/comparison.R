@@ -14,7 +14,7 @@ comparison_main_ui <- function(id) {
     ## ),
     bslib::navset_card_tab(
       id = "comparison_tabs_plots",
-      bslib::nav_panel("Bland-Altman", bland_altman_ui("bland_altman")),
+      bslib::nav_panel("Bland-Altman", bland_altman_ui(ns("bland_altman"))),
       ## bslib::nav_panel("Timeseries", timeseries_comparison_ui("timeseries_comparison_ui"))
     )
   )

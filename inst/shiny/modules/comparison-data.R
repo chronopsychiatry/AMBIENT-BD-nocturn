@@ -89,7 +89,12 @@ comparison_data_server <- function(id, common) {
       x <- secondary_sessions()
       x[[id]] <- list(
         data = data,
-        title = input$sessions_file$name
+        title = input$sessions_file$name,
+        filters = update_masks(
+          df = data,
+          filters = NULL,
+          filter_values = common$filter_values()
+        )
       )
       secondary_sessions(x)
     })
