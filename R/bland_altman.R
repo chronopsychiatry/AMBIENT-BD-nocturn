@@ -60,8 +60,6 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
   s1 <- standardise(sessions1, "sessions1", var1)
   s2 <- standardise(sessions2, "sessions2", var2)
 
-  cat("var_type: ", var_type, "\n")
-
   df <- dplyr::bind_rows(s1, s2) |>
     dplyr::filter(.data$night %in% dplyr::intersect(s1$night, s2$night)) |>
     dplyr::arrange(.data$night, .data$source) |>
@@ -71,7 +69,8 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
         if (var_type == "numeric") {
           mean(.data$value, na.rm = TRUE)
         } else if (var_type == "time") {
-          parse_time(mean_time(.data$value))
+          mean_time(.data$value) |>
+            shift_times_by_12h()
         }
       },
       diff = {
@@ -82,14 +81,14 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
             "i" = "Make sure the two session dataframes have at least one night in common"
           ))
         }
-        as.numeric(v[2] - v[1])
+        if (var_type == "time") {
+          circ_time_diff(v[2], v[1], unit = "hour")
+        } else {
+          as.numeric(v[2] - v[1])
+        }
       },
       .groups = "drop"
     )
-
-  print(dplyr::bind_rows(s1, s2) |>
-        dplyr::filter(.data$night %in% dplyr::intersect(s1$night, s2$night)) |>
-        dplyr::arrange(.data$night, .data$source))
 
   # --- Bland–Altman reference lines ---
   md  <- mean(df$diff, na.rm = TRUE)
@@ -134,5 +133,14 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
     ) +
     ggplot2::theme_minimal(base_size = 16) +
     ggplot2::theme(plot.margin = ggplot2::margin(5.5, 50, 5.5, 5.5))
+
+  if (var_type == "time") {
+    p <- p +
+      ggplot2::scale_x_datetime(
+        limits = range(df$average, na.rm = TRUE),
+        date_breaks = "1 hour",
+        labels = \(x) shift_times_by_12h(x) |> format("%H:%M")
+      )
+  }
   p
 }

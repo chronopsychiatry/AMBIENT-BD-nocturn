@@ -117,7 +117,7 @@ max_time <- function(time_vector) {
 
 #' Compute the forward time difference from t1 to t2 (wrapping at 24)
 #'
-#' This function returns the time from t1 to t2, always moving forward on the clock.
+#' Returns the time from t1 to t2, always moving forward on the clock.
 #' For example, from 07:00 to 22:00 is 15 hours, from 22:00 to 07:00 is 9 hours.
 #' @param t1 First time (character, POSIXct, or numeric hour)
 #' @param t2 Second time (character, POSIXct, or numeric hour)
@@ -136,6 +136,33 @@ time_diff <- function(t1, t2, unit = "hour") {
     second = (h2 - h1) %% 24 * 3600,
     minute = (h2 - h1) %% 24 * 60,
     hour = (h2 - h1) %% 24,
+    cli::cli_abort(c("!" = "unit must be one of 'second', 'minute', or 'hour'.",
+                     "x" = "You supplied {unit}."))
+  )
+}
+
+#' Compute the signed time difference from t1 to t2
+#'
+#' Returns the circular time difference between t1 and t2
+#' @param t1 First time (character, POSIXct, or numeric hour)
+#' @param t2 Second time (character, POSIXct, or numeric hour)
+#' @param unit The unit of time. Can be "second", "minute", or "hour" (default)
+#' @returns The signed time difference in the specified unit
+#' @export
+#' @family time_processing
+#' @examples
+#' circ_time_diff("07:00", "22:00") # 9
+#' circ_time_diff("22:00", "07:00") # -9
+#' circ_time_diff("07:00", "22:00", unit = "minute") # 540
+circ_time_diff <- function(t1, t2, unit = "hour") {
+  h1 <- time_to_hours(t1)
+  h2 <- time_to_hours(t2)
+  delta <- (h1 - h2) %% 24
+  delta <- ifelse(delta > 12, delta - 24, delta)
+  switch(unit,
+    second = delta * 3600,
+    minute = delta * 60,
+    hour = delta,
     cli::cli_abort(c("!" = "unit must be one of 'second', 'minute', or 'hour'.",
                      "x" = "You supplied {unit}."))
   )

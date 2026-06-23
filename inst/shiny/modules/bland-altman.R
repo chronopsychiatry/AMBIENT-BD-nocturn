@@ -76,7 +76,6 @@ bland_altman_server <- function(id, common) {
     update_variable_dropdown(s2_data, plot_options, input, session, input_id = "variable2")
 
     bland_altman_plot <- shiny::reactive({
-      cat("Plotting, var1=", input$variable1, " var2=", input$variable2, "\n")
       shiny::req(ss, s1_data(), s2_data(), input$variable1, input$variable2)
       validate_column_types(s1_data(), s2_data(), input$variable1, input$variable2)
       s1 <- apply_filters(s1_data(), ss()[[input$sessions1]]$filters)
