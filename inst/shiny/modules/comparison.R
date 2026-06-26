@@ -15,7 +15,7 @@ comparison_main_ui <- function(id) {
     bslib::navset_card_tab(
       id = "comparison_tabs_plots",
       bslib::nav_panel("Bland-Altman", bland_altman_ui(ns("bland_altman"))),
-      ## bslib::nav_panel("Timeseries", timeseries_comparison_ui("timeseries_comparison_ui"))
+      bslib::nav_panel("Timeseries", timeseries_comparison_ui(ns("timeseries_comparison")))
     )
   )
 }
@@ -27,6 +27,6 @@ comparison_server <- function(id, common) {
     ## comparison_summary_server("comparison_summary", common)
 
     bland_altman_server("bland_altman", common)
-    ## timeseries_comparison_server("timeseries_comparison_server", common)
+    timeseries_comparison_server("timeseries_comparison", common)
   })
 }

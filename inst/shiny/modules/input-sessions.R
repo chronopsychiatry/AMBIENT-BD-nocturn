@@ -55,6 +55,7 @@ input_sessions_server <- function(id, common) {
       type = "sessions",
       open_event = "open_session_col_names",
       get_df = \() common$sessions(),
+      get_raw = \() common$sessions_raw(),
       set_df = \(df) common$sessions(df)
     )
   })

@@ -27,7 +27,6 @@ update_colorby_dropdown <- function(df, plot_options, input, session, input_id =
 
 update_variable_dropdown <- function(df, plot_options, input, session, input_id = "variable") {
   shiny::observeEvent(df(), {
-
     available_vars <- names(df())
 
     # Update the dropdown, but preserve the selected variable if possible

@@ -55,6 +55,7 @@ input_epochs_server <- function(id, common) {
       type = "epochs",
       open_event = "open_epoch_col_names",
       get_df = \() common$epochs(),
+      get_raw = \() common$epochs_raw(),
       set_df = \(df) common$epochs(df)
     )
   })

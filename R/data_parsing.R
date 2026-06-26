@@ -27,7 +27,7 @@ sessions_adapters <- list(
   list(
     name = "ggir_part4_sleep_period_hour_to_sec",
     detects = \(df) identical(get_colnames(df)$sleep_period, "SleepDurationInSpt"),
-    apply = \(df) dplyr::mutate(df, sleep_duration = SleepDurationInSpt * 60 * 60)
+    apply = \(df) dplyr::mutate(df, sleep_period = SleepDurationInSpt * 60 * 60)
   ),
 
   list(
@@ -41,7 +41,7 @@ sessions_rules <- list(
   list(
     requires = NULL,
     produces = "id",
-    apply = \(df) dplyr::mutate(df, id = dplyr::row_number())
+    apply = \(df) dplyr::mutate(df, id = as.character(dplyr::row_number()))
   ),
 
   list(

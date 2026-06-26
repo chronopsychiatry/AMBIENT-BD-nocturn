@@ -45,7 +45,6 @@ dataset_row_ui <- function(id, value = "") {
 
 comparison_data_server <- function(id, common) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns <- session$ns
 
     secondary_sessions <- common$secondary_sessions
     started <- shiny::reactiveVal(character())
@@ -89,6 +88,7 @@ comparison_data_server <- function(id, common) {
       x <- secondary_sessions()
       x[[id]] <- list(
         data = data,
+        raw_data = data,
         title = input$sessions_file$name,
         filters = update_masks(
           df = data,
@@ -142,7 +142,6 @@ comparison_data_server <- function(id, common) {
 
       started(c(started(), new_keys))
     })
-
   })
 }
 
@@ -162,8 +161,9 @@ dataset_row_server <- function(id, key, secondary_sessions, common) {
     register_colnames_modal(
       input = input, session = session, ns = ns, common = common,
       open_event = "set_cols",
-      get_df = function() secondary_sessions()[[key]]$data,
-      set_df = function(df) {
+      get_df = \() secondary_sessions()[[key]]$data,
+      get_raw = \() secondary_sessions()[[key]]$raw_data,
+      set_df = \(df) {
         x <- secondary_sessions()
         x[[key]]$data <- df
         secondary_sessions(x)

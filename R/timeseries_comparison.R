@@ -9,12 +9,12 @@
 #' @family plot sessions
 #' @seealso [plot_bland_altman()] to compare a variable between two session dataframes
 #' @examples
-#' timeseries_comparison(c(example_sessions, example_sessions_v1), variable = "time_at_sleep_onset")
-timeseries_comparison <- function(sessions_list, variable) {
+#' plot_timeseries_comparison(c(example_sessions, example_sessions_v1), variable = "time_at_sleep_onset")
+plot_timeseries_comparison <- function(sessions_list, variable) {
 
   data <- data.frame()
   nights_list <- vector("list", length(sessions_list))
-  is_time <- is_iso8601_datetime(sessions_list[[1]][[variable[[1]]]])
+  is_time <- is_iso8601_datetime(sessions_list[[1]][[variable[1]]])
 
   for (i in seq_along(sessions_list)) {
     s <- sessions_list[[i]]
@@ -26,17 +26,17 @@ timeseries_comparison <- function(sessions_list, variable) {
       var <- variable[[i]]
     } else {
       cli::cli_abort(c(
-        "x" = "{.var variable must contain either one value, or as many as sessions in {.var sessions_list}",
+        "x" = "{.var variable} must contain either one value, or as many as sessions in {.var sessions_list}",
         "i" = "You provided {len(variable)} values",
         "i" = "{.var sessions_list} contains {len(sessions_list)} values"
       ))
     }
 
     var_type <- is_iso8601_datetime(s[[var]])
-    if (!is.numeric(class(s[[var]])) && !var_type) {
+    if (!is.numeric(s[[var]]) && !var_type) {
       cli::cli_abort(c(
         "x" = "{.var variable} column must be either numeric or datetime",
-        "i" = "{class(s[[var]]) detected}"
+        "i" = "{class(s[[var]])} detected}"
       ))
     }
     if (var_type != is_time) {

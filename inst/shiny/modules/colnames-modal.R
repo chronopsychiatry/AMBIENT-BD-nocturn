@@ -61,6 +61,7 @@ register_colnames_modal <- function(
   type = "sessions",
   open_event,
   get_df,
+  get_raw,
   set_df
 ) {
   save_id <- "session_save_colnames"
@@ -85,9 +86,9 @@ register_colnames_modal <- function(
   shiny::observeEvent(input[[reset_id]], {
 
     if (type == "sessions") {
-      df <- clean_sessions(common$sessions_raw())
+      df <- clean_sessions(get_raw())
     } else {
-      df <- clean_epochs(common$epochs_raw())
+      df <- clean_epochs(get_raw())
     }
 
     set_df(df)
@@ -98,10 +99,10 @@ register_colnames_modal <- function(
   # Save colnames
   shiny::observeEvent(input[[save_id]], {
     if (type == "sessions") {
-      df <- common$sessions_raw()
+      df <- get_raw()
       keys <- names(.sessions_long)
     } else {
-      df <- common$epochs_raw()
+      df <- get_raw()
       keys <- names(.epochs_long)
     }
     shiny::req(df)
