@@ -128,7 +128,7 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
     ggplot2::coord_cartesian(clip = "off") +
     ggplot2::labs(
       x = "Average of two measures",
-      y = "Difference between two measures",
+      y = ifelse(var_type == "time", "Difference between two measures (h)", "Difference between two measures"),
       title = "Bland-Altman Plot"
     ) +
     ggplot2::theme_minimal(base_size = 16) +

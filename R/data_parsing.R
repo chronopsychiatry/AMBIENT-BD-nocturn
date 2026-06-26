@@ -15,25 +15,25 @@ sessions_adapters <- list(
   list(
     name = "ggir_workday",
     detects = \(df) identical(get_colnames(df)$is_workday, "daytype"),
-    apply = \(df) df$is_workday <- ifelse(df$daytype == "WD", TRUE, FALSE)
+    apply = \(df) dplyr::mutate(df, is_workday = ifelse(daytype == "WD", TRUE, FALSE))
   ),
 
   list(
     name = "ggir_part5_sleep_period_min_to_sec",
     detects = \(df) identical(get_colnames(df)$sleep_period, "dur_spt_sleep_min"),
-    apply = \(df) df$sleep_period <- df$dur_spt_sleep_min * 60
+    apply = \(df) dplyr::mutate(df, sleep_period = dur_spt_sleep_min * 60)
   ),
 
   list(
     name = "ggir_part4_sleep_period_hour_to_sec",
     detects = \(df) identical(get_colnames(df)$sleep_period, "SleepDurationInSpt"),
-    apply = \(df) df$sleep_duration <- df$SleepDurationInSpt * 60 * 60
+    apply = \(df) dplyr::mutate(df, sleep_duration = SleepDurationInSpt * 60 * 60)
   ),
 
   list(
     name = "sleep_diary_sleep_onset_min_to_sec",
     detects = \(df) identical(get_colnames(df)$sleep_onset_latency, "onset_latency_min"),
-    apply = \(df) df$sleep_onset_latency <- df$onset_latency_min * 60
+    apply = \(df) dplyr::mutate(df, sleep_onset_latency = onset_latency_min * 60)
   )
 )
 
@@ -54,6 +54,12 @@ sessions_rules <- list(
     requires = c("session_start", "sleep_onset_latency"),
     produces = "time_at_sleep_onset",
     apply = \(df) dplyr::mutate(df, time_at_sleep_onset = session_start + sleep_onset_latency)
+  ),
+
+  list(
+    requires = c("session_start", "time_at_sleep_onset"),
+    produces = "sleep_onset_latency",
+    apply = \(df) dplyr::mutate(df, sleep_onset_latency = time_diff(session_start, time_at_sleep_onset, unit = "second"))
   ),
 
   list(
@@ -96,13 +102,13 @@ epochs_adapters <- list(
   list(
     name = "ggir_create_is_asleep",
     detects = \(df) identical("class_id", get_colnames(df)$sleep_stage),
-    apply = \(df) df |> dplyr::mutate(is_asleep = ifelse(class_id == 0, 1, 0))
+    apply = \(df) dplyr::mutate(df, is_asleep = ifelse(class_id == 0, 1, 0))
   ),
 
   list(
     name = "somnofy_create_is_asleep",
     detects = \(df) identical("sleep_stage", get_colnames(df)$sleep_stage),
-    apply = \(df) df |> dplyr::mutate(is_asleep = ifelse(sleep_stage %in% c(4, 5), 0, 1))
+    apply = \(df) dplyr::mutate(df, is_asleep = ifelse(sleep_stage %in% c(4, 5), 0, 1))
   )
 )
 

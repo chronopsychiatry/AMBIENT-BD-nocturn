@@ -104,7 +104,7 @@
     time_at_sleep_onset = parse_time,
     time_at_midsleep = parse_time,
     time_at_wakeup = parse_time,
-    sleep_onset_latency = parse_time,
+    sleep_onset_latency = as.numeric,
     night = parse_date,
     birth_year = as.numeric,
     time_in_bed = as.numeric,
