@@ -1,3 +1,10 @@
+# nocturn 1.2.0
+
+### App UI
+
+- Created a new tab "Comparison" to load multiple Sessions datasets and compare them
+  - This is meant for comparing multiple recordings of the same sleep using multiple devices
+
 # nocturn 1.1.3
 
 # 1.1
