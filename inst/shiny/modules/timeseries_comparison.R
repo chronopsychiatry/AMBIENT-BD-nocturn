@@ -2,6 +2,7 @@ timeseries_comparison_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
     shiny::uiOutput(ns("variable_choices")),
+    shiny::checkboxInput(ns("common_nights_only"), label = "Keep only nights in common", value = FALSE),
     shiny::plotOutput(ns("timeseries_comparison_plot")),
     shiny::downloadButton(
       outputId = ns("download_plot"),
@@ -107,7 +108,7 @@ timeseries_comparison_server <- function(id, common) {
       shiny::validate(
         shiny::need(length(plot_df) > 0, "Variables must be numerical or time")
       )
-      plot_timeseries_comparison(plot_df, plot_var)
+      plot_timeseries_comparison(plot_df, plot_var, input$common_nights_only)
     })
 
     output$timeseries_comparison_plot <- shiny::renderPlot({

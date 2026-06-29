@@ -10,7 +10,7 @@
 #' @seealso [plot_bland_altman()] to compare a variable between two session dataframes
 #' @examples
 #' plot_timeseries_comparison(c(example_sessions, example_sessions_v1), variable = "time_at_sleep_onset")
-plot_timeseries_comparison <- function(sessions_list, variable) {
+plot_timeseries_comparison <- function(sessions_list, variable, common_nights_only = TRUE) {
 
   data <- data.frame()
   nights_list <- vector("list", length(sessions_list))
@@ -69,9 +69,11 @@ plot_timeseries_comparison <- function(sessions_list, variable) {
     data <- dplyr::bind_rows(data, s)
   }
 
-  common_nights <- Reduce(intersect, nights_list)
-  data <- data |>
-    dplyr::filter(.data$night %in% common_nights)
+  if (common_nights_only) {
+    common_nights <- Reduce(intersect, nights_list)
+    data <- data |>
+      dplyr::filter(.data$night %in% common_nights)
+  }
 
   p <- ggplot2::ggplot(data, ggplot2::aes(
     x = .data$night,
