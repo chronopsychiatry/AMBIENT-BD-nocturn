@@ -10,7 +10,7 @@
 #' @seealso [plot_bland_altman()] to compare a variable between two session dataframes
 #' @examples
 #' plot_timeseries_comparison(c(example_sessions, example_sessions_v1), variable = "time_at_sleep_onset")
-plot_timeseries_comparison <- function(sessions_list, variable, common_nights_only = TRUE) {
+plot_timeseries_comparison <- function(sessions_list, variable, common_nights_only = FALSE) {
 
   data <- data.frame()
   nights_list <- vector("list", length(sessions_list))
