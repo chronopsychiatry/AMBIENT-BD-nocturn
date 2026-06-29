@@ -88,9 +88,9 @@ make_sessions_display_table <- function(sessions) {
       sleep_onset = get_col(sessions, "time_at_sleep_onset") |> format("%H:%M"),
       wakeup = get_col(sessions, "time_at_wakeup") |> format("%H:%M"),
       end = get_col(sessions, "session_end") |> format("%H:%M"),
-      time_in_bed_h = if ("time_in_bed" %in% names(sessions)) get_col(sessions, "time_in_bed") / 60 / 60 else NA,
+      time_in_bed_h = if ("time_in_bed" %in% names(sessions)) sessions$time_in_bed / 60 / 60 else NA,
       night = get_col(sessions, "night") |> format("%Y-%m-%d"),
-      time_asleep_h = if ("sleep_period" %in% names(sessions)) get_col(sessions, "sleep_period") / 60 / 60 else NA
+      time_asleep_h = if ("sleep_period" %in% names(sessions)) sessions$sleep_period / 60 / 60 else NA
     ) |>
     dplyr::select(
       dplyr::any_of(c(
