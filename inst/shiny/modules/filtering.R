@@ -192,8 +192,6 @@ filtering_server <- function(id, common) {
     })
 
     shiny::observe({
-      filter_values <- common$filter_values()
-
       from_time <- if (!is.null(input$time_range[1])) paste0(input$time_range[1], ":00") else NULL
       to_time <- if (!is.null(input$time_range[2])) paste0(input$time_range[2], ":00") else NULL
 
@@ -210,7 +208,7 @@ filtering_server <- function(id, common) {
       common$filter_values(filter_values)
     })
 
-    shiny::observe({
+    shiny::observeEvent(common$filter_values(), {
       shiny::req(common$sessions(), common$session_filters())
       filters <- update_masks(common$sessions(), common$session_filters(), common$filter_values())
       common$session_filters(filters)

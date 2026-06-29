@@ -59,15 +59,13 @@ comparison_data_server <- function(id, common) {
         if (!is.null(x[["main"]])) {
           x[["main"]] <- NULL
           secondary_sessions(x)
+          common$session_filters(list())
+          common$filter_values(list())
         }
         return()
       }
 
-      if (is.null(x[["main"]])) {
-        x[["main"]] <- list(data = df, title = "main", filters = common$session_filters())
-      } else {
-        x[["main"]]$data <- df
-      }
+      x[["main"]] <- list(data = df, title = "main", filters = common$session_filters())
 
       secondary_sessions(x)
     }, ignoreInit = TRUE)

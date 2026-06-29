@@ -66,6 +66,7 @@ init_sessions <- function(sessions, common) {
   common$sessions(sessions)
   common$sessions_raw(sessions)
   common$session_filters(data.frame(no_sleep = rep(TRUE, nrow(sessions))))
+  common$filter_values(list())
   common$annotations(data.frame(
     id = sessions$id,
     annotation = "",
