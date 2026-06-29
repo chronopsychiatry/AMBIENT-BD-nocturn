@@ -72,7 +72,7 @@ get_comparison_summary_table <- function(secondary_sessions) {
     dplyr::bind_rows(.id = "session") |>
     dplyr::group_by(.data$session) |>
     dplyr::summarise(
-      total_sessions = dplyr::n_distinct(.data$id),
+      total_sessions = dplyr::n_distinct(.data$id, na.rm = TRUE),
       earliest_night = min(.data$night) |> format("%Y-%m-%d"),
       latest_night = max(.data$night) |> format("%Y-%m-%d"),
       n_removed = as.integer(mean(.data$n_removed)),
