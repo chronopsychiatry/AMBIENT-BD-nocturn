@@ -37,7 +37,7 @@ get_sessions_summary <- function(sessions) {
       mean_time_in_bed = if (has_time_in_bed) mean(.data$time_in_bed) / 3600 else NA,
       sleep_efficiency = {
         if (has_time_in_bed && has_sleep_period) {
-          as.integer(round(mean(sessions$sleep_period, na.rm = TRUE) / mean(sessions$time_in_bed, na.rm = TRUE)))
+          round(mean(.data$sleep_period, na.rm = TRUE) / mean(.data$time_in_bed, na.rm = TRUE), 2)
         } else {
           NA
         }
