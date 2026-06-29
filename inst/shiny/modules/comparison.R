@@ -8,10 +8,7 @@ comparison_side_ui <- function(id) {
 comparison_main_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    bslib::navset_card_tab(
-      id = "comparison_tabs_tables",
-      bslib::nav_panel("Summary", comparison_tables_ui(ns("comparison_tables")))
-    ),
+    comparison_tables_ui(ns("comparison_tables")),
     bslib::navset_card_tab(
       id = "comparison_tabs_plots",
       bslib::nav_panel("Timeseries", timeseries_comparison_ui(ns("timeseries_comparison"))),
