@@ -8,7 +8,7 @@
 #' - `time_at_wakeup`
 #' - `time_in_bed`
 #' - `sleep_period`
-#' @returns A single-row dataframe summarizing session information.
+#' @returns A single-row dataframe summarising session information.
 #' @importFrom rlang .data
 #' @export
 #' @family data tables
@@ -26,13 +26,22 @@ get_sessions_summary <- function(sessions) {
     ))
   }
 
+  has_time_in_bed <- "time_in_bed" %in% names(sessions)
+  has_sleep_period <- "sleep_period" %in% names(sessions)
+
   summary <- sessions |>
     dplyr::summarise(
       total_sessions = dplyr::n(),
       mean_sleep_onset = mean_time(.data$time_at_sleep_onset),
       mean_wakeup_time = mean_time(.data$time_at_wakeup),
-      mean_time_in_bed = mean(.data$time_in_bed) / 3600,
-      sleep_efficiency = as.integer(round(mean(sessions$sleep_period, na.rm = TRUE) / mean(sessions$time_in_bed, na.rm = TRUE)))
+      mean_time_in_bed = if (has_time_in_bed) mean(.data$time_in_bed) / 3600 else NA,
+      sleep_efficiency = {
+        if (has_time_in_bed && has_sleep_period) {
+          as.integer(round(mean(sessions$sleep_period, na.rm = TRUE) / mean(sessions$time_in_bed, na.rm = TRUE)))
+        } else {
+          NA
+        }
+      }
     )
 
   if ("annotation" %in% names(sessions)) {
