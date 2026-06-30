@@ -159,7 +159,7 @@ remove_sessions_no_sleep <- function(sessions, return_mask = FALSE) {
 #' @examples
 #' duplicate_sessions <- get_non_complying_sessions(example_sessions)
 get_non_complying_sessions <- function(sessions) {
-  check_session_colnames(sessions, "night")
+  check_session_colnames(sessions, c("night", "subject_id"))
   dup_mask <- duplicated(sessions[, c("night", "subject_id")]) |
     duplicated(sessions[, c("night", "subject_id")], fromLast = TRUE)
   sessions[dup_mask, ]

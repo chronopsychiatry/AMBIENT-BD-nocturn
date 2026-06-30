@@ -120,5 +120,5 @@ colnames_to_canonical <- function(df) {
 
     df[[canon]] <- df[[src]]
   }
-  set_colnames(df, col)
+  df
 }

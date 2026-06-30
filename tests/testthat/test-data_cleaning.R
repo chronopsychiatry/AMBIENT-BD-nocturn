@@ -130,3 +130,20 @@ testthat::test_that("apply_rules does not run rule if requires missing", {
   testthat::expect_false("derived" %in% names(out))
   testthat::expect_true(is.null(attr(out, "col")$derived))
 })
+
+testthat::test_that("standardise_types works as expected", {
+  df <- data.frame(
+    date_col = c("2026-04-04", "2026-10-28"),
+    num_col = c(0, 36),
+    str_col = c("CT", "LB")
+  )
+  parsers = list(
+    date_col = parse_date,
+    num_col = as.numeric
+  )
+
+  res <- standardise_types(df, parsers)
+  expect_true(lubridate::is.Date(res$date_col))
+  expect_true(is.numeric(res$num_col))
+  expect_true(is.character(res$str_col))
+})

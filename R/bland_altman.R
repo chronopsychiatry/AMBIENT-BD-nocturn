@@ -41,8 +41,6 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
   }
 
   standardise <- function(x, source_label, variable) {
-    cols <- get_session_colnames(x)
-
     x <- keep_longest(x) |>
       dplyr::mutate(
         source = source_label,

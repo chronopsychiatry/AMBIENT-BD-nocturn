@@ -36,7 +36,8 @@ sessions <- data.frame(
     "2025-03-12"
   ),
   time_in_bed = c(8 * 60 * 60, 6 * 60 * 60, 7 * 60 * 60, 0.5 * 60 * 60, 1 * 60 * 60),
-  sleep_period = c(1736, 0, 0, 26364, 0)
+  sleep_period = c(1736, 0, 0, 26364, 0),
+  subject_id = c("ABD000", "ABD000", "ABD000", "ABD000", "ABD000")
 )
 
 test_that("set_time_in_bed works", {
