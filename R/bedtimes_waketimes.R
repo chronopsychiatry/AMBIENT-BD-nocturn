@@ -18,6 +18,7 @@ plot_bedtimes_waketimes <- function(sessions, groupby = "night", color_by = "def
   check_session_colnames(sessions, c("night", "time_at_sleep_onset", "time_at_wakeup", "is_workday"))
   if (color_by != "default") {
     groupby <- "night"
+    sessions <- keep_longest(sessions)
   }
 
   expansion_factor <- switch(
