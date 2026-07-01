@@ -5,9 +5,12 @@
 - Created a new tab "Comparison" to load multiple Sessions datasets and compare them
   - This is meant for comparing multiple recordings of the same sleep using multiple devices
 
-# nocturn 1.1.3
-
 # 1.1
+
+## 1.1.3 (23/06/2026)
+
+- First CRAN release (no changes to code)
+  - nocturn can now be installed from CRAN: `install.packages("nocturn")`
 
 ## 1.1.2 (03/03/2026)
 
