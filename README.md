@@ -6,7 +6,7 @@ nocturn provides tools to filter and visualise sleep data.
 
 ## Getting started
 
-The easiest way to use nocturn is to visit the [online app](https://shinyserver.bio.ed.ac.uk/app/07_nocturn_app). Visit the [wiki](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki) for more detailed instructions!
+The easiest way to use nocturn is to visit the [online app](https://nocturn.bio.ed.ac.uk). Visit the [wiki](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki) for more detailed instructions!
 
 ## Can I use nocturn with my data?
 
@@ -22,13 +22,13 @@ If nocturn fails to open your data, or if you would like your own variable names
 
 ## Online app hosting
 
-The [online nocturn app](https://shinyserver.bio.ed.ac.uk/app/07_nocturn_app) is hosted at the School of Biological Sciences, University of Edinburgh. All uploaded data is deleted from the server when the app is closed. We do not store or re-use uploaded data in any way.
+The [online nocturn app](https://nocturn.bio.ed.ac.uk) is hosted at the School of Biological Sciences, University of Edinburgh. All uploaded data is deleted from the server when the app is closed. We do not store or re-use uploaded data in any way.
 
 If you do not wish to upload your data to our servers, you can run the nocturn app locally on your computer (see instructions below).
 
 ## Running nocturn locally
 
-If you wish to run the app locally, or to use the R package, please follow the [installation instructions](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki/Installation) and [how to get started](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki/Getting-started).
+To run the app locally or use the R package, nocturn can be installed from CRAN. See [installation instructions](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki/Installation) and [how to get started](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki/Getting-started) for more details.
 
 The [changelog](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/blob/main/NEWS.md) contains information about changes made in each version. Generally, it is preferable to run the latest version of the package, as each version will contain bug fixes and improvements.
 
@@ -43,3 +43,5 @@ To make suggestions or discuss how to use the app or package, [start a new discu
 Maintainer: [daniel.thedie@ed.ac.uk](mailto:daniel.thedie@ed.ac.uk)
 
 nocturn is developed by the [BioRDM team](https://biology.ed.ac.uk/research/facilities/research-data-management) at the University of Edinburgh, as part of the [Ambient-BD project](https://www.ambientbd.com/).
+
+This work was supported by Wellcome trust grant \href{https://doi.org/10.35802/226944}{226944/Z/23/Z} awarded to Prof. Andrew Millar and others.
