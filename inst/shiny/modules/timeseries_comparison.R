@@ -89,6 +89,7 @@ timeseries_comparison_server <- function(id, common) {
       shiny::req(length(ss) > 0)
       plot_df <- list()
       plot_var <- character(0)
+      var_types <- list()
       for (id in names(ss)) {
         cfg <- var_list[[id]]
         if (is.null(cfg)) next
@@ -98,7 +99,13 @@ timeseries_comparison_server <- function(id, common) {
         df <- apply_filters(ss[[id]]$data, ss[[id]]$filters)
 
         validate_columns(df, "night")
-        if (!is.numeric(df[[cfg$variable]]) && !is_iso8601_datetime(df[[cfg$variable]])) next
+        if (is.numeric(df[[cfg$variable]])) {
+          var_types[[id]] <- "numeric"
+        } else if (is_iso8601_datetime(df[[cfg$variable]])) {
+          var_types[[id]] <- "time"
+        } else {
+          next
+        }
 
         title <- ss[[id]]$title
         plot_df[[title]] <- df
@@ -106,7 +113,8 @@ timeseries_comparison_server <- function(id, common) {
       }
 
       shiny::validate(
-        shiny::need(length(plot_df) > 0, "Variables must be numerical or time")
+        shiny::need(length(plot_df) > 0, "Variables must be numerical or time"),
+        shiny::need(length(unique((var_types))) == 1, "Variables must have the same type (numerical or time)")
       )
       plot_timeseries_comparison(plot_df, plot_var, input$common_nights_only)
     })
