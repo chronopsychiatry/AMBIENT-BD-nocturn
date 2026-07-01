@@ -46,7 +46,7 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
         source = source_label,
         value  = !!variable
       ) |>
-      dplyr::select(.data$night, .data$source, .data$value) |>
+      dplyr::select("night", "source", "value") |>
       dplyr::filter(!is.na(.data$value))
 
     if (var_type == "time") {

@@ -19,6 +19,7 @@ Suggests:
     DT,
     markdown,
     readr,
+    rvest,
     shinyjs,
     shinyWidgets,
     svglite,
