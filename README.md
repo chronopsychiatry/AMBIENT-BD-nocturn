@@ -1,4 +1,5 @@
 [![DOI](https://zenodo.org/badge/956490777.svg)](https://doi.org/10.5281/zenodo.20067661)
+[![](https://cranlogs.r-pkg.org/badges/last-month/nocturn)](https://cran.r-project.org/package=nocturn)
 
 # nocturn <img src="man/figures/logo.png" align="right" height="138" alt="nocturn hex logo" />
 
