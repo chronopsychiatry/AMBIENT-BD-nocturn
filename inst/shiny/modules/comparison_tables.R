@@ -18,8 +18,23 @@ comparison_tables_ui <- function(id) {
         )
       ),
       bslib::nav_panel(
-        "Differences",
-        shiny::tableOutput(ns("onset_diffs"))
+        "Bland-Altman statistics",
+        shiny::fluidRow(
+          shiny::column(6, shiny::strong("Time at Sleep Onset")),
+          shiny::column(6, shiny::strong("Time at Midsleep"))
+        ),
+        shiny::fluidRow(
+          shiny::column(6, shiny::tableOutput(ns("time_at_sleep_onset_table"))),
+          shiny::column(6, shiny::tableOutput(ns("time_at_midsleep_table")))
+        ),
+        shiny::fluidRow(
+          shiny::column(6, shiny::strong("Time at Wakeup")),
+          shiny::column(6, shiny::strong("Sleep duration"))
+        ),
+        shiny::fluidRow(
+          shiny::column(6, shiny::tableOutput(ns("time_at_wakeup_table"))),
+          shiny::column(6, shiny::tableOutput(ns("sleep_period_table")))
+        )
       )
     )
   )
@@ -50,19 +65,26 @@ comparison_tables_server <- function(id, common) {
       sessions_sleep_table()
     })
 
-    onset_diffs <- shiny::reactive({
+    sessions_list <- shiny::reactive({
       sessions_list <- list()
       for (i in names(ss())) {
         title <- ss()[[i]]$title
         sessions_list[[title]] <- ss()[[i]]$data
       }
-      bland_altman_pairwise_matrix(sessions_list, variable = "time_at_sleep_onset")
+      sessions_list
     })
 
-    output$onset_diffs <- shiny::renderTable({
-      onset_diffs()
-    },
-    rownames = TRUE)
+    tables <- list("time_at_sleep_onset", "time_at_midsleep", "time_at_wakeup", "sleep_period")
+    for (i in seq_along(tables)) {
+      local({
+        var <- tables[[i]]
+        id <- paste0(var, "_table")
+
+        output[[id]] <- shiny::renderTable({
+          bland_altman_pairwise_matrix(sessions_list(), var)
+        }, rownames = TRUE)
+      })
+    }
 
   })
 }
@@ -120,100 +142,91 @@ get_comparison_sleep_table <- function(secondary_sessions) {
     get_sessions_summary()
 }
 
-bland_altman_pairwise_matrix <- function(sessions_list, variable, digits = 3) {
+bland_altman_pairwise_matrix <- function(sessions_list, variable, digits = 2) {
 
   nm <- names(sessions_list)
 
-  pair_stats <- function(sessions1, sessions2, variable) {
-
-    variable <- rlang::sym(variable)
-
-    if (is_iso8601_datetime(sessions1[[variable]]) && is_iso8601_datetime(sessions2[[variable]])) {
-      var_type <- "time"
-    } else if (is.numeric(sessions1[[variable]][1]) && is.numeric(sessions2[[variable]][1])) {
-      var_type <- "numeric"
-    }
-
-    standardise <- function(x, source_label, variable_sym) {
-      x <- keep_longest(x) |>
-        dplyr::mutate(
-          source = source_label,
-          value  = !!variable_sym
-        ) |>
-        dplyr::select("night", "source", "value") |>
-        dplyr::filter(!is.na(.data$value))
-
-      if (var_type == "time") {
-        x$value <- update_date(x$value, "0000-01-01")
-      }
-      x
-    }
-
-    s1 <- standardise(sessions1, "sessions1", variable)
-    s2 <- standardise(sessions2, "sessions2", variable)
-
-    df <- dplyr::bind_rows(s1, s2) |>
-      dplyr::filter(.data$night %in% dplyr::intersect(s1$night, s2$night)) |>
-      dplyr::arrange(.data$night, .data$source) |>
-      dplyr::group_by(.data$night) |>
-      dplyr::summarise(
-        average = {
-          if (var_type == "numeric") {
-            mean(.data$value, na.rm = TRUE)
-          } else {
-            mean_time(.data$value) |>
-              shift_times_by_12h()
-          }
-        },
-        diff = {
-          v <- .data$value
-          if (var_type == "time") {
-            circ_time_diff(v[2], v[1], unit = "hour")
-          } else {
-            as.numeric(v[2] - v[1])
-          }
-        },
-        .groups = "drop"
-      )
-
-    md  <- mean(df$diff, na.rm = TRUE)
-    sdd <- stats::sd(df$diff, na.rm = TRUE)
-
-    c(
-      md = md,
-      sdd = sdd,
-      loa_lower = md - 1.96 * sdd,
-      loa_upper = md + 1.96 * sdd
-    )
-  }
-
-  make_mat <- function() {
-    matrix(NA_real_, length(sessions_list), length(sessions_list),
-           dimnames = list(nm, nm))
-  }
-
-  out <- list(
-    md        = make_mat(),
-    sdd       = make_mat(),
-    loa_lower = make_mat(),
-    loa_upper = make_mat()
-  )
+  out <- matrix(NA_real_, length(sessions_list), length(sessions_list),
+                dimnames = list(nm, nm))
 
   for (i in seq_along(sessions_list)) {
     for (j in seq_along(sessions_list)) {
       if (i == j) next
       st <- pair_stats(sessions_list[[i]], sessions_list[[j]], variable)
-      out$md[i, j]        <- st[["md"]]
-      out$sdd[i, j]       <- st[["sdd"]]
-      out$loa_lower[i, j] <- st[["loa_lower"]]
-      out$loa_upper[i, j] <- st[["loa_upper"]]
+      md <- signif(st[["md"]], digits)
+      loa_lower <- signif(st[["loa_lower"]], digits)
+      loa_upper <- signif(st[["loa_upper"]], digits)
+      out[i, j] <- paste0(md, " (", loa_lower, "; ", loa_upper, ")")
     }
   }
 
-  out$md        <- round(out$md, digits)
-  out$sdd       <- round(out$sdd, digits)
-  out$loa_lower <- round(out$loa_lower, digits)
-  out$loa_upper <- round(out$loa_upper, digits)
-
   out
+}
+
+pair_stats <- function(sessions1, sessions2, variable) {
+
+  variable <- rlang::sym(variable)
+
+  if (is_iso8601_datetime(sessions1[[variable]]) && is_iso8601_datetime(sessions2[[variable]])) {
+    var_type <- "time"
+  } else if (is.numeric(sessions1[[variable]][1]) && is.numeric(sessions2[[variable]][1])) {
+    var_type <- "numeric"
+  }
+
+  standardise <- function(x, source_label, variable_sym) {
+    x <- keep_longest(x) |>
+      dplyr::mutate(
+        source = source_label,
+        value  = !!variable_sym
+      ) |>
+      dplyr::select("night", "source", "value") |>
+      dplyr::filter(!is.na(.data$value))
+
+    if (var_type == "time") {
+      x$value <- update_date(x$value, "0000-01-01")
+    }
+    x
+  }
+
+  s1 <- standardise(sessions1, "sessions1", variable)
+  s2 <- standardise(sessions2, "sessions2", variable)
+
+  df <- dplyr::bind_rows(s1, s2) |>
+    dplyr::filter(.data$night %in% dplyr::intersect(s1$night, s2$night)) |>
+    dplyr::arrange(.data$night, .data$source) |>
+    dplyr::group_by(.data$night) |>
+    dplyr::summarise(
+      average = {
+        if (var_type == "numeric") {
+          mean(.data$value, na.rm = TRUE)
+        } else {
+          mean_time(.data$value) |>
+            shift_times_by_12h()
+        }
+      },
+      diff = {
+        v <- .data$value
+        if (var_type == "time") {
+          circ_time_diff(v[2], v[1], unit = "hour")
+        } else {
+          as.numeric(v[2] - v[1])
+        }
+      },
+      .groups = "drop"
+    )
+
+  md  <- mean(df$diff, na.rm = TRUE)
+  sdd <- stats::sd(df$diff, na.rm = TRUE)
+
+  if (variable == "sleep_period") {
+    md <- md / 3600
+    sdd <- sdd / 3600
+  }
+
+  c(
+    md = md,
+    sdd = sdd,
+    loa_lower = md - 1.96 * sdd,
+    loa_upper = md + 1.96 * sdd
+  )
 }
