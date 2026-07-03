@@ -78,7 +78,7 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
   s2 <- standardise(sessions2, "sessions2", var2)
 
   df <- dplyr::bind_rows(s1, s2) |>
-    dplyr::filter(.data$night %in% dplyr::intersect(s1$night, s2$night)) |>
+    dplyr::semi_join(dplyr::inner_join(s1, s2, by = "night"), by = "night") |>
     dplyr::arrange(.data$night, .data$source) |>
     dplyr::group_by(.data$night) |>
     dplyr::summarise(
@@ -92,7 +92,7 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
       },
       diff = {
         v <- .data$value
-        if (length(v) != 2) {
+        if (length(v) < 2) {
           cli::cli_abort(c(
             "x" = "Dataframes have no night in common",
             "i" = "Make sure the two session dataframes have at least one night in common"
