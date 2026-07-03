@@ -11,7 +11,26 @@
 #' @export
 #' @family comparison plot
 #' @examples
-#' plot_bland_altman(example_sessions, example_sessions, "time_at_sleep_onset")
+#'   sessions1 <- data.frame(
+#'    time_at_wakeup = c("2025-03-03T11:24:11.524000+00:00",
+#'                       "2025-03-03T14:44:11.524000+00:00",
+#'                       "2025-03-03T18:24:11.524000+00:00",
+#'                       "2025-03-03T00:24:11.524000+00:00",
+#'                       "2025-03-03T23:24:11.524000+00:00"),
+#'    night = c("2025-03-02", "2025-03-03", "2025-03-03", "2025-03-03", "2025-03-03"),
+#'    sleep_period = c(1000, 1000, 10, 2000, 1500)
+#'  )
+#'
+#' sessions2 <- data.frame(
+#'    time_at_wakeup = c("2025-03-03T11:14:11.524000+00:00",
+#'                       "2025-03-03T14:24:11.524000+00:00",
+#'                       "2025-03-03T18:00:11.524000+00:00",
+#'                       "2025-03-03T00:22:11.524000+00:00",
+#'                       "2025-03-03T23:12:11.524000+00:00"),
+#'    night = c("2025-03-02", "2025-03-03", "2025-03-03", "2025-03-03", "2025-03-03"),
+#'    sleep_period = c(1000, 1000, 10000, 200, 1500)
+#'  )
+#' plot_bland_altman(sessions1, sessions2, "time_at_wakeup")
 plot_bland_altman <- function(sessions1, sessions2, variable) {
   check_session_colnames(sessions1, c("night", "sleep_period"))
   check_session_colnames(sessions2, c("night", "sleep_period"))
