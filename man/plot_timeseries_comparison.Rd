@@ -4,12 +4,14 @@
 \alias{plot_timeseries_comparison}
 \title{Plot a timeseries of variables from different session data}
 \usage{
-plot_timeseries_comparison(sessions_list, variable)
+plot_timeseries_comparison(sessions_list, variable, common_nights_only = FALSE)
 }
 \arguments{
-\item{sessions_list}{A list of sessions dataframes from which to plot}
+\item{sessions_list}{A named list of sessions dataframes from which to plot}
 
 \item{variable}{The variable to plot - either a single string, or a list of strings (one per dataframe in sessions_list)}
+
+\item{common_nights_only}{Whether to only plot night for which all datasets have data}
 }
 \value{
 A ggplot object
@@ -24,7 +26,8 @@ This function uses columns:
 }
 }
 \examples{
-plot_timeseries_comparison(c(example_sessions, example_sessions_v1), variable = "time_at_sleep_onset")
+sessions_list <- list(dataset1 = example_sessions, dataset2 = example_sessions_v1)
+plot_timeseries_comparison(sessions_list, variable = "time_at_sleep_onset")
 }
 \seealso{
 \code{\link[=plot_bland_altman]{plot_bland_altman()}} to compare a variable between two session dataframes

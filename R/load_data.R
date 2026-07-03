@@ -53,10 +53,9 @@ load_sessions <- function(sessions_file) {
 #' Load epoch data
 #'
 #' @param epochs_file The path to the epochs file
-#' @param file_name An optional file name to be recorded in the epochs table
 #' @returns A dataframe containing the epoch data
 #' @details The function loads the epoch data from a file and groups the epochs by night.
-#' Supported formats: CSV, Excel, EDF.
+#' Supported formats: csv, xls, xlsx, edf
 #' @export
 #' @family data loading
 #' @importFrom rlang .data
