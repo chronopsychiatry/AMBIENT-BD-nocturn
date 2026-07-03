@@ -22,3 +22,20 @@ test_that("plot_bland_altman handles valid input correctly", {
   plot <- plot_bland_altman(sessions1, sessions2, variable = "time_at_wakeup")
   expect_s3_class(plot, "ggplot")
 })
+
+test_that("plot_bland_altman keeps longest non-missing value per night", {
+  sessions1 <- data.frame(
+    metric = c(NA, 8),
+    night = c("2025-03-02", "2025-03-02"),
+    sleep_period = c(1000, 900)
+  )
+
+  sessions2 <- data.frame(
+    metric = c(NA, 6),
+    night = c("2025-03-02", "2025-03-02"),
+    sleep_period = c(1000, 900)
+  )
+
+  plot <- plot_bland_altman(sessions1, sessions2, variable = "metric")
+  expect_s3_class(plot, "ggplot")
+})

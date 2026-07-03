@@ -60,13 +60,14 @@ plot_bland_altman <- function(sessions1, sessions2, variable) {
   }
 
   standardise <- function(x, source_label, variable) {
-    x <- keep_longest(x) |>
+    x <- x |>
+      dplyr::filter(!is.na(!!variable)) |>
+      keep_longest() |>
       dplyr::mutate(
         source = source_label,
         value  = !!variable
       ) |>
-      dplyr::select("night", "source", "value") |>
-      dplyr::filter(!is.na(.data$value))
+      dplyr::select("night", "source", "value")
 
     if (var_type == "time") {
       x$value <- update_date(x$value, "0000-01-01")
