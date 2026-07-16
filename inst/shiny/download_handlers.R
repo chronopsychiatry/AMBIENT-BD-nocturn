@@ -45,8 +45,19 @@ get_report_download_handler <- function(session, logger, sessions, title) {
       tmpfile <- tempfile(fileext = ".pdf")
       sleep_report(sessions = sessions, title = title(), output_file = tmpfile)
       file.copy(tmpfile, file)
-      logger |> write_log(paste0("Sleep report generated"), type = "complete")
+      logger |> write_log("Sleep report generated", type = "complete")
     },
     contentType = "application/pdf"
+  )
+}
+
+get_yaml_download_handler <- function(export_list, logger, filename) {
+  shiny::downloadHandler(
+    filename = \() paste0(filename, "_", Sys.Date(), ".yaml"),
+    content = \(file) {
+      export_list$date_range <- as.character(export_list$date_range)
+      yaml::write_yaml(export_list, file, indent = 2)
+      logger |> write_log("Filter set exported", type = "complete")
+    }
   )
 }

@@ -24,6 +24,10 @@ filtering_ui <- function(id) {
         shiny::uiOutput(ns("sleep_period_slider"))
       ),
       open = NULL
+    ),
+    shiny::downloadButton(
+      outputId = ns("download_filters"),
+      label = "Export filters"
     )
   )
 }
@@ -268,6 +272,16 @@ filtering_server <- function(id, common) {
         return_mask = TRUE
       )
       common$epoch_filters(filters)
+    })
+
+    # Download the current filter set ----
+    shiny::observe({
+      shiny::req(common$filter_values())
+      output$download_filters <- get_yaml_download_handler(
+        export_list = common$filter_values(),
+        logger = common$logger,
+        filename = "Filters"
+      )
     })
 
   })
