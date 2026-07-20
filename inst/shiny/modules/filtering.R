@@ -88,6 +88,7 @@ filtering_server <- function(id, common) {
         )
       }
     })
+    shiny::outputOptions(output, "date_range_slider", suspendWhenHidden = FALSE)
 
     output$subject_select <- shiny::renderUI({
       shiny::req(common$sessions())
@@ -107,6 +108,7 @@ filtering_server <- function(id, common) {
         )
       }
     })
+    shiny::outputOptions(output, "subject_select", suspendWhenHidden = FALSE)
 
     output$age_range_slider <- shiny::renderUI({
       shiny::req(common$sessions())
@@ -127,6 +129,7 @@ filtering_server <- function(id, common) {
         }
       }
     })
+    shiny::outputOptions(output, "age_range_slider",    suspendWhenHidden = FALSE)
 
     output$sex_select <- shiny::renderUI({
       shiny::req(common$sessions())
@@ -146,6 +149,7 @@ filtering_server <- function(id, common) {
         )
       }
     })
+    shiny::outputOptions(output, "sex_select", suspendWhenHidden = FALSE)
 
     output$time_in_bed_slider <- shiny::renderUI({
       shiny::req(common$sessions())
@@ -163,6 +167,7 @@ filtering_server <- function(id, common) {
         )
       }
     })
+    shiny::outputOptions(output, "time_in_bed_slider",  suspendWhenHidden = FALSE)
 
     output$sleep_period_slider <- shiny::renderUI({
       shiny::req(common$sessions())
@@ -180,6 +185,7 @@ filtering_server <- function(id, common) {
         )
       }
     })
+    shiny::outputOptions(output, "sleep_period_slider", suspendWhenHidden = FALSE)
 
     output$sleep_onset_range <- shiny::renderUI({
       shiny::req(common$sessions())
@@ -194,6 +200,7 @@ filtering_server <- function(id, common) {
         )
       }
     })
+    shiny::outputOptions(output, "sleep_onset_range",   suspendWhenHidden = FALSE)
 
     shiny::observe({
       from_time <- if (!is.null(input$time_range[1])) paste0(input$time_range[1], ":00") else NULL
