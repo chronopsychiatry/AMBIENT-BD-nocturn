@@ -1,9 +1,12 @@
 # nocturn 1.2.0
 
-### App UI
+### App
 
 - Created a new tab "Comparison" to load multiple Sessions datasets and compare them
   - This is meant for comparing multiple recordings of the same sleep using multiple devices
+- Added "Import filters" and "Export filters" buttons to the Filtering tab
+  - Filters are exported in yaml format (can be opened and modified in any text editor)
+  - "Import filters" applies all filters defined in the loaded yaml file to the current nocturn session
 
 # 1.1
 
