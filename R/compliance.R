@@ -108,7 +108,7 @@ set_session_sleep_onset_range <- function(sessions, from_time, to_time, return_m
   from_time <- if (is.null(from_time)) min(session_times, na.rm = TRUE) else parse_time(from_time)
   to_time <- if (is.null(to_time)) max(session_times, na.rm = TRUE) else parse_time(to_time)
 
-  if (from_time <= to_time) {
+  if (from_time < to_time) {
     mask <- session_times >= from_time & session_times <= to_time
   } else {
     mask <- session_times >= from_time | session_times <= to_time

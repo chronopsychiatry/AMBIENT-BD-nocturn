@@ -25,9 +25,32 @@ filtering_ui <- function(id) {
       ),
       open = NULL
     ),
-    shiny::downloadButton(
-      outputId = ns("download_filters"),
-      label = "Export filters"
+    shiny::br(),
+    shiny::div(
+      class = "filter-sets-btn",
+      shiny::fluidRow(
+        shiny::column(
+          width = 6,
+          shiny::div(
+            class = "filters-upload",
+            shiny::fileInput(
+              inputId = ns("upload_filters"),
+              label = NULL,
+              placeholder = NULL,
+              buttonLabel = tagList(shiny::icon("upload"), "Import Filters"),
+              accept = ".yaml"
+            )
+          )
+        ),
+        shiny::column(
+          width = 6,
+          class = "text-end",
+          shiny::downloadButton(
+            outputId = ns("download_filters"),
+            label = "Export filters"
+          )
+        )
+      )
     )
   )
 }
@@ -58,18 +81,6 @@ filtering_tab <- function(id) {
 
 filtering_server <- function(id, common) {
   shiny::moduleServer(id, function(input, output, session) {
-
-    shiny::observe({
-      shiny::req(common$session_filters())
-      filters <- common$session_filters()
-      filter_names <- setdiff(names(filters), c("no_sleep"))
-      shinyWidgets::updatePickerInput(
-        session = session,
-        inputId = "filters_columns",
-        choices = filter_names,
-        selected = filter_names
-      )
-    })
 
     output$date_range_slider <- shiny::renderUI({
       shiny::req(common$sessions())
@@ -191,26 +202,28 @@ filtering_server <- function(id, common) {
       shiny::req(common$sessions())
       sessions <- common$sessions()
       if ("time_at_sleep_onset" %in% names(sessions)) {
-        shinyWidgets::sliderTextInput(
-          inputId = session$ns("time_range"),
+        shiny::sliderInput(
+          inputId = session$ns("sleep_onset_range"),
           label = "Sleep Onset Time:",
-          choices = sprintf("%02d", c(13:23, 0:12)),
-          selected = c("13", "12"),
-          grid = TRUE
+          min   = as.POSIXct("2000-01-01 12:00:00"),
+          max   = as.POSIXct("2000-01-02 12:00:00"),
+          value = c(
+            as.POSIXct("2000-01-01 12:00:00"),
+            as.POSIXct("2000-01-02 12:00:00")
+          ),
+          step       = 3600,
+          timeFormat = "%H:%M",
+          ticks      = FALSE
         )
       }
     })
     shiny::outputOptions(output, "sleep_onset_range",   suspendWhenHidden = FALSE)
 
     shiny::observe({
-      from_time <- if (!is.null(input$time_range[1])) paste0(input$time_range[1], ":00") else NULL
-      to_time <- if (!is.null(input$time_range[2])) paste0(input$time_range[2], ":00") else NULL
-
       filter_values <- list(
         sleep_period = input$sleep_period,
         date_range = input$date_range,
-        from_time = from_time,
-        to_time = to_time,
+        sleep_onset_range = input$sleep_onset_range |> format("%H:%M"),
         time_in_bed = input$time_in_bed,
         age_range = input$age_range,
         sex = input$sex,
@@ -234,6 +247,18 @@ filtering_server <- function(id, common) {
         log_msg = "Sessions table is empty after filtering.",
         log_type = "warning",
         logger = common$logger
+      )
+    })
+
+    shiny::observe({
+      shiny::req(common$session_filters())
+      filters <- common$session_filters()
+      filter_names <- setdiff(names(filters), c("no_sleep"))
+      shinyWidgets::updatePickerInput(
+        session = session,
+        inputId = "filters_columns",
+        choices = filter_names,
+        selected = filter_names
       )
     })
 
@@ -283,12 +308,23 @@ filtering_server <- function(id, common) {
 
     # Download the current filter set ----
     shiny::observe({
-      shiny::req(common$filter_values())
+      filter_values = common$filter_values()
+      filter_values$date_range <- as.character(filter_values$date_range)
+      filter_values$sleep_onset_range <- as.character(filter_values$sleep_onset_range)
       output$download_filters <- get_yaml_download_handler(
-        export_list = common$filter_values(),
+        export_list = filter_values,
         logger = common$logger,
-        filename = "Filters"
+        filename = "nocturn_filters",
+        message = "Filter set exported"
       )
+    })
+
+    # Upload and apply a filter set from a yaml file ----
+    shiny::observeEvent(input$upload_filters, {
+      filter_values <- yaml::read_yaml(input$upload_filters$datapath)
+      common$filter_values(filter_values)
+      update_inputs(session, filter_values)
+      common$logger |> write_log("Filter set imported", type = "complete")
     })
 
   })
@@ -326,9 +362,6 @@ get_removed_rows <- function(df_in, filters) {
 update_masks <- function(df, filters, filter_values) {
   if (is.null(filters)) filters <- data.frame(no_sleep = rep(TRUE, nrow(df)))
 
-  from_time <- if (!is.null(filter_values$time_range[1])) paste0(filter_values$time_range[1], ":00") else NULL
-  to_time <- if (!is.null(filter_values$time_range[2])) paste0(filter_values$time_range[2], ":00") else NULL
-
   if ("sleep_period" %in% names(df)) {
     filters$no_sleep <- df |>
       remove_sessions_no_sleep(return_mask = TRUE)
@@ -343,7 +376,7 @@ update_masks <- function(df, filters, filter_values) {
   }
   if ("time_at_sleep_onset" %in% names(df)) {
     filters$sleep_onset <- df |>
-      set_session_sleep_onset_range(filter_values$from_time, filter_values$to_time, return_mask = TRUE)
+      set_session_sleep_onset_range(filter_values$sleep_onset_range[1], filter_values$sleep_onset_range[2], return_mask = TRUE)
   }
   if ("time_in_bed" %in% names(df) && !is.null(filter_values$time_in_bed)) {
     filters$time_in_bed <- df |>
@@ -362,4 +395,46 @@ update_masks <- function(df, filters, filter_values) {
       select_subjects(filter_values$subject, return_mask = TRUE)
   }
   filters
+}
+
+update_inputs <- function(session, filter_values) {
+  shiny::updateSliderInput(
+    session = session,
+    inputId = "sleep_period",
+    value = filter_values$sleep_period
+  )
+  shiny::updateSliderInput(
+    session = session,
+    inputId = "time_in_bed",
+    value = filter_values$time_in_bed
+  )
+  shiny::updateSliderInput(
+    session = session,
+    inputId = "age_range",
+    value = filter_values$age_range
+  )
+  shinyWidgets::updatePickerInput(
+    session = session,
+    inputId = "subject",
+    selected = filter_values$subject
+  )
+  shinyWidgets::updatePickerInput(
+    session = session,
+    inputId = "sex",
+    selected = filter_values$sex
+  )
+  shiny::updateSliderInput(
+    session = session,
+    inputId = "date_range",
+    value = parse_date(filter_values$date_range)
+  )
+  shiny::updateSliderInput(
+    session = session,
+    inputId = "sleep_onset_range",
+    value = c(
+      parse_time(filter_values$sleep_onset_range[1]) |> update_date("2000-01-01"),
+      parse_time(filter_values$sleep_onset_range[2]) |> update_date("2000-01-02")
+    ),
+    timeFormat = "%H:%M"
+  )
 }
