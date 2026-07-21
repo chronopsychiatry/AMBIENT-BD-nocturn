@@ -86,6 +86,7 @@ comparison_data_server <- function(id, common) {
       x <- secondary_sessions()
       filter_values <- common$filter_values()
       filter_values$subject <- NULL
+      filter_values$date_range <- NULL
 
       x[[id]] <- list(
         data = data,
@@ -103,14 +104,15 @@ comparison_data_server <- function(id, common) {
     # Keep filters up-to-date ----
     shiny::observeEvent(common$filter_values(), {
       x <- secondary_sessions()
-      keys <- names(x)
+      ids <- names(x)
       filter_values <- common$filter_values()
       filter_values$subject <- NULL
+      filter_values$date_range <- NULL
 
-      for (key in keys) {
-        x[[key]]$filters <- update_masks(
-          df = x[[key]]$data,
-          filters = x[[key]]$filters,
+      for (id in ids) {
+        x[[id]]$filters <- update_masks(
+          df = x[[id]]$data,
+          filters = x[[id]]$filters,
           filter_values = filter_values
         )
       }
