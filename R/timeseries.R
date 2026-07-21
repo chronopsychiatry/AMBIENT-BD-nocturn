@@ -21,7 +21,8 @@ plot_timeseries <- function(epochs, variable, color_by = "default", exclude_zero
 
   if (exclude_zero) {
     epochs <- epochs |>
-      dplyr::filter(.data[[variable]] != 0)
+      dplyr::filter(.data[[variable]] != 0) |>
+      dplyr::filter(.data[[color_by]] != 0)
   }
 
   if (is_iso8601_datetime(epochs[[variable]])) {
@@ -115,6 +116,11 @@ plot_timeseries_sessions <- function(sessions, variable, color_by = "default", e
   if (exclude_zero) {
     sessions <- sessions |>
       dplyr::filter(.data[[variable]] != 0)
+
+    if (color_by != "default") {
+      sessions <- sessions |>
+        dplyr::filter(.data[[color_by]] != 0)
+    }
   }
 
   if (is_iso8601_datetime(sessions[[variable]])) {
