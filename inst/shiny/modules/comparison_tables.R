@@ -19,6 +19,7 @@ comparison_tables_ui <- function(id) {
       ),
       bslib::nav_panel(
         "Bland-Altman statistics",
+        help_modal_ui(ns),
         shiny::fluidRow(
           shiny::column(6, shiny::strong("Time at Sleep Onset")),
           shiny::column(6, shiny::strong("Time at Midsleep"))
@@ -85,6 +86,10 @@ comparison_tables_server <- function(id, common) {
         }, rownames = TRUE)
       })
     }
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Bland-Altman_statistics")
+    })
 
   })
 }
@@ -154,7 +159,10 @@ bland_altman_pairwise_matrix <- function(sessions_list, variable, digits = 2) {
                 dimnames = list(nm, nm))
 
   for (i in seq_along(sessions_list)) {
-    validate_columns(df, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep", "sleep_duration"))
+    validate_columns(
+      sessions_list[[i]],
+      c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep", "sleep_period")
+    )
     for (j in seq_along(sessions_list)) {
       if (i == j) next
       st <- pair_stats(sessions_list[[i]], sessions_list[[j]], variable)
