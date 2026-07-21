@@ -8,10 +8,9 @@ test_that("hypnogram module works", {
     hypnogram_server,
     args = list(common = common),
     {
-      plot <- session$getReturned()
       session$setInputs(download_format = "png")
 
-      expect_s3_class(plot, "shiny.render.function")
+      expect_no_error(output$hypnogram_plot)
     }
   )
 })

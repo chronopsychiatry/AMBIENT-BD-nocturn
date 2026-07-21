@@ -99,7 +99,6 @@ bland_altman_server <- function(id, common) {
     })
 
     output$bland_altman_plot <- shiny::renderPlot({
-      shiny::req(bland_altman_plot)
       bland_altman_plot()
     })
 

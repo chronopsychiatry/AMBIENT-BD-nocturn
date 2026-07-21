@@ -8,11 +8,10 @@ test_that("sleep distribution module works", {
     sleep_distributions_server,
     args = list(common = common),
     {
-      plot <- session$getReturned()
       session$setInputs(download_format = "png",
                         plot_type = "Boxplot")
 
-      expect_s3_class(plot, "shiny.render.function")
+      expect_no_error(output$sleep_distribution_plot)
     }
   )
 })

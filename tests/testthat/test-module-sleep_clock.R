@@ -8,10 +8,9 @@ test_that("sleep_clock module works", {
     sleep_clock_server,
     args = list(common = common),
     {
-      plot <- session$getReturned()
       session$setInputs(download_format = "png")
 
-      expect_s3_class(plot, "shiny.render.function")
+      expect_no_error(output$sleep_clock_plot)
     }
   )
 })
