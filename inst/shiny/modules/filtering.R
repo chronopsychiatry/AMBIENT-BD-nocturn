@@ -374,7 +374,7 @@ update_masks <- function(df, filters, filter_values) {
     filters$night <- df |>
       filter_by_night_range(filter_values$date_range[1], filter_values$date_range[2], return_mask = TRUE)
   }
-  if ("time_at_sleep_onset" %in% names(df)) {
+  if ("time_at_sleep_onset" %in% names(df) && length(filter_values$sleep_onset_range) == 2) {
     filters$sleep_onset <- df |>
       set_session_sleep_onset_range(filter_values$sleep_onset_range[1], filter_values$sleep_onset_range[2], return_mask = TRUE)
   }
