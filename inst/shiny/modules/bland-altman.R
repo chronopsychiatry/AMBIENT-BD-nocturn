@@ -1,6 +1,7 @@
 bland_altman_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
+    help_modal_ui(ns),
     shiny::fluidRow(
       shiny::column(
         width = 4,
@@ -83,6 +84,13 @@ bland_altman_server <- function(id, common) {
       validate_columns(s1, c("night", "sleep_period"))
       validate_columns(s2, c("night", "sleep_period"))
 
+      shiny::validate(
+        shiny::need(
+          length(intersect(s1$night, s2$night)) > 0,
+          "Datasets have no night in common"
+        )
+      )
+
       plot_bland_altman(
         s1,
         s2,
@@ -103,6 +111,10 @@ bland_altman_server <- function(id, common) {
       width = 12,
       height = 6
     )
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Bland-Altman")
+    })
   })
 }
 
