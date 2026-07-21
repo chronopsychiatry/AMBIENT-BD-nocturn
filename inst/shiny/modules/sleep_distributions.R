@@ -1,6 +1,7 @@
 sleep_distributions_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
+    help_modal_ui(ns),
     shiny::fluidRow(
       shiny::column(4,
         shiny::selectInput(
@@ -102,5 +103,9 @@ sleep_distributions_server <- function(id, common) {
       width = 12,
       height = 6
     )
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Sleep_times_distributions")
+    })
   })
 }

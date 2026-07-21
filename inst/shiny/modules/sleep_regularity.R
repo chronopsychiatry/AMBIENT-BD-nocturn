@@ -136,18 +136,5 @@ sleep_regularity_server <- function(id, common) {
     shiny::observeEvent(input$metric_chronotype, {
       show_metric_modal("Chronotype")
     })
-
-    show_metric_modal <- function(metric_name) {
-      rmd_path <- system.file("shiny", package = "nocturn")
-      shiny::showModal(
-        shiny::modalDialog(
-          title = gsub("_", " ", metric_name),
-          size = "l",
-          shiny::includeMarkdown(paste0(rmd_path, "/Rmd/", metric_name, ".Rmd")),
-          easyClose = TRUE,
-          footer = shiny::modalButton("Close")
-        )
-      )
-    }
   })
 }

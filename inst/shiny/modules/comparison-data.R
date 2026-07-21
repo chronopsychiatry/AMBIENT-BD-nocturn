@@ -14,6 +14,7 @@ comparison_data_ui <- function(id) {
     ),
     bslib::card(
       shiny::h4("Loaded Sessions"),
+      help_modal_ui(ns),
       shiny::fluidRow(
         shiny::column(
           width = 4,
@@ -147,6 +148,10 @@ comparison_data_server <- function(id, common) {
       }
 
       started(c(started(), new_keys))
+    })
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Secondary_datasets")
     })
   })
 }

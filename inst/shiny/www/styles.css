@@ -68,11 +68,21 @@
 
 /* Help icon styling */
 .colnames-help {
-    color: #007bff;
+    color: #4a7fd4;
     cursor: help;
     font-size: 1.5em;
     vertical-align: middle;
     margin-left: 6px;
+}
+
+.help-btn {
+    color: #4a7fd4;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+.help-btn:hover {
+    color: #3b70c5;
 }
 
 /* Logger styling options */

@@ -1,6 +1,7 @@
 bedtimes_waketimes_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
+    help_modal_ui(ns),
     shiny::fluidRow(
       shiny::column(4,
         shiny::selectInput(
@@ -81,6 +82,10 @@ bedtimes_waketimes_server <- function(id, common) {
       width = 8,
       height = 6
     )
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Sleep_onset_and_wakeup")
+    })
 
   })
 }

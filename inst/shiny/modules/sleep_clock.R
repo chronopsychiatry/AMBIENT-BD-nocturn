@@ -1,6 +1,7 @@
 sleep_clock_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
+    help_modal_ui(ns),
     shiny::selectInput(
       inputId = ns("colorby"),
       label = "Colour by:",
@@ -54,5 +55,9 @@ sleep_clock_server <- function(id, common) {
       width = 7,
       height = 7
     )
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Sleep_clock")
+    })
   })
 }

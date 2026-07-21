@@ -1,7 +1,7 @@
 sleep_spiral_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::HTML("<b>Requires Epoch data</b>"),
+    help_modal_ui(ns),
     shiny::selectInput(
       inputId = ns("colorby"),
       label = "Colour by:",
@@ -54,5 +54,9 @@ sleep_spiral_server <- function(id, common) {
       width = 8,
       height = 6
     )
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Sleep_spiral")
+    })
   })
 }

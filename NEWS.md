@@ -7,6 +7,7 @@
 - Added "Import filters" and "Export filters" buttons to the Filtering tab
   - Filters are exported in yaml format (can be opened and modified in any text editor)
   - "Import filters" applies all filters defined in the loaded yaml file to the current nocturn session
+- Added help menus through the app to give more details on plots and tables
 
 # 1.1
 

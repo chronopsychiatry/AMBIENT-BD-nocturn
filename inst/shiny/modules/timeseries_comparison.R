@@ -1,6 +1,7 @@
 timeseries_comparison_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
+    help_modal_ui(ns),
     shiny::uiOutput(ns("variable_choices")),
     shiny::checkboxInput(ns("common_nights_only"), label = "Keep only nights in common", value = FALSE),
     shiny::plotOutput(ns("timeseries_comparison_plot")),
@@ -132,6 +133,10 @@ timeseries_comparison_server <- function(id, common) {
       width = 12,
       height = 6
     )
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Comparison_timeseries")
+    })
   })
 }
 

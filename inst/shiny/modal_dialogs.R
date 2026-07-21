@@ -1,3 +1,38 @@
+show_metric_modal <- function(metric_name) {
+  rmd_path <- system.file("shiny", package = "nocturn")
+  shiny::showModal(
+    shiny::modalDialog(
+      title = gsub("_", " ", metric_name),
+      size = "l",
+      shiny::includeMarkdown(paste0(rmd_path, "/Rmd/", metric_name, ".Rmd")),
+      easyClose = TRUE,
+      footer = shiny::modalButton("Close")
+    )
+  )
+}
+
+help_modal_ui <- function(ns, id = "help") {
+  shiny::tagList(
+    shiny::actionLink(
+      inputId = ns(id),
+      label = shiny::icon("circle-info", class = "help-btn"),
+    )
+  )
+}
+
+show_help_modal <- function(help_name) {
+  rmd_path <- system.file("shiny", package = "nocturn")
+  shiny::showModal(
+    shiny::modalDialog(
+      title = gsub("_", " ", help_name),
+      size = "l",
+      shiny::includeMarkdown(paste0(rmd_path, "/Rmd/", help_name, ".Rmd")),
+      easyClose = TRUE,
+      footer = shiny::modalButton("Close")
+    )
+  )
+}
+
 show_colnames_modal <- function(
   ns,
   colnames_list,

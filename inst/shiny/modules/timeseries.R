@@ -1,7 +1,7 @@
 timeseries_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::HTML("<b>Requires Epoch data</b>"),
+    help_modal_ui(ns),
     shiny::fluidRow(
       shiny::column(4,
         shiny::selectInput(
@@ -70,5 +70,9 @@ timeseries_server <- function(id, common) {
       width = 12,
       height = 6
     )
+
+    shiny::observeEvent(input$help, {
+      show_help_modal("Epoch_timeseries")
+    })
   })
 }
