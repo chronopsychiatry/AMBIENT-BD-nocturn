@@ -98,6 +98,8 @@ get_comparison_summary_table <- function(secondary_sessions) {
     filters <- ss[[id]]$filters
     title <- ss[[id]]$title
 
+    validate_columns(df, "night")
+
     df <- df[filters$no_sleep == TRUE, , drop = FALSE]
     filters <- filters[filters$no_sleep == TRUE, , drop = FALSE]
     df_filtered <- apply_filters(df, filters)
@@ -131,6 +133,8 @@ get_comparison_sleep_table <- function(secondary_sessions) {
     filters <- ss[[id]]$filters
     title <- ss[[id]]$title
 
+    validate_columns(df, c("time_at_sleep_onset", "time_at_wakeup"))
+
     sessions_list[[title]] <- df |>
       apply_filters(filters) |>
       dplyr::select(dplyr::any_of(c("id", "night", "time_at_sleep_onset", "time_at_wakeup", "time_in_bed", "sleep_period")))
@@ -150,6 +154,7 @@ bland_altman_pairwise_matrix <- function(sessions_list, variable, digits = 2) {
                 dimnames = list(nm, nm))
 
   for (i in seq_along(sessions_list)) {
+    validate_columns(df, c("time_at_sleep_onset", "time_at_wakeup", "time_at_midsleep", "sleep_duration"))
     for (j in seq_along(sessions_list)) {
       if (i == j) next
       st <- pair_stats(sessions_list[[i]], sessions_list[[j]], variable)
