@@ -54,15 +54,15 @@ filter_epochs_from_sessions <- function(epochs, sessions, return_mask = FALSE) {
 filter_by_night_range <- function(sessions, from_night, to_night, return_mask = FALSE) {
   check_session_colnames(sessions, "night")
 
-  from_night <- if (is.null(from_night)) min(sessions$night) else from_night
-  to_night <- if (is.null(to_night)) max(sessions$night) else to_night
+  from_night <- if (is.null(from_night)) min(sessions$night) else parse_date(from_night)
+  to_night <- if (is.null(to_night)) max(sessions$night) else parse_date(to_night)
 
   if (from_night > to_night) {
     cli::cli_abort(c("!" = "from_night must be before to_night."))
   }
 
-  mask <- (sessions$night >= lubridate::as_date(from_night) &
-             sessions$night <= lubridate::as_date(to_night))
+  mask <- (sessions$night >= parse_date(from_night) &
+             sessions$night <= parse_date(to_night))
 
   mask[is.na(mask)] <- FALSE
 
