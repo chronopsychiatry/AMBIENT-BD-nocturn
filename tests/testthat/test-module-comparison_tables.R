@@ -1,18 +1,4 @@
-common <- list(
-  session_filters = shiny::reactiveVal(data.frame(no_sleep = remove_sessions_no_sleep(example_sessions, return_mask = TRUE))),
-  secondary_sessions = shiny::reactiveVal(list(
-    abcdef = list(
-      title = "sessions1",
-      data = example_sessions,
-      filters = data.frame(no_sleep = remove_sessions_no_sleep(example_sessions, return_mask = TRUE))
-    ),
-    ghijkl = list(
-      title = "sessions2",
-      data = example_sessions,
-      filters = data.frame(no_sleep = remove_sessions_no_sleep(example_sessions, return_mask = TRUE))
-    )
-  ))
-)
+common <- make_common()
 
 test_that("summary table gets created", {
   shiny::testServer(

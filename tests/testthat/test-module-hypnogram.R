@@ -1,12 +1,7 @@
-common <- list(
-  epochs = shiny::reactiveVal(example_epochs),
-  epoch_filters = shiny::reactiveVal(data.frame(from_sessions = rep(TRUE, nrow(example_epochs))))
-)
-
 test_that("hypnogram module works", {
   shiny::testServer(
     hypnogram_server,
-    args = list(common = common),
+    args = list(common = make_common()),
     {
       session$setInputs(download_format = "png")
 

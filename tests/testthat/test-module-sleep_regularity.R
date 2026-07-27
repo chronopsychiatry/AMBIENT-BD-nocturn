@@ -1,19 +1,7 @@
-sessions <- example_sessions |> dplyr::mutate(is_workday = as.logical(.data$is_workday))
-epochs <- example_epochs |> dplyr::mutate(timestamp = parse_date(.data$timestamp))
-
-common <- list(
-  sessions = shiny::reactiveVal(sessions),
-  epochs = shiny::reactiveVal(epochs),
-  session_filters = shiny::reactiveVal(data.frame(no_sleep = rep(TRUE, nrow(example_sessions)))),
-  filter_values = shiny::reactiveVal(list()),
-  epoch_filters = shiny::reactiveVal(data.frame(from_sessions = rep(TRUE, nrow(example_epochs))))
-)
-
-
 test_that("sleep_regularity module produces sessions table", {
   shiny::testServer(
     sleep_regularity_server,
-    args = list(common = common),
+    args = list(common = make_common()),
     {
       session$flushReact()
 
@@ -31,7 +19,7 @@ test_that("sleep_regularity module produces sessions table", {
 test_that("sleep_regularity module produces epochs table", {
   shiny::testServer(
     sleep_regularity_server,
-    args = list(common = common),
+    args = list(common = make_common()),
     {
       session$flushReact()
 
