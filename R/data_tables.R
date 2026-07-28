@@ -31,7 +31,7 @@ get_sessions_summary <- function(sessions) {
 
   summary <- sessions |>
     dplyr::summarise(
-      total_sessions = dplyr::n(),
+      total_sessions = dplyr::n_distinct(.data$id, na.rm = TRUE),
       mean_sleep_onset = mean_time(.data$time_at_sleep_onset),
       mean_wakeup_time = mean_time(.data$time_at_wakeup),
       mean_time_in_bed = if (has_time_in_bed) mean(.data$time_in_bed) / 3600 else NA,
