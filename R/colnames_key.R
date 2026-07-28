@@ -153,6 +153,7 @@
 .epochs_parser <- function() {
   list(
     timestamp = parse_time,
+    is_asleep = as.logical,
     night = parse_date
   )
 }
