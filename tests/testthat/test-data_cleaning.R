@@ -54,7 +54,7 @@ test_that("clean_epochs creates and parses columns correctly", {
   expect_true(inherits(cleaned$timestamp, "POSIXct"))
   # Check is_asleep column created
   expect_true("is_asleep" %in% names(cleaned))
-  expect_equal(cleaned$is_asleep, c(1, 0, 1, 0))
+  expect_equal(cleaned$is_asleep, c(TRUE, FALSE, TRUE, FALSE))
   # Check night column created
   expect_true("night" %in% names(cleaned))
   expect_true(inherits(cleaned$night, "Date"))

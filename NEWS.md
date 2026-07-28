@@ -9,6 +9,10 @@
   - "Import filters" applies all filters defined in the loaded yaml file to the current nocturn session
 - Added help menus through the app to give more details on plots and tables
 
+### Bug fixes
+
+- Sleep spiral was incorrect when using numerical or datetime color_by
+
 # 1.1
 
 ## 1.1.3 (23/06/2026)
