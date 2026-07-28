@@ -5,6 +5,7 @@ make_common <- function() {
   list(
     sessions = shiny::reactiveVal(sessions),
     session_filters = shiny::reactiveVal(data.frame(no_sleep = rep(TRUE, nrow(sessions)))),
+    filter_values = shiny::reactiveVal(NULL),
     annotations = shiny::reactiveVal(
       data.frame(
         id = example_sessions$id,

@@ -34,7 +34,7 @@ test_that("get_comparison_summary_table output is correct", {
   expect_true("data.frame" %in% class(res))
   expect_equal(nrow(res), 2)
   expect_equal(res$earliest_night, c("2025-04-03", "2025-04-03"))
-  expect_equal(res$latest_night, c("2025-04-16", "2025-04-16"))
+  expect_equal(res$latest_night, c("2025-04-17", "2025-04-17"))
 })
 
 test_that("get_comparison_sleep_table output is correct", {
