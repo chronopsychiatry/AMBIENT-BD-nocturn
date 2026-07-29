@@ -1,6 +1,8 @@
 [![DOI](https://zenodo.org/badge/956490777.svg)](https://doi.org/10.5281/zenodo.20067661)
 [![](https://cranlogs.r-pkg.org/badges/last-month/nocturn)](https://cran.r-project.org/package=nocturn)
 [![Codecov test coverage](https://codecov.io/gh/chronopsychiatry/AMBIENT-BD-nocturn/graph/badge.svg)](https://app.codecov.io/gh/chronopsychiatry/AMBIENT-BD-nocturn)
+[![R-CMD-check](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/actions/workflows/R-CMD-check.yaml)
+
 
 
 # nocturn <img src="man/figures/logo.png" align="right" height="138" alt="nocturn hex logo" />
