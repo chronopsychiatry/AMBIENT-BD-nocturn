@@ -65,7 +65,7 @@
 
 # nocturn 1.0.3
 
-# Set column names (app)
+## Set column names (app)
 
 * Fixed a bug that prevented the "Set column names" menu from being displayed
 
