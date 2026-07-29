@@ -2,4 +2,4 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release.
+* Note about non-standard file comes from the `sleep_report()` example generating a pdf file (as expected).
