@@ -2,4 +2,8 @@
 
 0 errors | 0 warnings | 1 note
 
-* Note about non-standard file comes from the `sleep_report()` example generating a pdf file (as expected).
+* checking for non-standard things in the check directory ... NOTE
+  Found the following files/directories:
+    ‘Sleep_report.pdf’
+
+  This comes from the `sleep_report()` example and is the expected output
