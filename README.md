@@ -1,5 +1,7 @@
 [![DOI](https://zenodo.org/badge/956490777.svg)](https://doi.org/10.5281/zenodo.20067661)
 [![](https://cranlogs.r-pkg.org/badges/last-month/nocturn)](https://cran.r-project.org/package=nocturn)
+[![Codecov test coverage](https://codecov.io/gh/chronopsychiatry/AMBIENT-BD-nocturn/graph/badge.svg)](https://app.codecov.io/gh/chronopsychiatry/AMBIENT-BD-nocturn)
+
 
 # nocturn <img src="man/figures/logo.png" align="right" height="138" alt="nocturn hex logo" />
 
@@ -7,7 +9,7 @@ nocturn provides tools to filter and visualise sleep data.
 
 ## Getting started
 
-The easiest way to use nocturn is to visit the [online app](https://nocturn.bio.ed.ac.uk). Visit the [wiki](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki) for more detailed instructions!
+The easiest way to use nocturn is to visit the [online app](https://shinyserver.bio.ed.ac.uk/app/07_nocturn_app). Visit the [wiki](https://github.com/chronopsychiatry/AMBIENT-BD-nocturn/wiki) for more detailed instructions!
 
 ## Can I use nocturn with my data?
 
@@ -23,7 +25,7 @@ If nocturn fails to open your data, or if you would like your own variable names
 
 ## Online app hosting
 
-The [online nocturn app](https://nocturn.bio.ed.ac.uk) is hosted at the School of Biological Sciences, University of Edinburgh. All uploaded data is deleted from the server when the app is closed. We do not store or re-use uploaded data in any way.
+The [online nocturn app](https://shinyserver.bio.ed.ac.uk/app/07_nocturn_app) is hosted at the School of Biological Sciences, University of Edinburgh. All uploaded data is deleted from the server when the app is closed. We do not store or re-use uploaded data in any way.
 
 If you do not wish to upload your data to our servers, you can run the nocturn app locally on your computer (see instructions below).
 
@@ -45,4 +47,4 @@ Maintainer: [daniel.thedie@ed.ac.uk](mailto:daniel.thedie@ed.ac.uk)
 
 nocturn is developed by the [BioRDM team](https://biology.ed.ac.uk/research/facilities/research-data-management) at the University of Edinburgh, as part of the [Ambient-BD project](https://www.ambientbd.com/).
 
-This work was supported by Wellcome trust grant \href{https://doi.org/10.35802/226944}{226944/Z/23/Z} awarded to Prof. Andrew Millar and others.
+This work was supported by Wellcome trust grant [226944/Z/23/Z](https://doi.org/10.35802/226944) awarded to Prof. Andrew Millar and others.
