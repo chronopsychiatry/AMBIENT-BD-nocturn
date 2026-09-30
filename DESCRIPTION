@@ -1,6 +1,6 @@
 Package: nocturn
 Title: Sleep Data Filtering and Visualisation
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: 
   person(
     "Daniel",
